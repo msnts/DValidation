@@ -1,10 +1,29 @@
+{ ******************************************************************************
+  Copyright 2017 Marcos Santos
+
+  Contact: marcos.santos@outlook.com
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  *****************************************************************************}
+
 unit DValidation.Engine.Impl.Validator;
 
 interface
 uses
+  DValidation.Exceptions,
   DValidation.Engine.Validator,
   System.Generics.Collections,
-  DValidation.ConstraintViolation,
+  DValidation.Engine.ConstraintViolation,
   DValidation.Engine.ValidationContext,
   DValidation.Engine.MetaData.ObjectMetaDataManager,
   DValidation.Engine.MetaData.ObjectMetaData,
@@ -27,13 +46,13 @@ type
     function DetermineGroupValidationOrder(Groups : TArray<string>) : TArray<string>;
     procedure ValidateConstraintsForCurrentGroup<T>(ValidationContext : IValidationContext<T>; ValueContext : IValueContext<T>);
     procedure ValidateMetaConstraints<T>(ValidationContext : IValidationContext<T>; ValueContext : IValueContext<T>; Constraints : TArray<IMetaConstraint>);
-    procedure ValidateMetaConstraint<T>(Context : IValidationContext<T>; ValueContext : IValueContext<T>; Constraint : IMetaConstraint);
+    procedure ValidateMetaConstraint<T>(Context : IValidationContext<T>; ValueContext : IValueContext<T>; MetaContraint : IMetaConstraint);
     function ShouldFailFast<T>(Context : IValidationContext<T>) : Boolean;
     function IsValidationRequired<T>(Context : IValidationContext<T>; ValueContext : IValueContext<T>; Constraint : IMetaConstraint) : Boolean;
   public
     constructor Create(aConstraintValidatorManager : IConstraintValidatorManager);
-    function Validate<T : class>(Obj : T; Groups : TArray<string>) : TList<IConstraintViolation<T>>;
-    function ValidateProperty(Obj : TObject; const PropertyName : string; Groups : TArray<string>) : TList<IConstraintViolation<Tobject>>;
+    function Validate<T : class>(Obj : T) : TList<IConstraintViolation<T>>; overload;
+    function Validate<T : class>(Obj : T; Groups : TArray<string>) : TList<IConstraintViolation<T>>; overload;
   end;
 
 implementation
@@ -68,7 +87,7 @@ end;
 
 function TValidator.ShouldFailFast<T>(Context: IValidationContext<T>): Boolean;
 begin
-
+  Result := Context.IsFailFastModeEnabled() and not Context.HasFailingConstraints();
 end;
 
 function TValidator.Validate<T>(Obj: T; Groups : TArray<string>): TList<IConstraintViolation<T>>;
@@ -106,6 +125,15 @@ begin
 
   end;
 
+  Result := ValidationContext.GetFailingConstraints();
+
+end;
+
+function TValidator.Validate<T>(Obj: T): TList<IConstraintViolation<T>>;
+begin
+
+  Result := Validate<T>(Obj, ['DEFAULT']);
+
 end;
 
 procedure TValidator.ValidateConstraintsForCurrentGroup<T>(ValidationContext : IValidationContext<T>; ValueContext : IValueContext<T>);
@@ -121,26 +149,29 @@ begin
 
 end;
 
-procedure TValidator.ValidateMetaConstraint<T>(Context : IValidationContext<T>; ValueContext : IValueContext<T>; Constraint : IMetaConstraint);
+procedure TValidator.ValidateMetaConstraint<T>(Context : IValidationContext<T>; ValueContext : IValueContext<T>; MetaContraint : IMetaConstraint);
 var
   ConstraintValidator : IConstraintValidator<variant>;
+  IsValid : Boolean;
 begin
 
-  ValueContext.SetMember(Constraint.GetMember);
+  ValueContext.SetMember(MetaContraint.GetMember);
 
-  if not IsValidationRequired<T>(Context, ValueContext, Constraint) then
+  if not IsValidationRequired<T>(Context, ValueContext, MetaContraint) then
     Exit;
 
-  ConstraintValidator := FConstraintValidatorManager.GetInitializedValidator(Constraint.GetConstraintType());
+  ConstraintValidator := FConstraintValidatorManager.GetInitializedValidator(MetaContraint.GetConstraintType());
 
-   if not ConstraintValidator.IsValid(ValueContext.GetCurrentValidatedValue()) then
-   begin
-     Context.AddConstraintViolations();
-   end;
+  try
+    IsValid := ConstraintValidator.IsValid(ValueContext.GetCurrentValidatedValue());
+  except
+    raise ValidationException.Create('Unexpected exception during isValid call');
+  end;
 
+  if not IsValid then
+    Context.AddConstraintViolation(ValueContext, MetaContraint);
 
  // Context.MarkConstraintProcessed<T>(ValueContext);
-
 
 end;
 
@@ -159,12 +190,6 @@ begin
       Exit;
 
   end;
-
-end;
-
-function TValidator.ValidateProperty(Obj: TObject;
-  const PropertyName: string; Groups : TArray<string>): TList<IConstraintViolation<Tobject>>;
-begin
 
 end;
 

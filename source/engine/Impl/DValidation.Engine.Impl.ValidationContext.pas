@@ -1,10 +1,29 @@
+{ ******************************************************************************
+  Copyright 2017 Marcos Santos
+
+  Contact: marcos.santos@outlook.com
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  *****************************************************************************}
+
 unit DValidation.Engine.Impl.ValidationContext;
 
 interface
 uses
   DValidation.Engine.ValidationContext,
   System.Generics.Collections,
-  DValidation.ConstraintViolation,
+  DValidation.Engine.ConstraintViolation,
+  DValidation.Engine.Impl.ConstraintViolation,
   DValidation.Engine.MetaData.ObjectMetaData,
   DValidation.Engine.MetaData.ObjectMetaDataManager,
   DValidation.Engine.ValueContext,
@@ -17,20 +36,35 @@ type
     FRootObject : T;
     FRootObjectMetaData : IObjectMetaData;
     FObjectMetaDataManager : IObjectMetaDataManager;
+    FConstraintVioliations : TList<IConstraintViolation<T>>;
+    FFailFast : Boolean;
   public
     constructor Create(ObjectMetaDataManager : IObjectMetaDataManager; RootObject : T);
+    destructor Destroy; override;
     function GetRootObjectMetaData() : IObjectMetaData;
     function GetCurrentObjectType() : TClass;
-    procedure SetCurrentGroup(const Group : string);
     procedure MarkCurrentBeanAsProcessed(ValueContext : IValueContext<T>);
     procedure MarkConstraintProcessed();
     function GetFailingConstraints() : TList<IConstraintViolation<T>>;
-    function GetConstraintValidator(Constraint : IMetaConstraint) : IConstraintValidator<T>;
+    procedure AddConstraintViolation(ValueContext : IValueContext<T>; MetaContraint : IMetaConstraint);
+    function IsFailFastModeEnabled() : Boolean;
+    function HasFailingConstraints() : Boolean;
   end;
 
 implementation
 
 { TValidationContext<T> }
+
+procedure TValidationContext<T>.AddConstraintViolation(ValueContext : IValueContext<T>; MetaContraint : IMetaConstraint);
+var
+  ConstraintViolation : IConstraintViolation<T>;
+begin
+
+  ConstraintViolation := TConstraintViolation<T>.Create('', FRootObject, ValueContext.GetCurrentValidatedValue);
+
+  FConstraintVioliations.Add(ConstraintViolation);
+
+end;
 
 constructor TValidationContext<T>.Create(
   ObjectMetaDataManager: IObjectMetaDataManager;  RootObject : T);
@@ -42,12 +76,19 @@ begin
 
   FObjectMetaDataManager := ObjectMetaDataManager;
 
+  FFailFast := False;
+
+  FConstraintVioliations := TList<IConstraintViolation<T>>.Create;
+
 end;
 
-function TValidationContext<T>.GetConstraintValidator(
-  Constraint: IMetaConstraint): IConstraintValidator<T>;
+destructor TValidationContext<T>.Destroy;
 begin
 
+  if Assigned(FConstraintVioliations) then
+    FConstraintVioliations.Free;
+
+  inherited;
 end;
 
 function TValidationContext<T>.GetCurrentObjectType: TClass;
@@ -57,12 +98,22 @@ end;
 
 function TValidationContext<T>.GetFailingConstraints: TList<IConstraintViolation<T>>;
 begin
-
+  Result := FConstraintVioliations;
 end;
 
 function TValidationContext<T>.GetRootObjectMetaData: IObjectMetaData;
 begin
   Result := FRootObjectMetaData;
+end;
+
+function TValidationContext<T>.HasFailingConstraints: Boolean;
+begin
+  Result := FConstraintVioliations.Count > 0;
+end;
+
+function TValidationContext<T>.IsFailFastModeEnabled: Boolean;
+begin
+  Result := FFailFast;
 end;
 
 procedure TValidationContext<T>.MarkConstraintProcessed;
@@ -72,11 +123,6 @@ end;
 
 procedure TValidationContext<T>.MarkCurrentBeanAsProcessed(
   ValueContext: IValueContext<T>);
-begin
-
-end;
-
-procedure TValidationContext<T>.SetCurrentGroup(const Group: string);
 begin
 
 end;

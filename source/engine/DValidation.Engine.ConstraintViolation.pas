@@ -16,40 +16,18 @@
   limitations under the License.
   *****************************************************************************}
 
-unit DValidation.ContraintValidators.NotBlankValidator;
+unit DValidation.Engine.ConstraintViolation;
 
 interface
-uses
-  DValidation,
-  DValidation.ContraintValidators.ConstraintValidator,
-  DValidation.Constraints.Constraint,
-  DValidation.Constraints.NotBlank;
 
 type
-
-  TNotBlankValidator = class(TInterfacedObject, IConstraintValidator<string>)
-  public
-    procedure Initialize(Constraint : ConstraintAttribute);
-    function IsValid(const Value : string) : Boolean;
+  IConstraintViolation<T> = interface
+    ['{C052BF76-4957-494A-A1AA-8ED7782D4B37}']
+    function GetMessage() : string;
+    function GetRootObject() : T;
+    function GetInvalidValue() : variant;
   end;
 
 implementation
-uses System.SysUtils;
 
-{ TNotBlankValidator }
-
-procedure TNotBlankValidator.Initialize(Constraint: ConstraintAttribute);
-begin
-
-end;
-
-function TNotBlankValidator.IsValid(const Value: string): Boolean;
-begin
-
-  Result := not Value.Trim.IsEmpty;
-
-end;
-
-initialization
-  TDValidation.RegisterConstraint(NotBlankAttribute, TNotBlankValidator);
 end.
