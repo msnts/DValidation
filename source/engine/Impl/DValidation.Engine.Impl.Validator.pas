@@ -33,7 +33,9 @@ uses
   DValidation.Engine.Impl.ValidationContext,
   DValidation.Engine.MetaData.Impl.ObjectMetaDataManager,
   DValidation.ContraintValidators.ConstraintValidator,
-  DValidation.Engine.ConstraintValidatorManager;
+  DValidation.Engine.ConstraintValidatorManager,
+  DValidation.Engine.MessageInterpolator,
+  DValidation.Engine.Impl.MessageInterpolator;
 
 type
 
@@ -41,6 +43,7 @@ type
   private
     FObjectMetaDataManager : IObjectMetaDataManager;
     FConstraintValidatorManager : IConstraintValidatorManager;
+    FMessageInterpolator : IMessageInterpolator;
 
     function GetValidationContext<T>(Obj : T) : IValidationContext<T>;
     function DetermineGroupValidationOrder(Groups : TArray<string>) : TArray<string>;
@@ -63,6 +66,7 @@ constructor TValidator.Create(aConstraintValidatorManager : IConstraintValidator
 begin
   FObjectMetaDataManager := TObjectMetaDataManager.Create;
   FConstraintValidatorManager := aConstraintValidatorManager;
+  FMessageInterpolator := TMessageInterpolator.Create;
 end;
 
 function TValidator.DetermineGroupValidationOrder(
@@ -74,7 +78,7 @@ end;
 function TValidator.GetValidationContext<T>(
   Obj: T): IValidationContext<T>;
 begin
-  Result := TValidationContext<T>.Create(FObjectMetaDataManager, Obj);
+  Result := TValidationContext<T>.Create(FObjectMetaDataManager, FMessageInterpolator, Obj);
 end;
 
 function TValidator.IsValidationRequired<T>(Context : IValidationContext<T>; ValueContext : IValueContext<T>; Constraint : IMetaConstraint): Boolean;

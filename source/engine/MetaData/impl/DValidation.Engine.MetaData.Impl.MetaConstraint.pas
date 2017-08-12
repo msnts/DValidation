@@ -40,6 +40,7 @@ type
     function GetConstraintType : PTypeInfo;
     function GetMember() : TRttiMember;
     function GetAttributes() : TDictionary<string, variant>;
+    function GetMessageTemplate() : string;
   end;
 
 implementation
@@ -84,6 +85,11 @@ end;
 function TMetaConstraint.GetMember: TRttiMember;
 begin
   Result := FMember;
+end;
+
+function TMetaConstraint.GetMessageTemplate: string;
+begin
+  Result := FConstraint.Message;
 end;
 
 end.

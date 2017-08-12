@@ -1,4 +1,4 @@
-program Project1;
+program DValidationTest;
 
 {$IFNDEF TESTINSIGHT}
 {$APPTYPE CONSOLE}
@@ -18,7 +18,6 @@ uses
   DValidation.Exceptions in '..\source\DValidation.Exceptions.pas',
   DValidation.ContraintValidators.NotBlankValidator in '..\source\constraintvalidators\DValidation.ContraintValidators.NotBlankValidator.pas',
   DValidation in '..\source\DValidation.pas',
-  DValidation.ConstraintViolation in '..\source\DValidation.ConstraintViolation.pas',
   DValidation.Engine.Impl.Validator in '..\source\engine\Impl\DValidation.Engine.Impl.Validator.pas',
   DValidation.Engine.ValidationContext in '..\source\engine\DValidation.Engine.ValidationContext.pas',
   DValidation.Constraints.Currency in '..\source\constraints\DValidation.Constraints.Currency.pas',
@@ -74,7 +73,13 @@ uses
   DValidation.Engine.MetaData.Impl.ObjectMetaData in '..\source\engine\MetaData\impl\DValidation.Engine.MetaData.Impl.ObjectMetaData.pas',
   DValidation.Engine.MetaData.Impl.MetaConstraint in '..\source\engine\MetaData\impl\DValidation.Engine.MetaData.Impl.MetaConstraint.pas',
   DValidation.Engine.ConstraintValidatorManager in '..\source\engine\DValidation.Engine.ConstraintValidatorManager.pas',
-  DValidation.Engine.Impl.ConstraintValidatorManager in '..\source\engine\Impl\DValidation.Engine.Impl.ConstraintValidatorManager.pas';
+  DValidation.Engine.Impl.ConstraintValidatorManager in '..\source\engine\Impl\DValidation.Engine.Impl.ConstraintValidatorManager.pas',
+  DValidation.Validators.EmailValidatorTest in 'Validators\DValidation.Validators.EmailValidatorTest.pas',
+  DValidation.Engine.ConstraintViolation in '..\source\engine\DValidation.Engine.ConstraintViolation.pas',
+  DValidation.Engine.Impl.ConstraintViolation in '..\source\engine\Impl\DValidation.Engine.Impl.ConstraintViolation.pas',
+  DValidation.Engine.MessageInterpolator in '..\source\engine\DValidation.Engine.MessageInterpolator.pas',
+  DValidation.Engine.Impl.MessageInterpolator in '..\source\engine\Impl\DValidation.Engine.Impl.MessageInterpolator.pas',
+  DValidation.Engine.MessageInterpolatorTest in 'engine\DValidation.Engine.MessageInterpolatorTest.pas';
 
 var
   runner : ITestRunner;

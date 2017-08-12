@@ -28,7 +28,8 @@ uses
   DValidation.Engine.MetaData.ObjectMetaDataManager,
   DValidation.Engine.ValueContext,
   DValidation.Engine.MetaData.MetaConstraint,
-  DValidation.ContraintValidators.ConstraintValidator;
+  DValidation.ContraintValidators.ConstraintValidator,
+  DValidation.Engine.MessageInterpolator;
 
 type
   TValidationContext<T> = class(TInterfacedObject, IValidationContext<T>)
@@ -36,10 +37,11 @@ type
     FRootObject : T;
     FRootObjectMetaData : IObjectMetaData;
     FObjectMetaDataManager : IObjectMetaDataManager;
+    FMessageInterpolator : IMessageInterpolator;
     FConstraintVioliations : TList<IConstraintViolation<T>>;
     FFailFast : Boolean;
   public
-    constructor Create(ObjectMetaDataManager : IObjectMetaDataManager; RootObject : T);
+    constructor Create(ObjectMetaDataManager : IObjectMetaDataManager; MessageInterpolator : IMessageInterpolator; RootObject : T);
     destructor Destroy; override;
     function GetRootObjectMetaData() : IObjectMetaData;
     function GetCurrentObjectType() : TClass;
@@ -58,16 +60,19 @@ implementation
 procedure TValidationContext<T>.AddConstraintViolation(ValueContext : IValueContext<T>; MetaContraint : IMetaConstraint);
 var
   ConstraintViolation : IConstraintViolation<T>;
+  InterpolatedMessage : string;
 begin
 
-  ConstraintViolation := TConstraintViolation<T>.Create('', FRootObject, ValueContext.GetCurrentValidatedValue);
+  InterpolatedMessage := FMessageInterpolator.Interpolate(MetaContraint.GetMessageTemplate, MetaContraint.GetAttributes);
+
+  ConstraintViolation := TConstraintViolation<T>.Create(InterpolatedMessage, FRootObject, ValueContext.GetCurrentValidatedValue);
 
   FConstraintVioliations.Add(ConstraintViolation);
 
 end;
 
 constructor TValidationContext<T>.Create(
-  ObjectMetaDataManager: IObjectMetaDataManager;  RootObject : T);
+  ObjectMetaDataManager: IObjectMetaDataManager; MessageInterpolator : IMessageInterpolator; RootObject : T);
 begin
 
   FRootObject := RootObject;
@@ -75,6 +80,8 @@ begin
   FRootObjectMetaData := ObjectMetaDataManager.GetObjectMetaData(TypeInfo(T));
 
   FObjectMetaDataManager := ObjectMetaDataManager;
+
+  FMessageInterpolator := MessageInterpolator;
 
   FFailFast := False;
 

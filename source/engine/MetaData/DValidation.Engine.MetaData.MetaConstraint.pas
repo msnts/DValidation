@@ -32,6 +32,7 @@ type
     function GetConstraintType() : PTypeInfo;
     function GetMember() : TRttiMember;
     function GetAttributes() : TDictionary<string, variant>;
+    function GetMessageTemplate() : string;
   end;
 
 implementation
