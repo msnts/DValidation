@@ -87,7 +87,6 @@ begin
 
   Result := Constraint.getGroupList().contains(ValueContext.getCurrentGroup());
 
-
 end;
 
 function TValidator.ShouldFailFast<T>(Context: IValidationContext<T>): Boolean;

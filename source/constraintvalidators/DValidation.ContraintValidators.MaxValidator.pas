@@ -16,19 +16,40 @@
   limitations under the License.
   *****************************************************************************}
 
-unit DValidation.Exceptions;
+unit DValidation.ContraintValidators.MaxValidator;
 
 interface
-uses System.SysUtils;
+uses
+  DValidation,
+  DValidation.ContraintValidators.ConstraintValidator,
+  DValidation.Constraints.Constraint,
+  DValidation.Constraints.Max;
 
 type
 
-  ValidationException = class(Exception);
-
-  ConstraintException = class(Exception);
-
-  LocaleException = class(Exception);
+  TMaxValidator = class(TInterfacedObject, IConstraintValidator<variant>)
+  public
+    procedure Initialize(Constraint : ConstraintAttribute);
+    function IsValid(const Value : variant) : Boolean;
+  end;
 
 implementation
+uses System.SysUtils;
 
+{ TMaxValidator }
+
+procedure TMaxValidator.Initialize(Constraint: ConstraintAttribute);
+begin
+
+end;
+
+function TMaxValidator.IsValid(const Value: variant): Boolean;
+begin
+
+
+
+end;
+
+initialization
+  TDValidation.RegisterConstraint(MaxAttribute, TMaxValidator);
 end.

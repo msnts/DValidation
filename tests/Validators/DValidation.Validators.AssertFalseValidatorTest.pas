@@ -3,23 +3,60 @@ unit DValidation.Validators.AssertFalseValidatorTest;
 interface
 uses
   DUnitX.TestFramework,
-  DValidation.ContraintValidators.AssertFalseValidator;
+  System.Generics.Collections,
+  DValidation,
+  DValidation.Constraints.AssertFalse,
+  DValidation.ContraintValidators.AssertFalseValidator,
+  DValidation.Engine.ConstraintViolation,
+  DValidation.Engine.Impl.Validator;
 
 type
 
   [TestFixture]
-  TAssertFalseValidatorTest = class(TObject) 
+  TAssertFalseValidatorTest = class(TObject)
+  private
+    [AssertFalse]
+    FValid : Boolean;
+
+    [AssertFalse]
+    FInvalid : Boolean;
   public
 
     [Test]
-    procedure testAssertFalseValidator;
+    procedure TestAssertFalseConstraint;
+
+    [Test]
+    procedure TestAssertFalseValidator;
   end;
 
 implementation
 
 { TAssertFalseValidatorTest }
 
-procedure TAssertFalseValidatorTest.testAssertFalseValidator;
+procedure TAssertFalseValidatorTest.TestAssertFalseConstraint;
+var
+  Validator : TValidator;
+  Faults : TList<IConstraintViolation<TAssertFalseValidatorTest>>;
+begin
+
+  FValid := True;
+  FInvalid := False;
+
+  Validator := TDValidation.GetInstance.BuildValidator;
+
+  try
+
+    Faults := Validator.Validate<TAssertFalseValidatorTest>(Self, ['DEFAULT']);
+
+    Assert.AreEqual(Faults.Count, 1);
+
+  finally
+    Validator.Free;
+  end;
+
+end;
+
+procedure TAssertFalseValidatorTest.TestAssertFalseValidator;
 var
   Validator : TAssertFalseValidator;
 begin

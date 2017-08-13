@@ -82,7 +82,8 @@ uses
   DValidation.Engine.Impl.MessageInterpolator in '..\source\engine\Impl\DValidation.Engine.Impl.MessageInterpolator.pas',
   DValidation.Engine.MessageInterpolatorTest in 'engine\DValidation.Engine.MessageInterpolatorTest.pas',
   DValidation.I18n.Locale in '..\source\I18n\DValidation.I18n.Locale.pas',
-  DValidation.I18n.Impl.Locale in '..\source\I18n\impl\DValidation.I18n.Impl.Locale.pas';
+  DValidation.I18n.Impl.Locale in '..\source\I18n\impl\DValidation.I18n.Impl.Locale.pas',
+  DValidation.ContraintValidators.MaxValidator in '..\source\constraintvalidators\DValidation.ContraintValidators.MaxValidator.pas';
 
 {$R ..\resources\locale.res}
 

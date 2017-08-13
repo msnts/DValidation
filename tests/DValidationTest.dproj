@@ -145,6 +145,7 @@
         <DCCReference Include="engine\DValidation.Engine.MessageInterpolatorTest.pas"/>
         <DCCReference Include="..\source\I18n\DValidation.I18n.Locale.pas"/>
         <DCCReference Include="..\source\I18n\impl\DValidation.I18n.Impl.Locale.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.MaxValidator.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
