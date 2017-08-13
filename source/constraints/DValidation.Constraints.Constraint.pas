@@ -19,7 +19,7 @@
 unit DValidation.Constraints.Constraint;
 
 interface
-uses System.JSON, System.SysUtils, System.Generics.Collections;
+uses System.JSON, System.SysUtils, System.Generics.Collections, DValidation.Exceptions;
 
 type
 
@@ -30,35 +30,31 @@ type
       FGroups : TArray<string>;
       FAttributes : TDictionary<string, variant>;
 
+      procedure Initialize(const Parameters : string);
       function GetParameter<T>(const ParameterName : string; Default : T) : T;
    public
-      constructor Create(const Parameters : string); virtual;
+      constructor Create(const Parameters : string = ''); virtual;
       destructor Destroy; override;
       property &Message : string read FMessage;
       property Groups : TArray<string> read FGroups;
       property Attributes : TDictionary<string, variant> read FAttributes;
    end;
 
-
-
 implementation
-
 
 { TConstraintAttribute }
 
-constructor ConstraintAttribute.Create(const Parameters: string);
-
+constructor ConstraintAttribute.Create(const Parameters: string = '');
 begin
 
-   FJSONObject := TJSONObject.Create;
+  FJSONObject := TJSONObject.Create;
 
-   FJSONObject.Parse(BytesOf(Parameters), 0);
+  Initialize(Parameters);
 
-   FMessage := GetParameter<string>('Message', FMessage);
+  FAttributes := TDictionary<string, variant>.Create;
 
-   FGroups := GetParameter<TArray<string>>('Groups', ['DEFAULT']);
-
-   FAttributes := TDictionary<string, variant>.Create;
+  FAttributes.AddOrSetValue('Message', FMessage);
+  FAttributes.AddOrSetValue('Groups', FGroups);
 
 end;
 
@@ -89,7 +85,35 @@ begin
   end;
 
   if not Parameter.TryGetValue(Result) then
-    raise Exception.Create('Invalid parameter "' + ParameterName + '"');
+    raise ConstraintException.Create('Invalid parameter "' + ParameterName + '"');
+
+end;
+
+procedure ConstraintAttribute.Initialize(const Parameters: string);
+const
+  DEFAULT_GROUP = 'DEFAULT';
+begin
+
+  if Parameters.IsEmpty then
+  begin
+    FMessage := '';
+    FGroups := [DEFAULT_GROUP];
+    Exit;
+  end;
+
+  try
+
+    if FJSONObject.Parse(BytesOf(Parameters), 0) < 0 then
+      raise ConstraintException.Create('Invalid Format Constraint Parameters');
+
+    FMessage := GetParameter<string>('Message', FMessage);
+
+    FGroups := GetParameter<TArray<string>>('Groups', [DEFAULT_GROUP]);
+
+  except
+    FJSONObject.Free;
+    raise;
+  end;
 
 end;
 

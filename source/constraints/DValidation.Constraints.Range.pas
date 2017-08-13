@@ -20,7 +20,6 @@ unit DValidation.Constraints.Range;
 
 interface
 uses
-  DValidation.I18n.Messages,
   DValidation.Constraints.Constraint;
 
 type
@@ -42,7 +41,7 @@ implementation
 constructor RangeAttribute.Create(const Parameters: string);
 begin
 
-  FMessage := Constraint_Range_Message;
+  FMessage := '{validation.constraints.Range.message}';
 
   inherited;
 

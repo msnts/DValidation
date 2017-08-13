@@ -20,7 +20,6 @@ unit DValidation.Constraints.Negative;
 
 interface
 uses
-  DValidation.I18n.Messages,
   DValidation.Constraints.Constraint;
 
 type
@@ -37,7 +36,7 @@ implementation
 constructor NegativeAttribute.Create(const Parameters: string);
 begin
 
-  FMessage := Constraint_Negative_Message;
+  FMessage := '{validation.constraints.Negative.message}';
 
   inherited;
 

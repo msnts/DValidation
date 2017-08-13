@@ -35,7 +35,8 @@ uses
   DValidation.ContraintValidators.ConstraintValidator,
   DValidation.Engine.ConstraintValidatorManager,
   DValidation.Engine.MessageInterpolator,
-  DValidation.Engine.Impl.MessageInterpolator;
+  DValidation.Engine.Impl.MessageInterpolator,
+  DValidation.I18n.Impl.Locale;
 
 type
 
@@ -66,7 +67,7 @@ constructor TValidator.Create(aConstraintValidatorManager : IConstraintValidator
 begin
   FObjectMetaDataManager := TObjectMetaDataManager.Create;
   FConstraintValidatorManager := aConstraintValidatorManager;
-  FMessageInterpolator := TMessageInterpolator.Create;
+  FMessageInterpolator := TMessageInterpolator.Create(TLocale.Create);
 end;
 
 function TValidator.DetermineGroupValidationOrder(

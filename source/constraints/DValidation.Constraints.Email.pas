@@ -40,7 +40,7 @@ implementation
 constructor EmailAttribute.Create(const Parameters: string);
 begin
 
-  FMessage := 'Email Invalid';
+  FMessage := '{validation.constraints.Email.message}';
 
   inherited;
 

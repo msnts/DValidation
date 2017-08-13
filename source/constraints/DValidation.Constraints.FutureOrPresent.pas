@@ -20,7 +20,6 @@ unit DValidation.Constraints.FutureOrPresent;
 
 interface
 uses
-  DValidation.I18n.Messages,
   DValidation.Constraints.Constraint;
 
 type
@@ -37,7 +36,7 @@ implementation
 constructor FutureOrPresentAttribute.Create(const Parameters: string);
 begin
 
-  FMessage := Constraint_FutureOrPresent_Message;
+  FMessage := '{validation.constraints.FutureOrPresent.message}';
 
   inherited;
 

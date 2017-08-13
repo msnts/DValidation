@@ -41,7 +41,7 @@ implementation
 constructor SizeAttribute.Create(const Parameters: string);
 begin
 
-  FMessage := '';
+  FMessage := '{validation.constraints.Size.message}';
 
   inherited;
 

@@ -20,7 +20,6 @@ unit DValidation.Constraints.Br.TituloEleitor;
 
 interface
 uses
-  DValidation.I18n.Messages,
   DValidation.Constraints.Constraint;
 
 type
@@ -37,7 +36,7 @@ implementation
 constructor TituloEleitorAttribute.Create(const Parameters: string);
 begin
 
-  FMessage := Constraint_TituloEleitor_Message;
+  FMessage := '{validation.constraints.br.TituloEleitoral.message}';
 
   inherited;
 

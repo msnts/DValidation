@@ -20,7 +20,6 @@ unit DValidation.Constraints.Br.CPF;
 
 interface
 uses
-  DValidation.I18n.Messages,
   DValidation.Constraints.Constraint;
 
 type
@@ -37,7 +36,7 @@ implementation
 constructor CPFAttribute.Create(const Parameters: string);
 begin
 
-  FMessage := Constraint_CPF_Message;
+  FMessage := '{validation.constraints.br.CPF.message}';
 
   inherited;
 

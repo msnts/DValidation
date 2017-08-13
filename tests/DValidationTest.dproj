@@ -85,7 +85,6 @@
         <DCCReference Include="..\source\engine\Impl\DValidation.Engine.Impl.Validator.pas"/>
         <DCCReference Include="..\source\engine\DValidation.Engine.ValidationContext.pas"/>
         <DCCReference Include="..\source\constraints\DValidation.Constraints.Currency.pas"/>
-        <DCCReference Include="..\source\I18n\DValidation.I18n.Messages.pas"/>
         <DCCReference Include="..\source\constraints\DValidation.Constraints.NotBlank.pas"/>
         <DCCReference Include="..\source\constraints\DValidation.Constraints.CreditCardNumber.pas"/>
         <DCCReference Include="..\source\constraints\DValidation.Constraints.EAN.pas"/>
@@ -144,6 +143,8 @@
         <DCCReference Include="..\source\engine\DValidation.Engine.MessageInterpolator.pas"/>
         <DCCReference Include="..\source\engine\Impl\DValidation.Engine.Impl.MessageInterpolator.pas"/>
         <DCCReference Include="engine\DValidation.Engine.MessageInterpolatorTest.pas"/>
+        <DCCReference Include="..\source\I18n\DValidation.I18n.Locale.pas"/>
+        <DCCReference Include="..\source\I18n\impl\DValidation.I18n.Impl.Locale.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -166,14 +167,14 @@
                 </Source>
             </Delphi.Personality>
             <Deployment Version="1">
-                <DeployFile LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib" Class="DependencyModule">
-                    <Platform Name="OSX32">
-                        <Overwrite>true</Overwrite>
-                    </Platform>
-                </DeployFile>
                 <DeployFile LocalName="Win32\Debug\DValidationTest.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>DValidationTest.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib" Class="DependencyModule">
+                    <Platform Name="OSX32">
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -500,13 +501,13 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <ProjectRoot Platform="iOSDevice32" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="Android" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="Win32" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="Win64" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="iOSSimulator" Name="$(PROJECTNAME).app"/>
-                <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME)"/>
+                <ProjectRoot Platform="iOSDevice32" Name="$(PROJECTNAME).app"/>
             </Deployment>
             <Platforms>
                 <Platform value="Win32">True</Platform>

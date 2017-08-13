@@ -16,30 +16,17 @@
   limitations under the License.
   *****************************************************************************}
 
-unit DValidation.Constraints.Br.CNPJ;
+unit DValidation.I18n.Locale;
 
 interface
-uses
-  DValidation.Constraints.Constraint;
 
 type
 
-  CNPJAttribute = class(ConstraintAttribute)
-  public
-    constructor Create(const Parameters : string); override;
+  ILocale = interface
+    ['{288AD861-B24F-4423-9FE7-B70CD97C0F1C}']
+    function GetViolationMessage(const Identifier : string) : string;
   end;
 
 implementation
-
-{ NotBlankAttribute }
-
-constructor CNPJAttribute.Create(const Parameters: string);
-begin
-
-  FMessage := '{validation.constraints.br.CNPJ.message}';
-
-  inherited;
-
-end;
 
 end.

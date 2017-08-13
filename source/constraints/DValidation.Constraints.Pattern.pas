@@ -20,7 +20,6 @@ unit DValidation.Constraints.Pattern;
 
 interface
 uses
-  DValidation.I18n.Messages,
   DValidation.Constraints.Constraint;
 
 type
@@ -42,7 +41,7 @@ implementation
 constructor PatternAttribute.Create(const Parameters: string);
 begin
 
-  FMessage := Constraint_Pattern_Message;
+  FMessage := '{validation.constraints.Pattern.message}';
 
   inherited;
 

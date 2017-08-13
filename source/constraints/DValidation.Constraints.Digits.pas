@@ -20,7 +20,6 @@ unit DValidation.Constraints.Digits;
 
 interface
 uses
-  DValidation.I18n.Messages,
   DValidation.Constraints.Constraint;
 
 type
@@ -42,7 +41,7 @@ implementation
 constructor DigitsAttribute.Create(const Parameters: string);
 begin
 
-  FMessage := Constraint_Digits_Message;
+  FMessage := '{validation.constraints.Digits.message}';
 
   inherited;
 

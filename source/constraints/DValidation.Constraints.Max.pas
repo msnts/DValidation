@@ -20,7 +20,6 @@ unit DValidation.Constraints.Max;
 
 interface
 uses
-  DValidation.I18n.Messages,
   DValidation.Constraints.Constraint;
 
 type
@@ -40,11 +39,11 @@ implementation
 constructor MaxAttribute.Create(const Parameters: string);
 begin
 
-  FMessage := Constraint_Max_Message;
+  FMessage := '{validation.constraints.Max.message}';
 
   inherited;
 
-  FMax := GetParameter<Integer>('Max', MaxInt);
+  FMax := GetParameter<Integer>('Max', High(Int64));
 
 end;
 

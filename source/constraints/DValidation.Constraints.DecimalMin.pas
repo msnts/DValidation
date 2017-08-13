@@ -20,7 +20,6 @@ unit DValidation.Constraints.DecimalMin;
 
 interface
 uses
-  DValidation.I18n.Messages,
   DValidation.Constraints.Constraint;
 
 type
@@ -42,7 +41,7 @@ implementation
 constructor DecimalMinAttribute.Create(const Parameters: string);
 begin
 
-  FMessage := Constraint_DecimalMin_Message;
+  FMessage := '{validation.constraints.DecimalMin.message}';
 
   inherited;
 

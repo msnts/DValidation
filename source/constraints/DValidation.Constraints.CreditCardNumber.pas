@@ -20,7 +20,6 @@ unit DValidation.Constraints.CreditCardNumber;
 
 interface
 uses
-  DValidation.I18n.Messages,
   DValidation.Constraints.Constraint;
 
 type
@@ -40,7 +39,7 @@ implementation
 constructor CreditCardNumberAttribute.Create(const Parameters: string);
 begin
 
-  FMessage := Constraint_CreditCardNumber_Message;
+  FMessage := '{validation.constraints.CreditCardNumber.message}';
 
   inherited;
 

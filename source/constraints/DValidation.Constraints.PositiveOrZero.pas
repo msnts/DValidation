@@ -20,7 +20,6 @@ unit DValidation.Constraints.PositiveOrZero;
 
 interface
 uses
-  DValidation.I18n.Messages,
   DValidation.Constraints.Constraint;
 
 type
@@ -37,7 +36,7 @@ implementation
 constructor PositiveOrZeroAttribute.Create(const Parameters: string);
 begin
 
-  FMessage := Constraint_PositiveOrZero_Message;
+  FMessage := '{validation.constraints.PositiveOrZero.message}';
 
   inherited;
 

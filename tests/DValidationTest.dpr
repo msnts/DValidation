@@ -3,6 +3,8 @@ program DValidationTest;
 {$IFNDEF TESTINSIGHT}
 {$APPTYPE CONSOLE}
 {$ENDIF}{$STRONGLINKTYPES ON}
+
+
 uses
   SysUtils,
   {$IFDEF TESTINSIGHT}
@@ -21,7 +23,6 @@ uses
   DValidation.Engine.Impl.Validator in '..\source\engine\Impl\DValidation.Engine.Impl.Validator.pas',
   DValidation.Engine.ValidationContext in '..\source\engine\DValidation.Engine.ValidationContext.pas',
   DValidation.Constraints.Currency in '..\source\constraints\DValidation.Constraints.Currency.pas',
-  DValidation.I18n.Messages in '..\source\I18n\DValidation.I18n.Messages.pas',
   DValidation.Constraints.NotBlank in '..\source\constraints\DValidation.Constraints.NotBlank.pas',
   DValidation.Constraints.CreditCardNumber in '..\source\constraints\DValidation.Constraints.CreditCardNumber.pas',
   DValidation.Constraints.EAN in '..\source\constraints\DValidation.Constraints.EAN.pas',
@@ -79,7 +80,11 @@ uses
   DValidation.Engine.Impl.ConstraintViolation in '..\source\engine\Impl\DValidation.Engine.Impl.ConstraintViolation.pas',
   DValidation.Engine.MessageInterpolator in '..\source\engine\DValidation.Engine.MessageInterpolator.pas',
   DValidation.Engine.Impl.MessageInterpolator in '..\source\engine\Impl\DValidation.Engine.Impl.MessageInterpolator.pas',
-  DValidation.Engine.MessageInterpolatorTest in 'engine\DValidation.Engine.MessageInterpolatorTest.pas';
+  DValidation.Engine.MessageInterpolatorTest in 'engine\DValidation.Engine.MessageInterpolatorTest.pas',
+  DValidation.I18n.Locale in '..\source\I18n\DValidation.I18n.Locale.pas',
+  DValidation.I18n.Impl.Locale in '..\source\I18n\impl\DValidation.I18n.Impl.Locale.pas';
+
+{$R ..\resources\locale.res}
 
 var
   runner : ITestRunner;

@@ -20,8 +20,7 @@ unit DValidation.Constraints.Currency;
 
 interface
 uses
-  DValidation.Constraints.Constraint,
-  DValidation.I18n.Messages;
+  DValidation.Constraints.Constraint;
 
 type
 
@@ -37,7 +36,7 @@ implementation
 constructor CurrencyAttribute.Create(const Parameters: string);
 begin
 
-  FMessage := Constraint_Currency_Message;
+  FMessage := '{validation.constraints.Currency.message}';
 
   inherited;
 

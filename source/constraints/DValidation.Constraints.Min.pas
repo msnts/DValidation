@@ -20,7 +20,6 @@ unit DValidation.Constraints.Min;
 
 interface
 uses
-  DValidation.I18n.Messages,
   DValidation.Constraints.Constraint;
 
 type
@@ -40,7 +39,7 @@ implementation
 constructor MinAttribute.Create(const Parameters: string);
 begin
 
-  FMessage := Constraint_Min_Message;
+  FMessage := '{validation.constraints.Min.message}';
 
   inherited;
 

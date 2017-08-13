@@ -20,7 +20,6 @@ unit DValidation.Constraints.AssertTrue;
 
 interface
 uses
-  DValidation.I18n.Messages,
   DValidation.Constraints.Constraint;
 
 type
@@ -37,7 +36,7 @@ implementation
 constructor AssertTrueAttribute.Create(const Parameters: string);
 begin
 
-  FMessage := Constraint_AssertTrue_Message;
+  FMessage := '{validation.constraints.AssertTrue.message}';
 
   inherited;
 

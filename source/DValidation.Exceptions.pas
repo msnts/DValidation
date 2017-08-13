@@ -25,6 +25,8 @@ type
 
   ValidationException = class(Exception);
 
+  LocaleException = class(Exception);
+
 implementation
 
 end.

@@ -20,7 +20,6 @@ unit DValidation.Constraints.NotNull;
 
 interface
 uses
-  DValidation.I18n.Messages,
   DValidation.Constraints.Constraint;
 
 type
@@ -37,7 +36,7 @@ implementation
 constructor NotNullAttribute.Create(const Parameters: string);
 begin
 
-  FMessage := Constraint_NotNull_Message;
+  FMessage := '{validation.constraints.NotNull.message}';
 
   inherited;
 

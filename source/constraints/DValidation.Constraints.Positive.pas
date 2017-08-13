@@ -20,7 +20,6 @@ unit DValidation.Constraints.Positive;
 
 interface
 uses
-  DValidation.I18n.Messages,
   DValidation.Constraints.Constraint;
 
 type
@@ -37,7 +36,7 @@ implementation
 constructor PositiveAttribute.Create(const Parameters: string);
 begin
 
-  FMessage := Constraint_Positive_Message;
+  FMessage := '{validation.constraints.Positive.message}';
 
   inherited;
 

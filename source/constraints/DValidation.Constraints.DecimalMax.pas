@@ -20,7 +20,6 @@ unit DValidation.Constraints.DecimalMax;
 
 interface
 uses
-  DValidation.I18n.Messages,
   DValidation.Constraints.Constraint;
 
 type
@@ -43,7 +42,7 @@ uses System.Math;
 constructor DecimalMaxAttribute.Create(const Parameters: string);
 begin
 
-  FMessage := Constraint_DecimalMax_Message;
+  FMessage := '{validation.constraints.DecimalMax.message}';
 
   inherited;
 

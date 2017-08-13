@@ -20,7 +20,6 @@ unit DValidation.Constraints.Past;
 
 interface
 uses
-  DValidation.I18n.Messages,
   DValidation.Constraints.Constraint;
 
 type
@@ -37,7 +36,7 @@ implementation
 constructor PastAttribute.Create(const Parameters: string);
 begin
 
-  FMessage := Constraint_Past_Message;
+  FMessage := '{validation.constraints.Past.message}';
 
   inherited;
 

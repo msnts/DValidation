@@ -20,7 +20,6 @@ unit DValidation.Constraints.NotBlank;
 
 interface
 uses
-  DValidation.I18n.Messages,
   DValidation.Constraints.Constraint;
 
 type
@@ -37,7 +36,7 @@ implementation
 constructor NotBlankAttribute.Create(const Parameters: string);
 begin
 
-  FMessage := Constraint_NotBlank_Message;
+  FMessage := '{validation.constraints.NotBlank.message}';
 
   inherited;
 
