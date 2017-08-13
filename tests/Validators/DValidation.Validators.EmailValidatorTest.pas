@@ -45,40 +45,40 @@ type
     procedure TearDownFixture;
 
     [Test]
-    [TestCase('Case 1','email@domain.com, true')]
-    [TestCase('Case 2','firstname.lastname@domain.com, true')]
-    [TestCase('Case 3','email@subdomain.domain.com, true')]
-    [TestCase('Case 4','firstname+lastname@domain.com, true')]
-    [TestCase('Case 5','email@123.123.123.123, true')]
-    [TestCase('Case 6','email@[123.123.123.123], true')]
-    [TestCase('Case 7','"email"@domain.com, true')]
-    [TestCase('Case 8','1234567890@domain.com, true')]
-    [TestCase('Case 9','email@domain-one.com, true')]
-    [TestCase('Case 10','_______@domain.com, true')]
-    [TestCase('Case 11','email@domain.name, true')]
-    [TestCase('Case 12','email@domain.co.jp, true')]
-    [TestCase('Case 13','firstname-lastname@domain.com, true')]
-    [TestCase('Case 14','plainaddress, false', 'Missing @ sign and domain')]
-    [TestCase('Case 15','#@%^%#$@#$@#.com, false', 'Garbage')]
-    [TestCase('Case 16','@domain.com, false', 'Missing username')]
-    [TestCase('Case 17','Joe Smith <email@domain.com>, false', 'Encoded html within email is invalid')]
-    [TestCase('Case 18','email.domain.com, false', 'Missing @')]
-    [TestCase('Case 19','email@domain@domain.com, false', 'Two @ sign')]
-    [TestCase('Case 20','.email@domain.com, false', 'Leading dot in address is not allowed')]
-    [TestCase('Case 21','email.@domain.com, false', 'Trailing dot in address is not allowed')]
-    [TestCase('Case 22','email..email@domain.com, false', 'Multiple dots')]
-    [TestCase('Case 23','あいうえお@domain.com, false', 'Unicode char as address')]
-    [TestCase('Case 24','email@domain.com (Joe Smith), false', 'Text followed email is not allowed')]
-    [TestCase('Case 25','email@domain, false', 'Missing top level domain (.com/.net/.org/etc)')]
-    [TestCase('Case 26','email@-domain.com, false', 'Leading dash in front of domain is invalid')]
-    [TestCase('Case 27','email@domain.web, false', '.web is not a valid top level domain')]
-    [TestCase('Case 28','email@111.222.333.44444, false', 'Invalid IP format')]
-    [TestCase('Case 29','email@domain..com, false', 'Multiple dot in the domain portion is invalid')]
-    procedure TestEmailConstraintValidator(const Email : string; const IsValid : Boolean);
+    [TestCase('Case 1','email@domain.com, 1')]
+    [TestCase('Case 2','firstname.lastname@domain.com, 1')]
+    [TestCase('Case 3','email@subdomain.domain.com, 1')]
+    [TestCase('Case 4','firstname+lastname@domain.com, 1')]
+    [TestCase('Case 5','email@123.123.123.123, 1')]
+    [TestCase('Case 6','email@[123.123.123.123], 1')]
+    [TestCase('Case 7','"email"@domain.com, 1')]
+    [TestCase('Case 8','1234567890@domain.com, 1')]
+    [TestCase('Case 9','email@domain-one.com, 1')]
+    [TestCase('Case 10','_______@domain.com, 1')]
+    [TestCase('Case 11','email@domain.name, 1')]
+    [TestCase('Case 12','email@domain.co.jp, 1')]
+    [TestCase('Case 13','firstname-lastname@domain.com, 1')]
+    [TestCase('Case 14','plainaddress, 0')]
+    [TestCase('Case 15','#@%^%#$@#$@#.com, 0')]
+    [TestCase('Case 16','@domain.com, 0')]
+    [TestCase('Case 17','Joe Smith <email@domain.com>, 0')]
+    [TestCase('Case 18','email.domain.com, false')]
+    [TestCase('Case 19','email@domain@domain.com, 0')]
+    [TestCase('Case 20','.email@domain.com, 0')]
+    [TestCase('Case 21','email.@domain.com, 0')]
+    [TestCase('Case 22','email..email@domain.com, 0')]
+    [TestCase('Case 23','あいうえお@domain.com, 0')]
+    [TestCase('Case 24','email@domain.com (Joe Smith), 0')]
+    [TestCase('Case 25','email@domain, 0')]
+    [TestCase('Case 26','email@-domain.com, 0')]
+    [TestCase('Case 27','email@domain.web, 0')]
+    [TestCase('Case 28','email@111.222.333.44444, 0')]
+    [TestCase('Case 29','email@domain..com, 0')]
+    procedure TestEmailConstraintValidator(const Email : string; const IsValid : Integer);
 
     [Test]
-    [TestCase('Case 1','email@domain.com, true')]
-    procedure TestEmailValidator(const Email : string; const IsValid : Boolean);
+    [TestCase('Case 1','email@domain.com, 1')]
+    procedure TestEmailValidator(const Email : string; const IsValid : Integer);
   end;
 
 implementation
@@ -98,17 +98,21 @@ begin
 end;
 
 
-procedure TEmailValidatorTest.TestEmailConstraintValidator(const Email : string; const IsValid : Boolean);
+procedure TEmailValidatorTest.TestEmailConstraintValidator(const Email : string; const IsValid : Integer);
 begin
 
-   Assert.AreNotEqual(IsValid, FConstraintValidator.IsValid(Email));
+   Assert.AreEqual(IsValid <> 0, FConstraintValidator.IsValid(Email));
 
 end;
 
-procedure TEmailValidatorTest.TestEmailValidator(const Email : string; const IsValid : Boolean);
+procedure TEmailValidatorTest.TestEmailValidator(const Email : string; const IsValid : Integer);
+var
+  Actual : Boolean;
 begin
 
-  Assert.AreNotEqual(IsValid, FValidator.Validate<TEmailValidatorTest>(Self).Count = 0);
+  Actual := FValidator.Validate<TEmailValidatorTest>(Self).Count = 0;
+
+  Assert.AreEqual(IsValid <> 0, Actual);
 
 end;
 
