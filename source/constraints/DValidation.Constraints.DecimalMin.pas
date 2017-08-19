@@ -20,21 +20,23 @@ unit DValidation.Constraints.DecimalMin;
 
 interface
 uses
-  DValidation.Constraints.Constraint;
+  DValidation.Constraints.Constraint,
+  DValidation.Exceptions;
 
 type
 
   DecimalMinAttribute = class(ConstraintAttribute)
   private
-    FMin : Double;
+    FMin : Extended;
     FInclusive : Boolean;
   public
     constructor Create(const Parameters : string); override;
-    property Min : Double read FMin;
+    property Min : Extended read FMin;
     property Inclusive : Boolean read FInclusive;
   end;
 
 implementation
+uses System.Math;
 
 { NotBlankAttribute }
 
@@ -45,7 +47,11 @@ begin
 
   inherited;
 
-  FMin := GetParameter<Double>('Min', 0.0);
+  if not HasParameter('Min') then
+    raise ConstraintException.Create('Parameter "Min" required');
+
+  FMin := GetParameter<Double>('Min', MinExtended);
+
   FInclusive := Getparameter<Boolean>('Inclusive', True);
 
 end;

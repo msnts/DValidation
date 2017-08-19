@@ -20,17 +20,18 @@ unit DValidation.Constraints.DecimalMax;
 
 interface
 uses
-  DValidation.Constraints.Constraint;
+  DValidation.Constraints.Constraint,
+  DValidation.Exceptions;
 
 type
 
   DecimalMaxAttribute = class(ConstraintAttribute)
   private
-    FMax : Double;
+    FMax : Extended;
     FInclusive : Boolean;
   public
     constructor Create(const Parameters : string); override;
-    property Max : Double read FMax;
+    property Max : Extended read FMax;
     property Inclusive : Boolean read FInclusive;
   end;
 
@@ -46,7 +47,10 @@ begin
 
   inherited;
 
-  FMax := GetParameter<Double>('Max', MaxDouble);
+  if not HasParameter('Max') then
+    raise ConstraintException.Create('Parameter "Max" required');
+
+  FMax := GetParameter<Double>('Max', MaxExtended);
 
   FInclusive := GetParameter<Boolean>('Inclusive', True);
 

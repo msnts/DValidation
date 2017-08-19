@@ -83,7 +83,17 @@ uses
   DValidation.Engine.MessageInterpolatorTest in 'engine\DValidation.Engine.MessageInterpolatorTest.pas',
   DValidation.I18n.Locale in '..\source\I18n\DValidation.I18n.Locale.pas',
   DValidation.I18n.Impl.Locale in '..\source\I18n\impl\DValidation.I18n.Impl.Locale.pas',
-  DValidation.ContraintValidators.MaxValidator in '..\source\constraintvalidators\DValidation.ContraintValidators.MaxValidator.pas';
+  DValidation.ContraintValidators.MaxValidator in '..\source\constraintvalidators\DValidation.ContraintValidators.MaxValidator.pas',
+  DValidation.Validators.MaxValidatorTest in 'Validators\DValidation.Validators.MaxValidatorTest.pas',
+  DValidation.ContraintValidators.DecimalMaxValidator in '..\source\constraintvalidators\DValidation.ContraintValidators.DecimalMaxValidator.pas',
+  DValidation.ContraintValidators.MinValidator in '..\source\constraintvalidators\DValidation.ContraintValidators.MinValidator.pas',
+  DValidation.ContraintValidators.DecimalMinValidator in '..\source\constraintvalidators\DValidation.ContraintValidators.DecimalMinValidator.pas',
+  DValidation.Validators.MinValidatorTest in 'Validators\DValidation.Validators.MinValidatorTest.pas',
+  DValidation.Validators.DecimalMaxValidatorTest in 'Validators\DValidation.Validators.DecimalMaxValidatorTest.pas',
+  DValidation.ContraintValidators.NegativeValidator in '..\source\constraintvalidators\DValidation.ContraintValidators.NegativeValidator.pas',
+  DValidation.ContraintValidators.PositiveValidator in '..\source\constraintvalidators\DValidation.ContraintValidators.PositiveValidator.pas',
+  DValidation.ContraintValidators.NegativeOrZeroValidator in '..\source\constraintvalidators\DValidation.ContraintValidators.NegativeOrZeroValidator.pas',
+  DValidation.ContraintValidators.PositiveOrZeroValidator in '..\source\constraintvalidators\DValidation.ContraintValidators.PositiveOrZeroValidator.pas';
 
 {$R ..\resources\locale.res}
 
@@ -93,6 +103,9 @@ var
   logger : ITestLogger;
   nunitLogger : ITestLogger;
 begin
+
+  ReportMemoryLeaksOnShutdown := True;
+
 {$IFDEF TESTINSIGHT}
   TestInsight.DUnitX.RunRegisteredTests;
   exit;

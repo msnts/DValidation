@@ -16,20 +16,21 @@
   limitations under the License.
   *****************************************************************************}
 
-unit DValidation.ContraintValidators.MaxValidator;
+unit DValidation.ContraintValidators.DecimalMaxValidator;
 
 interface
 uses
   DValidation,
   DValidation.ContraintValidators.ConstraintValidator,
   DValidation.Constraints.Constraint,
-  DValidation.Constraints.Max;
+  DValidation.Constraints.DecimalMax;
 
 type
 
-  TMaxValidator = class(TInterfacedObject, IConstraintValidator<variant>)
+  TDecimalMaxValidator = class(TInterfacedObject, IConstraintValidator<variant>)
   private
-    FMaxValue : Int64;
+    FDecimalMaxValue : Extended;
+    FInclusive : Boolean;
   public
     procedure Initialize(Constraint : ConstraintAttribute);
     function IsValid(const Value : variant) : Boolean;
@@ -38,27 +39,31 @@ type
 implementation
 uses System.SysUtils, System.Variants;
 
-{ TMaxValidator }
+{ TDecimalMaxValidator }
 
-procedure TMaxValidator.Initialize(Constraint: ConstraintAttribute);
+procedure TDecimalMaxValidator.Initialize(Constraint: ConstraintAttribute);
 begin
-  FMaxValue := MaxAttribute(Constraint).Max;
+  FDecimalMaxValue := DecimalMaxAttribute(Constraint).Max;
+  FInclusive := DecimalMaxAttribute(Constraint).Inclusive;
 end;
 
-function TMaxValidator.IsValid(const Value: variant): Boolean;
+function TDecimalMaxValidator.IsValid(const Value: variant): Boolean;
 var
-  BasicType: Integer;
+  BasicType : Integer;
 begin
 
   BasicType := VarType(Value) and VarTypeMask;
 
-  if not(BasicType in [varByte, varShortInt, varWord, varSmallInt, varLongWord, varInteger, varInt64]) then
+  if not (BasicType in [varSingle, varDouble, varCurrency]) then
     raise Exception.Create('Invalid data type for validation');
 
-  Result := Int64(Value) <= FMaxValue;
+  if FInclusive then
+    Result := Extended(Value) <= FDecimalMaxValue
+  else
+    Result := Extended(Value) < FDecimalMaxValue;
 
 end;
 
 initialization
-  TDValidation.RegisterConstraint(MaxAttribute, TMaxValidator);
+  TDValidation.RegisterConstraint(DecimalMaxAttribute, TDecimalMaxValidator);
 end.

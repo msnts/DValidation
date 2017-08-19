@@ -20,7 +20,8 @@ unit DValidation.Constraints.Pattern;
 
 interface
 uses
-  DValidation.Constraints.Constraint;
+  DValidation.Constraints.Constraint,
+  DValidation.Exceptions;
 
 type
 
@@ -44,6 +45,9 @@ begin
   FMessage := '{validation.constraints.Pattern.message}';
 
   inherited;
+
+  if not HasParameter('Regexp') then
+    raise ConstraintException.Create('Parameter "Regexp" required');
 
   FRegexp := GetParameter<string>('Regexp', '');
   FFlags := GetParameter<string>('Flags', '');

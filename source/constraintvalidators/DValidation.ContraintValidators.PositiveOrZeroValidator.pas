@@ -16,20 +16,18 @@
   limitations under the License.
   *****************************************************************************}
 
-unit DValidation.ContraintValidators.MaxValidator;
+unit DValidation.ContraintValidators.PositiveOrZeroValidator;
 
 interface
 uses
   DValidation,
   DValidation.ContraintValidators.ConstraintValidator,
   DValidation.Constraints.Constraint,
-  DValidation.Constraints.Max;
+  DValidation.Constraints.PositiveOrZero;
 
 type
 
-  TMaxValidator = class(TInterfacedObject, IConstraintValidator<variant>)
-  private
-    FMaxValue : Int64;
+  TPositiveOrZeroValidator = class(TInterfacedObject, IConstraintValidator<variant>)
   public
     procedure Initialize(Constraint : ConstraintAttribute);
     function IsValid(const Value : variant) : Boolean;
@@ -38,27 +36,30 @@ type
 implementation
 uses System.SysUtils, System.Variants;
 
-{ TMaxValidator }
+{ TPositiveOrZeroValidator }
 
-procedure TMaxValidator.Initialize(Constraint: ConstraintAttribute);
+procedure TPositiveOrZeroValidator.Initialize(Constraint: ConstraintAttribute);
 begin
-  FMaxValue := MaxAttribute(Constraint).Max;
+
 end;
 
-function TMaxValidator.IsValid(const Value: variant): Boolean;
+function TPositiveOrZeroValidator.IsValid(const Value: variant): Boolean;
 var
   BasicType: Integer;
 begin
 
   BasicType := VarType(Value) and VarTypeMask;
 
-  if not(BasicType in [varByte, varShortInt, varWord, varSmallInt, varLongWord, varInteger, varInt64]) then
-    raise Exception.Create('Invalid data type for validation');
-
-  Result := Int64(Value) <= FMaxValue;
+  if BasicType in [varByte, varShortInt, varWord, varSmallInt, varLongWord, varInteger, varInt64] then
+    Result := not (Int64(Value) <= 0)
+  else
+    if BasicType in [varSingle, varDouble, varCurrency] then
+      Result := not (Extended(Value) <= 0)
+    else
+      raise Exception.Create('Invalid data type for validation');
 
 end;
 
 initialization
-  TDValidation.RegisterConstraint(MaxAttribute, TMaxValidator);
+  TDValidation.RegisterConstraint(PositiveOrZeroAttribute, TPositiveOrZeroValidator);
 end.

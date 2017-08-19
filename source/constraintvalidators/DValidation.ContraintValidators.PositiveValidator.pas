@@ -16,20 +16,18 @@
   limitations under the License.
   *****************************************************************************}
 
-unit DValidation.ContraintValidators.MaxValidator;
+unit DValidation.ContraintValidators.PositiveValidator;
 
 interface
 uses
   DValidation,
   DValidation.ContraintValidators.ConstraintValidator,
   DValidation.Constraints.Constraint,
-  DValidation.Constraints.Max;
+  DValidation.Constraints.Positive;
 
 type
 
-  TMaxValidator = class(TInterfacedObject, IConstraintValidator<variant>)
-  private
-    FMaxValue : Int64;
+  TPositiveValidator = class(TInterfacedObject, IConstraintValidator<variant>)
   public
     procedure Initialize(Constraint : ConstraintAttribute);
     function IsValid(const Value : variant) : Boolean;
@@ -38,27 +36,30 @@ type
 implementation
 uses System.SysUtils, System.Variants;
 
-{ TMaxValidator }
+{ TPositiveValidator }
 
-procedure TMaxValidator.Initialize(Constraint: ConstraintAttribute);
+procedure TPositiveValidator.Initialize(Constraint: ConstraintAttribute);
 begin
-  FMaxValue := MaxAttribute(Constraint).Max;
+
 end;
 
-function TMaxValidator.IsValid(const Value: variant): Boolean;
+function TPositiveValidator.IsValid(const Value: variant): Boolean;
 var
   BasicType: Integer;
 begin
 
   BasicType := VarType(Value) and VarTypeMask;
 
-  if not(BasicType in [varByte, varShortInt, varWord, varSmallInt, varLongWord, varInteger, varInt64]) then
-    raise Exception.Create('Invalid data type for validation');
-
-  Result := Int64(Value) <= FMaxValue;
+  if BasicType in [varByte, varShortInt, varWord, varSmallInt, varLongWord, varInteger, varInt64] then
+    Result := not (Int64(Value) < 0)
+  else
+    if BasicType in [varSingle, varDouble, varCurrency] then
+      Result := not (Extended(Value) < 0)
+    else
+      raise Exception.Create('Invalid data type for validation');
 
 end;
 
 initialization
-  TDValidation.RegisterConstraint(MaxAttribute, TMaxValidator);
+  TDValidation.RegisterConstraint(PositiveAttribute, TPositiveValidator);
 end.

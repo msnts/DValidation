@@ -16,20 +16,20 @@
   limitations under the License.
   *****************************************************************************}
 
-unit DValidation.ContraintValidators.MaxValidator;
+unit DValidation.ContraintValidators.MinValidator;
 
 interface
 uses
   DValidation,
   DValidation.ContraintValidators.ConstraintValidator,
   DValidation.Constraints.Constraint,
-  DValidation.Constraints.Max;
+  DValidation.Constraints.Min;
 
 type
 
-  TMaxValidator = class(TInterfacedObject, IConstraintValidator<variant>)
+  TMinValidator = class(TInterfacedObject, IConstraintValidator<variant>)
   private
-    FMaxValue : Int64;
+    FMinValue : Int64;
   public
     procedure Initialize(Constraint : ConstraintAttribute);
     function IsValid(const Value : variant) : Boolean;
@@ -38,27 +38,27 @@ type
 implementation
 uses System.SysUtils, System.Variants;
 
-{ TMaxValidator }
+{ TMinValidator }
 
-procedure TMaxValidator.Initialize(Constraint: ConstraintAttribute);
+procedure TMinValidator.Initialize(Constraint: ConstraintAttribute);
 begin
-  FMaxValue := MaxAttribute(Constraint).Max;
+  FMinValue := MinAttribute(Constraint).Min;
 end;
 
-function TMaxValidator.IsValid(const Value: variant): Boolean;
+function TMinValidator.IsValid(const Value: variant): Boolean;
 var
   BasicType: Integer;
 begin
 
   BasicType := VarType(Value) and VarTypeMask;
 
-  if not(BasicType in [varByte, varShortInt, varWord, varSmallInt, varLongWord, varInteger, varInt64]) then
+  if not(BasicType in [varByte, varShortInt, varWord, varSmallInt, varLongWord, varInteger, varInt64, varUInt64]) then
     raise Exception.Create('Invalid data type for validation');
 
-  Result := Int64(Value) <= FMaxValue;
+  Result := Int64(Value) >= FMinValue;
 
 end;
 
 initialization
-  TDValidation.RegisterConstraint(MaxAttribute, TMaxValidator);
+  TDValidation.RegisterConstraint(MinAttribute, TMinValidator);
 end.

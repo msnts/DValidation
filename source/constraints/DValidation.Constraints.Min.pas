@@ -20,16 +20,17 @@ unit DValidation.Constraints.Min;
 
 interface
 uses
-  DValidation.Constraints.Constraint;
+  DValidation.Constraints.Constraint,
+  DValidation.Exceptions;
 
 type
 
   MinAttribute = class(ConstraintAttribute)
   private
-    FMin : Integer;
+    FMin : Int64;
   public
     constructor Create(const Parameters : string); override;
-    property Min : Integer read FMin;
+    property Min : Int64 read FMin;
   end;
 
 implementation
@@ -43,7 +44,10 @@ begin
 
   inherited;
 
-  FMin := GetParameter<Integer>('Min', 0);
+  if not HasParameter('Min') then
+    raise ConstraintException.Create('Parameter "Min" required');
+
+  FMin := GetParameter<Int64>('Min', Low(Int64));
 
 end;
 

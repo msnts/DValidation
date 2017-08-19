@@ -16,20 +16,21 @@
   limitations under the License.
   *****************************************************************************}
 
-unit DValidation.ContraintValidators.MaxValidator;
+unit DValidation.ContraintValidators.DecimalMinValidator;
 
 interface
 uses
   DValidation,
   DValidation.ContraintValidators.ConstraintValidator,
   DValidation.Constraints.Constraint,
-  DValidation.Constraints.Max;
+  DValidation.Constraints.DecimalMin;
 
 type
 
-  TMaxValidator = class(TInterfacedObject, IConstraintValidator<variant>)
+  TDecimalMinValidator = class(TInterfacedObject, IConstraintValidator<variant>)
   private
-    FMaxValue : Int64;
+    FDecimalMinValue : Extended;
+    FInclusive : Boolean;
   public
     procedure Initialize(Constraint : ConstraintAttribute);
     function IsValid(const Value : variant) : Boolean;
@@ -38,27 +39,31 @@ type
 implementation
 uses System.SysUtils, System.Variants;
 
-{ TMaxValidator }
+{ TDecimalMinValidator }
 
-procedure TMaxValidator.Initialize(Constraint: ConstraintAttribute);
+procedure TDecimalMinValidator.Initialize(Constraint: ConstraintAttribute);
 begin
-  FMaxValue := MaxAttribute(Constraint).Max;
+  FDecimalMinValue := DecimalMinAttribute(Constraint).Min;
+  FInclusive := DecimalMinAttribute(Constraint).Inclusive;
 end;
 
-function TMaxValidator.IsValid(const Value: variant): Boolean;
+function TDecimalMinValidator.IsValid(const Value: variant): Boolean;
 var
-  BasicType: Integer;
+  BasicType : Integer;
 begin
 
   BasicType := VarType(Value) and VarTypeMask;
 
-  if not(BasicType in [varByte, varShortInt, varWord, varSmallInt, varLongWord, varInteger, varInt64]) then
-    raise Exception.Create('Invalid data type for validation');
+  if not (BasicType in [varSingle, varDouble, varCurrency]) then
+    raise Exception.Create('Invalid data type for interpolation');
 
-  Result := Int64(Value) <= FMaxValue;
+  if FInclusive then
+    Result := Extended(Value) >= FDecimalMinValue
+  else
+    Result := Extended(Value) > FDecimalMinValue;
 
 end;
 
 initialization
-  TDValidation.RegisterConstraint(MaxAttribute, TMaxValidator);
+  TDValidation.RegisterConstraint(DecimalMinAttribute, TDecimalMinValidator);
 end.

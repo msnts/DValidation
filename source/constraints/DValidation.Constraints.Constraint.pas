@@ -32,6 +32,7 @@ type
 
       procedure Initialize(const Parameters : string);
       function GetParameter<T>(const ParameterName : string; Default : T) : T;
+      function HasParameter(const ParameterName : string) : Boolean;
    public
       constructor Create(const Parameters : string = ''); virtual;
       destructor Destroy; override;
@@ -87,6 +88,13 @@ begin
   if not Parameter.TryGetValue(Result) then
     raise ConstraintException.Create('Invalid parameter "' + ParameterName + '"');
 
+end;
+
+function ConstraintAttribute.HasParameter(const ParameterName: string): Boolean;
+var
+  Aux : TJSONValue;
+begin
+  Result := FJSONObject.TryGetValue<TJSONValue>(Aux);
 end;
 
 procedure ConstraintAttribute.Initialize(const Parameters: string);

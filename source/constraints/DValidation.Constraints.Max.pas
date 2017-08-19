@@ -20,16 +20,17 @@ unit DValidation.Constraints.Max;
 
 interface
 uses
-  DValidation.Constraints.Constraint;
+  DValidation.Constraints.Constraint,
+  DValidation.Exceptions;
 
 type
 
   MaxAttribute = class(ConstraintAttribute)
   private
-    FMax : Integer;
+    FMax : Int64;
   public
     constructor Create(const Parameters : string); override;
-    property Max : Integer read FMax;
+    property Max : Int64 read FMax;
   end;
 
 implementation
@@ -43,7 +44,10 @@ begin
 
   inherited;
 
-  FMax := GetParameter<Integer>('Max', High(Int64));
+  if not HasParameter('Max') then
+    raise ConstraintException.Create('Parameter "Max" required');
+
+  FMax := GetParameter<Int64>('Max', High(Int64));
 
 end;
 

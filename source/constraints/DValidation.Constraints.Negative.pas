@@ -26,7 +26,9 @@ type
 
   NegativeAttribute = class(ConstraintAttribute)
   public
-    constructor Create(const Parameters : string); override;
+    constructor Create(); overload;
+    constructor Create(const Parameters : string); overload;
+
   end;
 
 implementation
@@ -40,6 +42,11 @@ begin
 
   inherited;
 
+end;
+
+constructor NegativeAttribute.Create;
+begin
+  FMessage := '{validation.constraints.Negative.message}';
 end;
 
 end.
