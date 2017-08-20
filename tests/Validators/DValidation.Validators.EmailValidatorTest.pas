@@ -110,6 +110,8 @@ var
   Actual : Boolean;
 begin
 
+  FEmail := Email;
+
   Actual := FValidator.Validate<TEmailValidatorTest>(Self).Count = 0;
 
   Assert.AreEqual(IsValid <> 0, Actual);

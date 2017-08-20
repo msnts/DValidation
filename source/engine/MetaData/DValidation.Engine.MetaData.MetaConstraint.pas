@@ -22,7 +22,8 @@ interface
 uses
   System.Generics.Collections,
   System.TypInfo,
-  System.Rtti;
+  System.Rtti,
+  DValidation.Constraints.Constraint;
 
 type
 
@@ -33,6 +34,7 @@ type
     function GetMember() : TRttiMember;
     function GetAttributes() : TDictionary<string, variant>;
     function GetMessageTemplate() : string;
+    function GetConstraint() : ConstraintAttribute;
   end;
 
 implementation

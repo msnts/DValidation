@@ -81,6 +81,8 @@ var
   Actual : Boolean;
 begin
 
+  FValue := Value;
+
   Actual := FValidator.Validate<TMinValidatorTest>(Self).Count = 0;
 
   Assert.AreEqual(ExpectedValue <> 0, Actual);

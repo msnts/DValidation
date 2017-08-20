@@ -17,7 +17,7 @@ type
 
     FValidator : TValidator;
 
-    [DecimalMax('{"Max":10.0}')]
+    [DecimalMax('{"Max":10}')]
     FValue : double;
   public
 
@@ -79,6 +79,8 @@ procedure TDecimalMaxValidatorTest.TestValidator(const Value, ExpectedValue: dou
 var
   Actual : Boolean;
 begin
+
+  FValue := Value;
 
   Actual := FValidator.Validate<TDecimalMaxValidatorTest>(Self).Count = 0;
 

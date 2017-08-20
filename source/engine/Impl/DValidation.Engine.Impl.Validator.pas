@@ -50,7 +50,7 @@ type
     function DetermineGroupValidationOrder(Groups : TArray<string>) : TArray<string>;
     procedure ValidateConstraintsForCurrentGroup<T>(ValidationContext : IValidationContext<T>; ValueContext : IValueContext<T>);
     procedure ValidateMetaConstraints<T>(ValidationContext : IValidationContext<T>; ValueContext : IValueContext<T>; Constraints : TArray<IMetaConstraint>);
-    procedure ValidateMetaConstraint<T>(Context : IValidationContext<T>; ValueContext : IValueContext<T>; MetaContraint : IMetaConstraint);
+    procedure ValidateMetaConstraint<T>(Context : IValidationContext<T>; ValueContext : IValueContext<T>; MetaConstraint : IMetaConstraint);
     function ShouldFailFast<T>(Context : IValidationContext<T>) : Boolean;
     function IsValidationRequired<T>(Context : IValidationContext<T>; ValueContext : IValueContext<T>; Constraint : IMetaConstraint) : Boolean;
   public
@@ -153,27 +153,30 @@ begin
 
 end;
 
-procedure TValidator.ValidateMetaConstraint<T>(Context : IValidationContext<T>; ValueContext : IValueContext<T>; MetaContraint : IMetaConstraint);
+procedure TValidator.ValidateMetaConstraint<T>(Context : IValidationContext<T>; ValueContext : IValueContext<T>; MetaConstraint : IMetaConstraint);
 var
   ConstraintValidator : IConstraintValidator<variant>;
   IsValid : Boolean;
 begin
 
-  ValueContext.SetMember(MetaContraint.GetMember);
+  ValueContext.SetMember(MetaConstraint.GetMember);
 
-  if not IsValidationRequired<T>(Context, ValueContext, MetaContraint) then
+  if not IsValidationRequired<T>(Context, ValueContext, MetaConstraint) then
     Exit;
 
-  ConstraintValidator := FConstraintValidatorManager.GetInitializedValidator(MetaContraint.GetConstraintType());
+  ConstraintValidator := FConstraintValidatorManager.GetInitializedValidator(MetaConstraint.GetConstraintType());
 
   try
+
+    ConstraintValidator.Initialize(MetaConstraint.GetConstraint);
+
     IsValid := ConstraintValidator.IsValid(ValueContext.GetCurrentValidatedValue());
   except
     raise ValidationException.Create('Unexpected exception during isValid call');
   end;
 
   if not IsValid then
-    Context.AddConstraintViolation(ValueContext, MetaContraint);
+    Context.AddConstraintViolation(ValueContext, MetaConstraint);
 
  // Context.MarkConstraintProcessed<T>(ValueContext);
 

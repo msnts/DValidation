@@ -80,6 +80,8 @@ var
   Actual : Boolean;
 begin
 
+  FValue := Value;
+
   Actual := FValidator.Validate<TMaxValidatorTest>(Self).Count = 0;
 
   Assert.AreEqual(ExpectedValue <> 0, Actual);
