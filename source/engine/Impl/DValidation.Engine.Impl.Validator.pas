@@ -124,8 +124,9 @@ begin
     tkClass:
      Result := DoValidate<T, TObject>(Constraint, Value.AsObject);
   //  tkMethod: ;
-    tkVariant, tkArray, tkDynArray:
-      Result := DoValidate<T, variant>(Constraint, Value.AsVariant);
+   // tkVariant,
+    tkArray, tkDynArray:
+      Result := DoValidate<T, TValue>(Constraint, Value);
     //tkRecord: ;
    // tkInterface:
    //   Result := Constraint.IsValid(Value.AsInterface);

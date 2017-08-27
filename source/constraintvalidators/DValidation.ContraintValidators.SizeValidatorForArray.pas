@@ -20,6 +20,7 @@ unit DValidation.ContraintValidators.SizeValidatorForArray;
 
 interface
 uses
+  System.Rtti,
   DValidation,
   DValidation.ContraintValidators.ConstraintValidator,
   DValidation.ContraintValidators.AbstractSizeValidator,
@@ -29,14 +30,13 @@ uses
 
 type
 
-  TSizeValidatorForArray = class(TAbstractSizeValidator, IConstraintValidator<variant>)
+  TSizeValidatorForArray = class(TAbstractSizeValidator, IConstraintValidator<TValue>)
   public
     procedure Initialize(Constraint : ConstraintAttribute);
-    function IsValid(const Value : variant) : Boolean;
+    function IsValid(const Value : TValue) : Boolean;
   end;
 
 implementation
-uses System.SysUtils, System.Variants;
 
 { TSizeValidatorForArray }
 
@@ -45,20 +45,20 @@ begin
   DoInitialize(Constraint);
 end;
 
-function TSizeValidatorForArray.IsValid(const Value: variant): Boolean;
+function TSizeValidatorForArray.IsValid(const Value: TValue): Boolean;
 var
   Size : Integer;
 begin
 
-  if not VarIsArray(Value) then
+  if not Value.IsArray then
     raise ConstraintException.Create('Invalid data type for validation');
 
-  Size := VarArrayDimCount(Value);
+  Size := Value.GetArrayLength;
 
   Result := DoIsValid(Size);
 
 end;
 
 initialization
-  TDValidation.RegisterConstraint(SizeAttribute, TypeInfo(variant), TSizeValidatorForArray);
+  TDValidation.RegisterConstraint(SizeAttribute, TypeInfo(TValue), TSizeValidatorForArray);
 end.

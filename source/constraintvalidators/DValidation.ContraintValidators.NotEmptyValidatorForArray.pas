@@ -20,6 +20,7 @@ unit DValidation.ContraintValidators.NotEmptyValidatorForArray;
 
 interface
 uses
+  System.Rtti,
   DValidation,
   DValidation.ContraintValidators.ConstraintValidator,
   DValidation.Constraints.Constraint,
@@ -29,10 +30,10 @@ uses
 
 type
 
-  TNotEmptyValidatorForArray = class(TInterfacedObject, IConstraintValidator<variant>)
+  TNotEmptyValidatorForArray = class(TInterfacedObject, IConstraintValidator<TValue>)
   public
     procedure Initialize(Constraint : ConstraintAttribute);
-    function IsValid(const Value : variant) : Boolean;
+    function IsValid(const Value : TValue) : Boolean;
   end;
 
 implementation
@@ -45,17 +46,17 @@ begin
 
 end;
 
-function TNotEmptyValidatorForArray.IsValid(const Value: variant): Boolean;
+function TNotEmptyValidatorForArray.IsValid(const Value: TValue): Boolean;
 begin
 
-  if not VarIsArray(Value) then
+  if not  Value.IsArray then
     raise ConstraintException.Create('Invalid data type for validation');
 
-  Result := VarArrayDimCount(Value) > 0;
+  Result := Value.GetArrayLength > 0;
 
 end;
 
 
 initialization
-  TDValidation.RegisterConstraint(NotEmptyAttribute, TypeInfo(variant), TNotEmptyValidatorForArray);
+  TDValidation.RegisterConstraint(NotEmptyAttribute, TypeInfo(TValue), TNotEmptyValidatorForArray);
 end.
