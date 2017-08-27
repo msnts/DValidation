@@ -16,7 +16,7 @@
   limitations under the License.
   *****************************************************************************}
 
-unit DValidation.ContraintValidators.SizeValidator;
+unit DValidation.ContraintValidators.AbstractSizeValidator;
 
 interface
 uses
@@ -28,23 +28,23 @@ uses
 
 type
 
-  TSizeValidator = class(TInterfacedObject, IConstraintValidator<string>)
-  private
+  TAbstractSizeValidator = class(TInterfacedObject)
+  protected
     FMin : Integer;
     FMax : Integer;
 
     procedure ValidateParameters();
-  public
-    procedure Initialize(Constraint : ConstraintAttribute);
-    function IsValid(const Value : string) : Boolean;
+    procedure DoInitialize(Constraint : ConstraintAttribute);
+    function DoIsValid(const Size : Integer) : Boolean;
+
   end;
 
 implementation
 uses System.SysUtils;
 
-{ TSizeValidator }
+{ TAbstractSizeValidator }
 
-procedure TSizeValidator.Initialize(Constraint: ConstraintAttribute);
+procedure TAbstractSizeValidator.DoInitialize(Constraint: ConstraintAttribute);
 begin
 
   FMin := SizeAttribute(Constraint).Min;
@@ -54,18 +54,12 @@ begin
 
 end;
 
-function TSizeValidator.IsValid(const Value: string): Boolean;
-var
-  StrSize : Integer;
+function TAbstractSizeValidator.DoIsValid(const Size: Integer): Boolean;
 begin
-
-  StrSize := Value.Length;
-
-  Result := ((StrSize >= FMin) and (StrSize <= FMax));
-
+  Result := ((Size >= FMin) and (Size <= FMax));
 end;
 
-procedure TSizeValidator.ValidateParameters;
+procedure TAbstractSizeValidator.ValidateParameters;
 begin
 
   if FMin < 0 then
@@ -79,6 +73,4 @@ begin
 
 end;
 
-initialization
-  TDValidation.RegisterConstraint(SizeAttribute, TSizeValidator);
 end.

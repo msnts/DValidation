@@ -51,5 +51,5 @@ begin
 end;
 
 initialization
-  TDValidation.RegisterConstraint(NotNullAttribute, TNotNullValidator);
+  TDValidation.RegisterConstraint(NotNullAttribute, TypeInfo(TObject), TNotNullValidator);
 end.

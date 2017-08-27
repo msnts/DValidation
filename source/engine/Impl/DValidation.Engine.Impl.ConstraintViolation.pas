@@ -19,7 +19,9 @@
 unit DValidation.Engine.Impl.ConstraintViolation;
 
 interface
-uses DValidation.Engine.ConstraintViolation;
+uses
+  System.Rtti,
+  DValidation.Engine.ConstraintViolation;
 
 type
 
@@ -27,12 +29,13 @@ type
   private
     FMessage : string;
     FRootObject : T;
-    FValue : variant;
+    FValue : TValue;
   public
-    constructor Create(const aMessage : string; aRootObject : T; Value : variant);
+    constructor Create(const aMessage : string; aRootObject : T; Value : TValue);
+    destructor Destroy(); override;
     function GetMessage() : string;
     function GetRootObject() : T;
-    function GetInvalidValue() : variant;
+    function GetInvalidValue() : TValue;
   end;
 
 implementation
@@ -40,14 +43,20 @@ implementation
 { TConstraintViolation<T> }
 
 constructor TConstraintViolation<T>.Create(const aMessage: string;
-  aRootObject: T; Value: variant);
+  aRootObject: T; Value: TValue);
 begin
   FMessage := aMessage;
   FRootObject := aRootObject;
   FValue := Value;
 end;
 
-function TConstraintViolation<T>.GetInvalidValue: variant;
+destructor TConstraintViolation<T>.Destroy;
+begin
+
+  inherited;
+end;
+
+function TConstraintViolation<T>.GetInvalidValue: TValue;
 begin
   Result := FValue;
 end;

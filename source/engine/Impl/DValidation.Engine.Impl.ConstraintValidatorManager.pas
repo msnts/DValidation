@@ -30,10 +30,10 @@ type
 
   TConstraintValidatorManager = class(TInterfacedObject, IConstraintValidatorManager)
   private
-    FConstraintValidatorRegister : TDictionary<PTypeInfo, TClass>;
+    FConstraintValidatorRegister : TDictionary<PTypeInfo, TDictionary<PTypeInfo, TClass>>;
   public
-    constructor Create(aConstraintValidatorRegister : TDictionary<PTypeInfo, TClass>);
-    function GetInitializedValidator(aType : PTypeInfo) : IConstraintValidator<variant>;
+    constructor Create(aConstraintValidatorRegister : TDictionary<PTypeInfo, TDictionary<PTypeInfo, TClass>>);
+    function GetInitializedValidator(ConstraintType, DataType : PTypeInfo) : IConstraintValidator<variant>;
   end;
 
 implementation
@@ -41,19 +41,23 @@ implementation
 { TConstraintValidatorManager }
 
 constructor TConstraintValidatorManager.Create(
-  aConstraintValidatorRegister: TDictionary<PTypeInfo, TClass>);
+  aConstraintValidatorRegister: TDictionary<PTypeInfo, TDictionary<PTypeInfo, TClass>>);
 begin
   FConstraintValidatorRegister := aConstraintValidatorRegister;
 end;
 
-function TConstraintValidatorManager.GetInitializedValidator(aType : PTypeInfo): IConstraintValidator<variant>;
+function TConstraintValidatorManager.GetInitializedValidator(ConstraintType, DataType : PTypeInfo): IConstraintValidator<variant>;
 var
   Clazz : TClass;
   Validator : TInterfacedObject;
+  Validators : TDictionary<PTypeInfo, TClass>;
 begin
 
-  if not FConstraintValidatorRegister.TryGetValue(aType, Clazz) then
-    raise Exception.Create('Not found constraint validator for ' + aType.Name);
+  if not FConstraintValidatorRegister.TryGetValue(ConstraintType, Validators) then
+    raise Exception.Create('Not found constraint validator for ' + ConstraintType.Name);
+
+  if not Validators.TryGetValue(DataType, Clazz) then
+    raise Exception.Create('Not found constraint validator for ' + ConstraintType.Name);
 
   Validator := Clazz.Create as TInterfacedObject;
 

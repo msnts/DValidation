@@ -93,7 +93,12 @@ uses
   DValidation.ContraintValidators.NegativeValidator in '..\source\constraintvalidators\DValidation.ContraintValidators.NegativeValidator.pas',
   DValidation.ContraintValidators.PositiveValidator in '..\source\constraintvalidators\DValidation.ContraintValidators.PositiveValidator.pas',
   DValidation.ContraintValidators.NegativeOrZeroValidator in '..\source\constraintvalidators\DValidation.ContraintValidators.NegativeOrZeroValidator.pas',
-  DValidation.ContraintValidators.PositiveOrZeroValidator in '..\source\constraintvalidators\DValidation.ContraintValidators.PositiveOrZeroValidator.pas';
+  DValidation.ContraintValidators.PositiveOrZeroValidator in '..\source\constraintvalidators\DValidation.ContraintValidators.PositiveOrZeroValidator.pas',
+  DValidation.Validators.NotEmptyValidatorTest in 'Validators\DValidation.Validators.NotEmptyValidatorTest.pas',
+  DValidation.ContraintValidators.NotEmptyValidatorForString in '..\source\constraintvalidators\DValidation.ContraintValidators.NotEmptyValidatorForString.pas',
+  DValidation.Constraints.Validators in '..\source\constraints\DValidation.Constraints.Validators.pas',
+  DValidation.ContraintValidators.NotEmptyValidatorForCollection in '..\source\constraintvalidators\DValidation.ContraintValidators.NotEmptyValidatorForCollection.pas',
+  DValidation.ContraintValidators.NotEmptyValidatorForArray in '..\source\constraintvalidators\DValidation.ContraintValidators.NotEmptyValidatorForArray.pas';
 
 {$R ..\resources\locale.res}
 

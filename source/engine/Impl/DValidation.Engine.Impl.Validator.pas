@@ -20,6 +20,7 @@ unit DValidation.Engine.Impl.Validator;
 
 interface
 uses
+  System.Rtti,
   DValidation.Exceptions,
   DValidation.Engine.Validator,
   System.Generics.Collections,
@@ -53,6 +54,8 @@ type
     procedure ValidateMetaConstraint<T>(Context : IValidationContext<T>; ValueContext : IValueContext<T>; MetaConstraint : IMetaConstraint);
     function ShouldFailFast<T>(Context : IValidationContext<T>) : Boolean;
     function IsValidationRequired<T>(Context : IValidationContext<T>; ValueContext : IValueContext<T>; Constraint : IMetaConstraint) : Boolean;
+    function DoValidateMetaConstraint<T>(ValueContext : IValueContext<T>; Constraint : IMetaConstraint) : Boolean;
+    function DoValidate<T, V>(MetaConstraint : IMetaConstraint; Value : V) : Boolean;
   public
     constructor Create(aConstraintValidatorManager : IConstraintValidatorManager);
     function Validate<T : class>(Obj : T) : TList<IConstraintViolation<T>>; overload;
@@ -76,8 +79,66 @@ begin
   Result := Groups;
 end;
 
-function TValidator.GetValidationContext<T>(
-  Obj: T): IValidationContext<T>;
+function TValidator.DoValidate<T, V>(MetaConstraint : IMetaConstraint; Value : V): Boolean;
+var
+  ConstraintValidator : IConstraintValidator<V>;
+begin
+
+  ConstraintValidator := IConstraintValidator<V>(FConstraintValidatorManager.GetInitializedValidator(MetaConstraint.GetConstraintType(), TypeInfo(V)));
+
+  try
+
+    ConstraintValidator.Initialize(MetaConstraint.GetConstraint);
+
+    Result := ConstraintValidator.IsValid(Value)
+
+  except
+    raise ValidationException.Create('Unexpected exception during isValid call');
+  end;
+
+end;
+
+function TValidator.DoValidateMetaConstraint<T>(ValueContext: IValueContext<T>;
+  Constraint: IMetaConstraint): Boolean;
+var
+  Value : TValue;
+begin
+
+  Value := ValueContext.GetCurrentValidatedValue();
+
+  case Value.Kind of
+
+    tkInteger, tkInt64:
+      Result := DoValidate<T, Int64>(Constraint, Value.AsInt64);
+    tkFloat:
+      Result := DoValidate<T, Extended>(Constraint, Value.AsExtended);
+    tkChar, tkString, tkWChar, tkLString, tkWString, tkUString:
+      Result := DoValidate<T, string>(Constraint, Value.AsString);
+    tkEnumeration:
+    begin
+      if Value.TypeInfo.Name = 'Boolean' then
+        Result := DoValidate<T, Boolean>(Constraint, Value.AsBoolean);
+
+    end;
+ //   tkSet: ;
+    tkClass:
+     Result := DoValidate<T, TObject>(Constraint, Value.AsObject);
+  //  tkMethod: ;
+    tkVariant, tkArray, tkDynArray:
+      Result := DoValidate<T, variant>(Constraint, Value.AsVariant);
+    //tkRecord: ;
+   // tkInterface:
+   //   Result := Constraint.IsValid(Value.AsInterface);
+ //   tkClassRef: ;
+ //   tkPointer: ;
+ //   tkProcedure: ;
+  else
+    raise ValidationException.Create('Type not supported');
+  end;
+
+end;
+
+function TValidator.GetValidationContext<T>(Obj: T): IValidationContext<T>;
 begin
   Result := TValidationContext<T>.Create(FObjectMetaDataManager, FMessageInterpolator, Obj);
 end;
@@ -155,7 +216,6 @@ end;
 
 procedure TValidator.ValidateMetaConstraint<T>(Context : IValidationContext<T>; ValueContext : IValueContext<T>; MetaConstraint : IMetaConstraint);
 var
-  ConstraintValidator : IConstraintValidator<variant>;
   IsValid : Boolean;
 begin
 
@@ -164,16 +224,7 @@ begin
   if not IsValidationRequired<T>(Context, ValueContext, MetaConstraint) then
     Exit;
 
-  ConstraintValidator := FConstraintValidatorManager.GetInitializedValidator(MetaConstraint.GetConstraintType());
-
-  try
-
-    ConstraintValidator.Initialize(MetaConstraint.GetConstraint);
-
-    IsValid := ConstraintValidator.IsValid(ValueContext.GetCurrentValidatedValue());
-  except
-    raise ValidationException.Create('Unexpected exception during isValid call');
-  end;
+  IsValid := DoValidateMetaConstraint<T>(ValueContext, MetaConstraint);
 
   if not IsValid then
     Context.AddConstraintViolation(ValueContext, MetaConstraint);

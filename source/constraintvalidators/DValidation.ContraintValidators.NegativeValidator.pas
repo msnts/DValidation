@@ -61,5 +61,5 @@ begin
 end;
 
 initialization
-  TDValidation.RegisterConstraint(NegativeAttribute, TNegativeValidator);
+  TDValidation.RegisterConstraint(NegativeAttribute, TypeInfo(Int64), TNegativeValidator);
 end.

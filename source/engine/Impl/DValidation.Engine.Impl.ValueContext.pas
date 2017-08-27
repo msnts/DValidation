@@ -32,7 +32,7 @@ type
     FCurrentObject : T;
     FCurrentObjectMetaData : IObjectMetaData;
     FCurrentGroup : string;
-    FCurrentValidateValue : Variant;
+    FCurrentValidateValue : TValue;
     FCurrentMember : TRttiMember;
   public
     constructor Create(CurrentObject : T; CurrentObjectMetaData : IObjectMetaData);
@@ -41,7 +41,7 @@ type
     function GetCurrentObjectType() : PTypeInfo;
     function GetCurrentObjectMetaData() : IObjectMetaData;
     function GetCurrentObject() : T;
-    function GetCurrentValidatedValue() : Variant;
+    function GetCurrentValidatedValue() : TValue;
     procedure SetMember(aMember : TRttiMember);
   end;
 
@@ -77,7 +77,7 @@ begin
   Result := FCurrentObjectType;
 end;
 
-function TValueContext<T>.GetCurrentValidatedValue: Variant;
+function TValueContext<T>.GetCurrentValidatedValue: TValue;
 begin
   Result := FCurrentValidateValue;
 end;
@@ -94,12 +94,12 @@ begin
 
   if FCurrentMember is TRttiField then
   begin
-    FCurrentValidateValue := TRttiField(FCurrentMember).GetValue(TObject(FCurrentObject)).AsVariant;
+    FCurrentValidateValue := TRttiField(FCurrentMember).GetValue(TObject(FCurrentObject));
     Exit;
   end;
 
   if FCurrentMember is TRttiProperty then
-    FCurrentValidateValue := TRttiProperty(FCurrentMember).GetValue(TObject(FCurrentObject)).AsVariant;
+    FCurrentValidateValue := TRttiProperty(FCurrentMember).GetValue(TObject(FCurrentObject));
 
 end;
 

@@ -34,7 +34,7 @@ type
   private
       class var FInstance : TDValidation;
   private
-    FConstraintValidatorRegister : TDictionary<PTypeInfo, TClass>;
+    FConstraintValidatorRegister : TDictionary<PTypeInfo, TDictionary<PTypeInfo, TClass>>;
   private
       class procedure ReleaseInstance();
   public
@@ -42,7 +42,7 @@ type
       constructor Create();
       destructor Destroy(); override;
       function BuildValidator() : TValidator;
-      class procedure RegisterConstraint(Contraint, ContraintValidator : TClass);
+      class procedure RegisterConstraint(Constraint: TClass; DataType: PTypeInfo; ConstraintValidator : TClass);
   end;
 
 implementation
@@ -62,12 +62,20 @@ end;
 
 constructor TDValidation.Create;
 begin
-  FConstraintValidatorRegister := TDictionary<PTypeInfo,TClass>.Create;
+  FConstraintValidatorRegister := TDictionary<PTypeInfo, TDictionary<PTypeInfo, TClass>>.Create;
 end;
 
 destructor TDValidation.Destroy;
+var
+  Tmp : TDictionary<PTypeInfo, TClass>;
 begin
+
+
+  for Tmp in FConstraintValidatorRegister.Values do
+    Tmp.Free;
+
   FConstraintValidatorRegister.Free;
+
   inherited;
 end;
 
@@ -79,10 +87,24 @@ begin
    Result := Self.FInstance
 end;
 
-class procedure TDValidation.RegisterConstraint(Contraint,
-  ContraintValidator: TClass);
+class procedure TDValidation.RegisterConstraint(Constraint: TClass;
+  DataType: PTypeInfo; ConstraintValidator: TClass);
+var
+  Validators : TDictionary<PTypeInfo, TClass>;
+  HasValidators : Boolean;
 begin
-  FInstance.FConstraintValidatorRegister.Add(Contraint.ClassInfo, ContraintValidator);
+
+  HasValidators := FInstance.FConstraintValidatorRegister.TryGetValue(Constraint.ClassInfo, Validators);
+
+
+  if not HasValidators then
+  begin
+    Validators := TDictionary<PTypeInfo, TClass>.Create;
+    FInstance.FConstraintValidatorRegister.Add(Constraint.ClassInfo, Validators);
+  end;
+
+  Validators.Add(DataType, ConstraintValidator);
+
 end;
 
 class procedure TDValidation.ReleaseInstance;

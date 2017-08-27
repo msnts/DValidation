@@ -51,5 +51,5 @@ begin
 end;
 
 initialization
-  TDValidation.RegisterConstraint(AssertFalseAttribute, TAssertFalseValidator);
+  TDValidation.RegisterConstraint(AssertFalseAttribute, TypeInfo(Boolean), TAssertFalseValidator);
 end.

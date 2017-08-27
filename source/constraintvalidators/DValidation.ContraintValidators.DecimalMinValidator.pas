@@ -65,5 +65,5 @@ begin
 end;
 
 initialization
-  TDValidation.RegisterConstraint(DecimalMinAttribute, TDecimalMinValidator);
+  TDValidation.RegisterConstraint(DecimalMinAttribute, TypeInfo(Extended), TDecimalMinValidator);
 end.

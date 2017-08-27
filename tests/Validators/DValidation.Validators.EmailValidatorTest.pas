@@ -78,6 +78,7 @@ type
 
     [Test]
     [TestCase('Case 1','email@domain.com, 1')]
+    [TestCase('Case 14','plainaddress, 0')]
     procedure TestEmailValidator(const Email : string; const IsValid : Integer);
   end;
 

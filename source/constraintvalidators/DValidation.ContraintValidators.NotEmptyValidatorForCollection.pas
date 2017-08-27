@@ -16,50 +16,45 @@
   limitations under the License.
   *****************************************************************************}
 
-unit DValidation.ContraintValidators.PositiveOrZeroValidator;
+unit DValidation.ContraintValidators.NotEmptyValidatorForCollection;
 
 interface
 uses
   DValidation,
   DValidation.ContraintValidators.ConstraintValidator,
   DValidation.Constraints.Constraint,
-  DValidation.Constraints.PositiveOrZero;
+  DValidation.Constraints.NotEmpty,
+  DValidation.Exceptions,
+  DValidation.ContraintValidators.ConstraintValidatorUtils;
 
 type
 
-  TPositiveOrZeroValidator = class(TInterfacedObject, IConstraintValidator<variant>)
+  TNotEmptyValidatorForCollection = class(TInterfacedObject, IConstraintValidator<TObject>)
   public
     procedure Initialize(Constraint : ConstraintAttribute);
-    function IsValid(const Value : variant) : Boolean;
+    function IsValid(const Collection : TObject) : Boolean;
   end;
 
 implementation
-uses System.SysUtils, System.Variants;
 
-{ TPositiveOrZeroValidator }
+{ TNotEmptyValidatorForCollection }
 
-procedure TPositiveOrZeroValidator.Initialize(Constraint: ConstraintAttribute);
+procedure TNotEmptyValidatorForCollection.Initialize(Constraint: ConstraintAttribute);
 begin
 
 end;
 
-function TPositiveOrZeroValidator.IsValid(const Value: variant): Boolean;
+function TNotEmptyValidatorForCollection.IsValid(const Collection: TObject): Boolean;
 var
-  BasicType: Integer;
+  Size : Integer;
 begin
 
-  BasicType := VarType(Value) and VarTypeMask;
+  Size := TConstraintValidatorUtils.GetCollectionSize(Collection);
 
-  if BasicType in [varByte, varShortInt, varWord, varSmallInt, varLongWord, varInteger, varInt64] then
-    Result := not (Int64(Value) <= 0)
-  else
-    if BasicType in [varSingle, varDouble, varCurrency] then
-      Result := not (Extended(Value) <= 0)
-    else
-      raise Exception.Create('Invalid data type for validation');
+  Result := Size > 0;
 
 end;
 
 initialization
-  TDValidation.RegisterConstraint(PositiveOrZeroAttribute, TypeInfo(Int64), TPositiveOrZeroValidator);
+  TDValidation.RegisterConstraint(NotEmptyAttribute, TypeInfo(TObject), TNotEmptyValidatorForCollection);
 end.

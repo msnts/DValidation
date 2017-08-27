@@ -13,6 +13,7 @@ uses
 type
 
   [TestFixture]
+  [Category('Assert')]
   TAssertFalseValidatorTest = class(TObject)
   private
     [AssertFalse]

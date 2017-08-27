@@ -93,7 +93,7 @@ destructor TValidationContext<T>.Destroy;
 begin
 
   if Assigned(FConstraintVioliations) then
-    FConstraintVioliations.Free;
+   // FConstraintVioliations.Free;
 
   inherited;
 end;

@@ -27,11 +27,12 @@ type
     [TearDownFixture]
     procedure TearDownFixture;
 
+    // Decimal values in Brazilian format
     [Test]
-    [TestCase('Case 1','10.0, 1.1, 1')]
-    [TestCase('Case 2','10.0, 10, 1')]
-    [TestCase('Case 3','10.0, 11, 0')]
-    [TestCase('Case 4','10.0, -1, 1')]
+    [TestCase('Case 1','10,0; 1,1; 1', ';')]
+    [TestCase('Case 2','10,0; 10; 1', ';')]
+    [TestCase('Case 3','10,0; 11; 0', ';')]
+    [TestCase('Case 4','10,0; -1; 1', ';')]
     procedure TestDecimalMaxValidator(const MaxValue, Value, ExpectedValue : double);
 
     [Test]
@@ -39,6 +40,7 @@ type
     [TestCase('Case 2','10, 1')]
     [TestCase('Case 3','11, 0')]
     [TestCase('Case 4','-1, 1')]
+    [TestCase('Case 5','1,357; 1', ';')]
     procedure TestValidator(const Value, ExpectedValue : double);
   end;
 

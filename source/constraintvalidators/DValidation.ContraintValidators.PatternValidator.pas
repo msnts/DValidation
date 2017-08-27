@@ -58,5 +58,5 @@ begin
 end;
 
 initialization
-  TDValidation.RegisterConstraint(PatternAttribute, TPatternValidator);
+  TDValidation.RegisterConstraint(PatternAttribute, TypeInfo(string), TPatternValidator);
 end.

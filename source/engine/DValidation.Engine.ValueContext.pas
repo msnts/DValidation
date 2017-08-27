@@ -33,7 +33,7 @@ type
     function GetCurrentObjectType() : PTypeInfo;
     function GetCurrentObjectMetaData() : IObjectMetaData;
     function GetCurrentObject() : T;
-    function GetCurrentValidatedValue() : Variant;
+    function GetCurrentValidatedValue() : TValue;
     procedure SetMember(aMember : TRttiMember);
   end;
 

@@ -16,18 +16,20 @@
   limitations under the License.
   *****************************************************************************}
 
-unit DValidation.ContraintValidators.PositiveOrZeroValidator;
+unit DValidation.ContraintValidators.NotEmptyValidatorForArray;
 
 interface
 uses
   DValidation,
   DValidation.ContraintValidators.ConstraintValidator,
   DValidation.Constraints.Constraint,
-  DValidation.Constraints.PositiveOrZero;
+  DValidation.Constraints.NotEmpty,
+  DValidation.Exceptions,
+  System.Generics.Collections;
 
 type
 
-  TPositiveOrZeroValidator = class(TInterfacedObject, IConstraintValidator<variant>)
+  TNotEmptyValidatorForArray = class(TInterfacedObject, IConstraintValidator<variant>)
   public
     procedure Initialize(Constraint : ConstraintAttribute);
     function IsValid(const Value : variant) : Boolean;
@@ -36,30 +38,24 @@ type
 implementation
 uses System.SysUtils, System.Variants;
 
-{ TPositiveOrZeroValidator }
+{ TNotEmptyValidatorForArray }
 
-procedure TPositiveOrZeroValidator.Initialize(Constraint: ConstraintAttribute);
+procedure TNotEmptyValidatorForArray.Initialize(Constraint: ConstraintAttribute);
 begin
 
 end;
 
-function TPositiveOrZeroValidator.IsValid(const Value: variant): Boolean;
-var
-  BasicType: Integer;
+function TNotEmptyValidatorForArray.IsValid(const Value: variant): Boolean;
 begin
 
-  BasicType := VarType(Value) and VarTypeMask;
+  if not VarIsArray(Value) then
+    raise ConstraintException.Create('Invalid data type for validation');
 
-  if BasicType in [varByte, varShortInt, varWord, varSmallInt, varLongWord, varInteger, varInt64] then
-    Result := not (Int64(Value) <= 0)
-  else
-    if BasicType in [varSingle, varDouble, varCurrency] then
-      Result := not (Extended(Value) <= 0)
-    else
-      raise Exception.Create('Invalid data type for validation');
+  Result := VarArrayDimCount(Value) > 0;
 
 end;
+
 
 initialization
-  TDValidation.RegisterConstraint(PositiveOrZeroAttribute, TypeInfo(Int64), TPositiveOrZeroValidator);
+  TDValidation.RegisterConstraint(NotEmptyAttribute, TypeInfo(variant), TNotEmptyValidatorForArray);
 end.

@@ -16,50 +16,42 @@
   limitations under the License.
   *****************************************************************************}
 
-unit DValidation.ContraintValidators.PositiveOrZeroValidator;
+unit DValidation.ContraintValidators.NotEmptyValidatorForString;
 
 interface
 uses
   DValidation,
   DValidation.ContraintValidators.ConstraintValidator,
   DValidation.Constraints.Constraint,
-  DValidation.Constraints.PositiveOrZero;
+  DValidation.Constraints.NotEmpty,
+  DValidation.Exceptions,
+  System.Generics.Collections;
 
 type
 
-  TPositiveOrZeroValidator = class(TInterfacedObject, IConstraintValidator<variant>)
+  TNotEmptyValidatorForString = class(TInterfacedObject, IConstraintValidator<string>)
   public
     procedure Initialize(Constraint : ConstraintAttribute);
-    function IsValid(const Value : variant) : Boolean;
+    function IsValid(const Value : string) : Boolean;
   end;
 
 implementation
-uses System.SysUtils, System.Variants;
+uses System.SysUtils;
 
-{ TPositiveOrZeroValidator }
+{ TNotEmptyValidatorForString }
 
-procedure TPositiveOrZeroValidator.Initialize(Constraint: ConstraintAttribute);
+procedure TNotEmptyValidatorForString.Initialize(Constraint: ConstraintAttribute);
 begin
 
 end;
 
-function TPositiveOrZeroValidator.IsValid(const Value: variant): Boolean;
-var
-  BasicType: Integer;
+function TNotEmptyValidatorForString.IsValid(const Value: string): Boolean;
 begin
 
-  BasicType := VarType(Value) and VarTypeMask;
-
-  if BasicType in [varByte, varShortInt, varWord, varSmallInt, varLongWord, varInteger, varInt64] then
-    Result := not (Int64(Value) <= 0)
-  else
-    if BasicType in [varSingle, varDouble, varCurrency] then
-      Result := not (Extended(Value) <= 0)
-    else
-      raise Exception.Create('Invalid data type for validation');
+  Result := not Value.Trim.IsEmpty;
 
 end;
 
 initialization
-  TDValidation.RegisterConstraint(PositiveOrZeroAttribute, TypeInfo(Int64), TPositiveOrZeroValidator);
+  TDValidation.RegisterConstraint(NotEmptyAttribute, TypeInfo(string), TNotEmptyValidatorForString);
 end.

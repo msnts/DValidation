@@ -51,5 +51,5 @@ begin
 end;
 
 initialization
-  TDValidation.RegisterConstraint(NotBlankAttribute, TNotBlankValidator);
+  TDValidation.RegisterConstraint(NotBlankAttribute, TypeInfo(string), TNotBlankValidator);
 end.

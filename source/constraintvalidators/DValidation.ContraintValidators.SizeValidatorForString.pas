@@ -16,50 +16,48 @@
   limitations under the License.
   *****************************************************************************}
 
-unit DValidation.ContraintValidators.PositiveOrZeroValidator;
+unit DValidation.ContraintValidators.SizeValidatorForString;
 
 interface
 uses
   DValidation,
   DValidation.ContraintValidators.ConstraintValidator,
+  DValidation.ContraintValidators.AbstractSizeValidator,
   DValidation.Constraints.Constraint,
-  DValidation.Constraints.PositiveOrZero;
+  DValidation.Constraints.Size,
+  DValidation.Exceptions;
 
 type
 
-  TPositiveOrZeroValidator = class(TInterfacedObject, IConstraintValidator<variant>)
+  TSizeValidator = class(TAbstractSizeValidator, IConstraintValidator<string>)
   public
     procedure Initialize(Constraint : ConstraintAttribute);
-    function IsValid(const Value : variant) : Boolean;
+    function IsValid(const Value : string) : Boolean;
   end;
 
 implementation
-uses System.SysUtils, System.Variants;
+uses System.SysUtils;
 
-{ TPositiveOrZeroValidator }
+{ TSizeValidator }
 
-procedure TPositiveOrZeroValidator.Initialize(Constraint: ConstraintAttribute);
+procedure TSizeValidator.Initialize(Constraint: ConstraintAttribute);
 begin
+
+  DoInitialize(Constraint);
 
 end;
 
-function TPositiveOrZeroValidator.IsValid(const Value: variant): Boolean;
+function TSizeValidator.IsValid(const Value: string): Boolean;
 var
-  BasicType: Integer;
+  StrSize : Integer;
 begin
 
-  BasicType := VarType(Value) and VarTypeMask;
+  StrSize := Value.Length;
 
-  if BasicType in [varByte, varShortInt, varWord, varSmallInt, varLongWord, varInteger, varInt64] then
-    Result := not (Int64(Value) <= 0)
-  else
-    if BasicType in [varSingle, varDouble, varCurrency] then
-      Result := not (Extended(Value) <= 0)
-    else
-      raise Exception.Create('Invalid data type for validation');
+  Result := DoIsValid(StrSize);
 
 end;
 
 initialization
-  TDValidation.RegisterConstraint(PositiveOrZeroAttribute, TypeInfo(Int64), TPositiveOrZeroValidator);
+  TDValidation.RegisterConstraint(SizeAttribute, TypeInfo(string), TSizeValidator);
 end.

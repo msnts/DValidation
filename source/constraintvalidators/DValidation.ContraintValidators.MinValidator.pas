@@ -27,16 +27,15 @@ uses
 
 type
 
-  TMinValidator = class(TInterfacedObject, IConstraintValidator<variant>)
+  TMinValidator = class(TInterfacedObject, IConstraintValidator<Int64>)
   private
     FMinValue : Int64;
   public
     procedure Initialize(Constraint : ConstraintAttribute);
-    function IsValid(const Value : variant) : Boolean;
+    function IsValid(const Value : Int64) : Boolean;
   end;
 
 implementation
-uses System.SysUtils, System.Variants;
 
 { TMinValidator }
 
@@ -45,20 +44,13 @@ begin
   FMinValue := MinAttribute(Constraint).Min;
 end;
 
-function TMinValidator.IsValid(const Value: variant): Boolean;
-var
-  BasicType: Integer;
+function TMinValidator.IsValid(const Value: Int64): Boolean;
 begin
 
-  BasicType := VarType(Value) and VarTypeMask;
-
-  if not(BasicType in [varByte, varShortInt, varWord, varSmallInt, varLongWord, varInteger, varInt64, varUInt64]) then
-    raise Exception.Create('Invalid data type for validation');
-
-  Result := Int64(Value) >= FMinValue;
+  Result := Value >= FMinValue;
 
 end;
 
 initialization
-  TDValidation.RegisterConstraint(MinAttribute, TMinValidator);
+  TDValidation.RegisterConstraint(MinAttribute, TypeInfo(Int64), TMinValidator);
 end.

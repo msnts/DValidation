@@ -16,21 +16,28 @@
   limitations under the License.
   *****************************************************************************}
 
-unit DValidation.Engine.ConstraintValidatorManager;
+unit DValidation.Constraints.Validators;
 
 interface
-uses
-  System.TypInfo,
-  DValidation.ContraintValidators.ConstraintValidator;
+uses System.TypInfo;
 
 type
 
-  IConstraintValidatorManager = interface
-    ['{59CC48B4-B442-422A-AEE9-16264B80FC3D}']
-    function GetInitializedValidator(ConstraintType, DataType : PTypeInfo) : IConstraintValidator<variant>;
+  ValidatorsAttribute = class(TCustomAttribute)
+  private
+    FValitators : TArray<PTypeInfo>;
+  public
+    constructor Create(aValidators : TArray<PTypeInfo>);
+    property Validators : TArray<PTypeInfo> read FValitators;
   end;
 
-
 implementation
+
+{ ValidatorsAttribute }
+
+constructor ValidatorsAttribute.Create(aValidators: TArray<PTypeInfo>);
+begin
+  FValitators := aValidators;
+end;
 
 end.

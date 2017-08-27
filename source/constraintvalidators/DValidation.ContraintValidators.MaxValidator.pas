@@ -27,16 +27,15 @@ uses
 
 type
 
-  TMaxValidator = class(TInterfacedObject, IConstraintValidator<variant>)
+  TMaxValidator = class(TInterfacedObject, IConstraintValidator<Int64>)
   private
     FMaxValue : Int64;
   public
     procedure Initialize(Constraint : ConstraintAttribute);
-    function IsValid(const Value : variant) : Boolean;
+    function IsValid(const Value : Int64) : Boolean;
   end;
 
 implementation
-uses System.SysUtils, System.Variants;
 
 { TMaxValidator }
 
@@ -45,20 +44,13 @@ begin
   FMaxValue := MaxAttribute(Constraint).Max;
 end;
 
-function TMaxValidator.IsValid(const Value: variant): Boolean;
-var
-  BasicType: Integer;
+function TMaxValidator.IsValid(const Value: Int64): Boolean;
 begin
 
-  BasicType := VarType(Value) and VarTypeMask;
-
-  if not(BasicType in [varByte, varShortInt, varWord, varSmallInt, varLongWord, varInteger, varInt64]) then
-    raise Exception.Create('Invalid data type for validation');
-
-  Result := Int64(Value) <= FMaxValue;
+  Result := Value <= FMaxValue;
 
 end;
 
 initialization
-  TDValidation.RegisterConstraint(MaxAttribute, TMaxValidator);
+  TDValidation.RegisterConstraint(MaxAttribute, TypeInfo(Int64), TMaxValidator);
 end.

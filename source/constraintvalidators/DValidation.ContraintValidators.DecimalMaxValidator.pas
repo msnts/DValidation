@@ -27,17 +27,16 @@ uses
 
 type
 
-  TDecimalMaxValidator = class(TInterfacedObject, IConstraintValidator<variant>)
+  TDecimalMaxValidator = class(TInterfacedObject, IConstraintValidator<Extended>)
   private
     FDecimalMaxValue : Extended;
     FInclusive : Boolean;
   public
     procedure Initialize(Constraint : ConstraintAttribute);
-    function IsValid(const Value : variant) : Boolean;
+    function IsValid(const Value : Extended) : Boolean;
   end;
 
 implementation
-uses System.SysUtils, System.Variants;
 
 { TDecimalMaxValidator }
 
@@ -47,23 +46,16 @@ begin
   FInclusive := DecimalMaxAttribute(Constraint).Inclusive;
 end;
 
-function TDecimalMaxValidator.IsValid(const Value: variant): Boolean;
-var
-  BasicType : Integer;
+function TDecimalMaxValidator.IsValid(const Value: Extended): Boolean;
 begin
 
-  BasicType := VarType(Value) and VarTypeMask;
-
-  if not (BasicType in [varSingle, varDouble, varCurrency]) then
-    raise Exception.Create('Invalid data type for validation');
-
   if FInclusive then
-    Result := Extended(Value) <= FDecimalMaxValue
+    Result := Value <= FDecimalMaxValue
   else
-    Result := Extended(Value) < FDecimalMaxValue;
+    Result := Value < FDecimalMaxValue;
 
 end;
 
 initialization
-  TDValidation.RegisterConstraint(DecimalMaxAttribute, TDecimalMaxValidator);
+  TDValidation.RegisterConstraint(DecimalMaxAttribute, TypeInfo(Extended), TDecimalMaxValidator);
 end.
