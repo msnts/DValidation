@@ -118,7 +118,7 @@
         <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.EmailValidator.pas"/>
         <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.PatternValidator.pas"/>
         <DCCReference Include="..\source\constraints\DValidation.Constraints.Size.pas"/>
-        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.SizeValidator.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.SizeValidatorForString.pas"/>
         <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.AssertFalseValidator.pas"/>
         <DCCReference Include="Validators\DValidation.Validators.AssertFalseValidatorTest.pas"/>
         <DCCReference Include="Validators\DValidation.Validators.AssertTrueValidatorTest.pas"/>
@@ -157,13 +157,21 @@
         <DCCReference Include="Validators\DValidation.Validators.DecimalMaxValidatorTest.pas"/>
         <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.NegativeValidator.pas"/>
         <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.PositiveValidator.pas"/>
-        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.NegativeOrZeroValidator.pas"/>
-        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.PositiveOrZeroValidator.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.NegativeOrZeroValidatorForOrdinal.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.PositiveOrZeroValidatorForOrdinal.pas"/>
         <DCCReference Include="Validators\DValidation.Validators.NotEmptyValidatorTest.pas"/>
         <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.NotEmptyValidatorForString.pas"/>
         <DCCReference Include="..\source\constraints\DValidation.Constraints.Validators.pas"/>
         <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.NotEmptyValidatorForCollection.pas"/>
         <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.NotEmptyValidatorForArray.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.SizeValidatorForArray.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.SizeValidatorForCollection.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.AbstractSizeValidator.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.ConstraintValidatorUtils.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.NegativeOrZeroValidatorForDecimal.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.NegativeValidatorForDecimal.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.PositiveOrZeroValidatorForDecimal.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.PositiveValidatorForDecimal.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

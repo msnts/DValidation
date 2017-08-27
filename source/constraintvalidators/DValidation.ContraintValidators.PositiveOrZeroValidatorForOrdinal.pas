@@ -16,50 +16,39 @@
   limitations under the License.
   *****************************************************************************}
 
-unit DValidation.ContraintValidators.NegativeOrZeroValidator;
+unit DValidation.ContraintValidators.PositiveOrZeroValidatorForOrdinal;
 
 interface
 uses
   DValidation,
   DValidation.ContraintValidators.ConstraintValidator,
   DValidation.Constraints.Constraint,
-  DValidation.Constraints.NegativeOrZero;
+  DValidation.Constraints.PositiveOrZero;
 
 type
 
-  TNegativeOrZeroValidator = class(TInterfacedObject, IConstraintValidator<variant>)
+  TPositiveOrZeroValidatorForOrdinal = class(TInterfacedObject, IConstraintValidator<Int64>)
   public
     procedure Initialize(Constraint : ConstraintAttribute);
-    function IsValid(const Value : variant) : Boolean;
+    function IsValid(const Value : Int64) : Boolean;
   end;
 
 implementation
-uses System.SysUtils, System.Variants;
 
-{ TNegativeOrZeroValidator }
+{ TPositiveOrZeroValidatorForOrdinal }
 
-procedure TNegativeOrZeroValidator.Initialize(Constraint: ConstraintAttribute);
+procedure TPositiveOrZeroValidatorForOrdinal.Initialize(Constraint: ConstraintAttribute);
 begin
 
 end;
 
-function TNegativeOrZeroValidator.IsValid(const Value: variant): Boolean;
-var
-  BasicType: Integer;
+function TPositiveOrZeroValidatorForOrdinal.IsValid(const Value: Int64): Boolean;
 begin
 
-  BasicType := VarType(Value) and VarTypeMask;
-
-  if BasicType in [varByte, varShortInt, varWord, varSmallInt, varLongWord, varInteger, varInt64] then
-    Result := Int64(Value) <= 0
-  else
-    if BasicType in [varSingle, varDouble, varCurrency] then
-      Result := Extended(Value) <= 0
-    else
-      raise Exception.Create('Invalid data type for validation');
+  Result := Value >= 0;
 
 end;
 
 initialization
-  TDValidation.RegisterConstraint(NegativeOrZeroAttribute, TypeInfo(Int64), TNegativeOrZeroValidator);
+  TDValidation.RegisterConstraint(PositiveOrZeroAttribute, TypeInfo(Int64), TPositiveOrZeroValidatorForOrdinal);
 end.
