@@ -16,21 +16,39 @@
   limitations under the License.
   *****************************************************************************}
 
-unit DValidation.Engine.ConstraintValidatorManager;
+unit DValidation.ConstraintValidators.PositiveValidatorForDecimal;
 
 interface
 uses
-  System.TypInfo,
-  DValidation.ConstraintValidators.ConstraintValidator;
+  DValidation,
+  DValidation.ConstraintValidators.ConstraintValidator,
+  DValidation.Constraints.Constraint,
+  DValidation.Constraints.Positive;
 
 type
 
-  IConstraintValidatorManager = interface
-    ['{59CC48B4-B442-422A-AEE9-16264B80FC3D}']
-    function GetInitializedValidator(ConstraintType, DataType : PTypeInfo) : IConstraintValidator<variant>;
+  TPositiveValidatorForDecimal = class(TInterfacedObject, IConstraintValidator<Extended>)
+  public
+    procedure Initialize(Constraint : ConstraintAttribute);
+    function IsValid(const Value : Extended) : Boolean;
   end;
-
 
 implementation
 
+{ TPositiveValidatorForDecimal }
+
+procedure TPositiveValidatorForDecimal.Initialize(Constraint: ConstraintAttribute);
+begin
+
+end;
+
+function TPositiveValidatorForDecimal.IsValid(const Value: Extended): Boolean;
+begin
+
+  Result := Value > 0;
+
+end;
+
+initialization
+  TDValidation.RegisterConstraint(PositiveAttribute, TypeInfo(Extended), TPositiveValidatorForDecimal);
 end.

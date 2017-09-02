@@ -16,21 +16,41 @@
   limitations under the License.
   *****************************************************************************}
 
-unit DValidation.Engine.ConstraintValidatorManager;
+unit DValidation.ConstraintValidators.MinValidator;
 
 interface
 uses
-  System.TypInfo,
-  DValidation.ConstraintValidators.ConstraintValidator;
+  DValidation,
+  DValidation.ConstraintValidators.ConstraintValidator,
+  DValidation.Constraints.Constraint,
+  DValidation.Constraints.Min;
 
 type
 
-  IConstraintValidatorManager = interface
-    ['{59CC48B4-B442-422A-AEE9-16264B80FC3D}']
-    function GetInitializedValidator(ConstraintType, DataType : PTypeInfo) : IConstraintValidator<variant>;
+  TMinValidator = class(TInterfacedObject, IConstraintValidator<Int64>)
+  private
+    FMinValue : Int64;
+  public
+    procedure Initialize(Constraint : ConstraintAttribute);
+    function IsValid(const Value : Int64) : Boolean;
   end;
-
 
 implementation
 
+{ TMinValidator }
+
+procedure TMinValidator.Initialize(Constraint: ConstraintAttribute);
+begin
+  FMinValue := MinAttribute(Constraint).Min;
+end;
+
+function TMinValidator.IsValid(const Value: Int64): Boolean;
+begin
+
+  Result := Value >= FMinValue;
+
+end;
+
+initialization
+  TDValidation.RegisterConstraint(MinAttribute, TypeInfo(Int64), TMinValidator);
 end.

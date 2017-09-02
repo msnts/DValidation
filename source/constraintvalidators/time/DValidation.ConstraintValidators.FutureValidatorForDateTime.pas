@@ -16,21 +16,40 @@
   limitations under the License.
   *****************************************************************************}
 
-unit DValidation.Engine.ConstraintValidatorManager;
+unit DValidation.ConstraintValidators.FutureValidatorForDateTime;
 
 interface
 uses
-  System.TypInfo,
-  DValidation.ConstraintValidators.ConstraintValidator;
+  DValidation,
+  DValidation.ConstraintValidators.ConstraintValidator,
+  DValidation.Constraints.Constraint,
+  DValidation.Constraints.Future;
 
 type
 
-  IConstraintValidatorManager = interface
-    ['{59CC48B4-B442-422A-AEE9-16264B80FC3D}']
-    function GetInitializedValidator(ConstraintType, DataType : PTypeInfo) : IConstraintValidator<variant>;
+  TFutureValidatorForDateTime = class(TInterfacedObject, IConstraintValidator<TDateTime>)
+  public
+    procedure Initialize(Constraint : ConstraintAttribute);
+    function IsValid(const Value : TDateTime) : Boolean;
   end;
 
-
 implementation
+uses System.SysUtils;
 
+{ TNotBlankValidator }
+
+procedure TFutureValidatorForDateTime.Initialize(Constraint: ConstraintAttribute);
+begin
+
+end;
+
+function TFutureValidatorForDateTime.IsValid(const Value: TDateTime): Boolean;
+begin
+
+  Result := Value > Now;
+
+end;
+
+initialization
+  TDValidation.RegisterConstraint(FutureAttribute, TypeInfo(TDateTime), TFutureValidatorForDateTime);
 end.

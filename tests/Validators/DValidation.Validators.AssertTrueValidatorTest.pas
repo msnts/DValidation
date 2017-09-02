@@ -3,7 +3,7 @@ unit DValidation.Validators.AssertTrueValidatorTest;
 interface
 uses
   DUnitX.TestFramework,
-  DValidation.ContraintValidators.AssertTrueValidator;
+  DValidation.ConstraintValidators.AssertTrueValidator;
 
 type
 

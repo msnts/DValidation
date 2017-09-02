@@ -25,7 +25,7 @@ uses
   DValidation.Engine.MetaData.ObjectMetaData,
   DValidation.Engine.ValueContext,
   DValidation.Engine.MetaData.MetaConstraint,
-  DValidation.ContraintValidators.ConstraintValidator;
+  DValidation.ConstraintValidators.ConstraintValidator;
 
 type
 

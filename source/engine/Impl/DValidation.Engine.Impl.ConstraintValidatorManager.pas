@@ -24,7 +24,7 @@ uses
   System.TypInfo,
   System.SysUtils,
   DValidation.Engine.ConstraintValidatorManager,
-  DValidation.ContraintValidators.ConstraintValidator;
+  DValidation.ConstraintValidators.ConstraintValidator;
 
 type
 

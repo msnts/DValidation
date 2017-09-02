@@ -16,21 +16,40 @@
   limitations under the License.
   *****************************************************************************}
 
-unit DValidation.Engine.ConstraintValidatorManager;
+unit DValidation.ConstraintValidators.AssertTrueValidator;
 
 interface
 uses
-  System.TypInfo,
-  DValidation.ConstraintValidators.ConstraintValidator;
+  DValidation,
+  DValidation.ConstraintValidators.ConstraintValidator,
+  DValidation.Constraints.Constraint,
+  DValidation.Constraints.AssertTrue;
 
 type
 
-  IConstraintValidatorManager = interface
-    ['{59CC48B4-B442-422A-AEE9-16264B80FC3D}']
-    function GetInitializedValidator(ConstraintType, DataType : PTypeInfo) : IConstraintValidator<variant>;
+  TAssertTrueValidator = class(TInterfacedObject, IConstraintValidator<Boolean>)
+  public
+    procedure Initialize(Constraint : ConstraintAttribute);
+    function IsValid(const Value : Boolean) : Boolean;
   end;
 
-
 implementation
+uses System.SysUtils;
 
+{ TNotBlankValidator }
+
+procedure TAssertTrueValidator.Initialize(Constraint: ConstraintAttribute);
+begin
+
+end;
+
+function TAssertTrueValidator.IsValid(const Value: Boolean): Boolean;
+begin
+
+  Result := Value = True;
+
+end;
+
+initialization
+  TDValidation.RegisterConstraint(AssertTrueAttribute, TypeInfo(Boolean), TAssertTrueValidator);
 end.

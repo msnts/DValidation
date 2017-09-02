@@ -16,21 +16,40 @@
   limitations under the License.
   *****************************************************************************}
 
-unit DValidation.Engine.ConstraintValidatorManager;
+unit DValidation.ConstraintValidators.PastOrPresentValidatorForTime;
 
 interface
 uses
-  System.TypInfo,
-  DValidation.ConstraintValidators.ConstraintValidator;
+  DValidation,
+  DValidation.ConstraintValidators.ConstraintValidator,
+  DValidation.Constraints.Constraint,
+  DValidation.Constraints.PastOrPresent;
 
 type
 
-  IConstraintValidatorManager = interface
-    ['{59CC48B4-B442-422A-AEE9-16264B80FC3D}']
-    function GetInitializedValidator(ConstraintType, DataType : PTypeInfo) : IConstraintValidator<variant>;
+  TPastOrPresentValidatorForTime = class(TInterfacedObject, IConstraintValidator<TTime>)
+  public
+    procedure Initialize(Constraint : ConstraintAttribute);
+    function IsValid(const Value : TTime) : Boolean;
   end;
 
-
 implementation
+uses System.SysUtils;
 
+{ TNotBlankValidator }
+
+procedure TPastOrPresentValidatorForTime.Initialize(Constraint: ConstraintAttribute);
+begin
+
+end;
+
+function TPastOrPresentValidatorForTime.IsValid(const Value: TTime): Boolean;
+begin
+
+  Result := Value <= Time;
+
+end;
+
+initialization
+  TDValidation.RegisterConstraint(PastOrPresentAttribute, TypeInfo(TTime), TPastOrPresentValidatorForTime);
 end.

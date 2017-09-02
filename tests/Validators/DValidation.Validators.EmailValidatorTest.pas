@@ -22,7 +22,7 @@ interface
 uses
   DUnitX.TestFramework,
   DValidation,
-  DValidation.ContraintValidators.EmailValidator,
+  DValidation.ConstraintValidators.EmailValidator,
   DValidation.Engine.Impl.Validator,
   DValidation.Constraints.Email;
 

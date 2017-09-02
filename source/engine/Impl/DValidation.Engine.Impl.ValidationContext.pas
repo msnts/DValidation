@@ -28,7 +28,7 @@ uses
   DValidation.Engine.MetaData.ObjectMetaDataManager,
   DValidation.Engine.ValueContext,
   DValidation.Engine.MetaData.MetaConstraint,
-  DValidation.ContraintValidators.ConstraintValidator,
+  DValidation.ConstraintValidators.ConstraintValidator,
   DValidation.Engine.MessageInterpolator;
 
 type

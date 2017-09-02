@@ -81,9 +81,9 @@
         <DCCReference Include="Unit1.pas"/>
         <DCCReference Include="..\source\constraints\DValidation.Constraints.Constraint.pas"/>
         <DCCReference Include="..\source\constraints\DValidation.Constraints.Email.pas"/>
-        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.ConstraintValidator.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ConstraintValidators.ConstraintValidator.pas"/>
         <DCCReference Include="..\source\DValidation.Exceptions.pas"/>
-        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.NotBlankValidator.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ConstraintValidators.NotBlankValidator.pas"/>
         <DCCReference Include="..\source\DValidation.pas"/>
         <DCCReference Include="..\source\engine\Impl\DValidation.Engine.Impl.Validator.pas"/>
         <DCCReference Include="..\source\engine\DValidation.Engine.ValidationContext.pas"/>
@@ -112,14 +112,14 @@
         <DCCReference Include="..\source\constraints\br\DValidation.Constraints.Br.CNPJ.pas"/>
         <DCCReference Include="..\source\constraints\br\DValidation.Constraints.Br.CPF.pas"/>
         <DCCReference Include="..\source\constraints\br\DValidation.Constraints.Br.TituloEleitor.pas"/>
-        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.NotNullValidator.pas"/>
-        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.AssertTrueValidator.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ConstraintValidators.NotNullValidator.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ConstraintValidators.AssertTrueValidator.pas"/>
         <DCCReference Include="..\source\constraints\DValidation.Constraints.NotNull.pas"/>
-        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.EmailValidator.pas"/>
-        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.PatternValidator.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ConstraintValidators.EmailValidator.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ConstraintValidators.PatternValidator.pas"/>
         <DCCReference Include="..\source\constraints\DValidation.Constraints.Size.pas"/>
-        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.SizeValidatorForString.pas"/>
-        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.AssertFalseValidator.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ConstraintValidators.SizeValidatorForString.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ConstraintValidators.AssertFalseValidator.pas"/>
         <DCCReference Include="Validators\DValidation.Validators.AssertFalseValidatorTest.pas"/>
         <DCCReference Include="Validators\DValidation.Validators.AssertTrueValidatorTest.pas"/>
         <DCCReference Include="..\source\constraints\DValidation.Constraints.Valid.pas"/>
@@ -148,34 +148,43 @@
         <DCCReference Include="engine\DValidation.Engine.MessageInterpolatorTest.pas"/>
         <DCCReference Include="..\source\I18n\DValidation.I18n.Locale.pas"/>
         <DCCReference Include="..\source\I18n\impl\DValidation.I18n.Impl.Locale.pas"/>
-        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.MaxValidator.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ConstraintValidators.MaxValidator.pas"/>
         <DCCReference Include="Validators\DValidation.Validators.MaxValidatorTest.pas"/>
-        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.DecimalMaxValidator.pas"/>
-        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.MinValidator.pas"/>
-        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.DecimalMinValidator.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ConstraintValidators.DecimalMaxValidator.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ConstraintValidators.MinValidator.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ConstraintValidators.DecimalMinValidator.pas"/>
         <DCCReference Include="Validators\DValidation.Validators.MinValidatorTest.pas"/>
         <DCCReference Include="Validators\DValidation.Validators.DecimalMaxValidatorTest.pas"/>
-        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.NegativeOrZeroValidatorForOrdinal.pas"/>
-        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.PositiveOrZeroValidatorForOrdinal.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ConstraintValidators.NegativeOrZeroValidatorForOrdinal.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ConstraintValidators.PositiveOrZeroValidatorForOrdinal.pas"/>
         <DCCReference Include="Validators\DValidation.Validators.NotEmptyValidatorTest.pas"/>
-        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.NotEmptyValidatorForString.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ConstraintValidators.NotEmptyValidatorForString.pas"/>
         <DCCReference Include="..\source\constraints\DValidation.Constraints.Validators.pas"/>
-        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.NotEmptyValidatorForCollection.pas"/>
-        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.NotEmptyValidatorForArray.pas"/>
-        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.SizeValidatorForArray.pas"/>
-        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.SizeValidatorForCollection.pas"/>
-        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.AbstractSizeValidator.pas"/>
-        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.ConstraintValidatorUtils.pas"/>
-        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.NegativeOrZeroValidatorForDecimal.pas"/>
-        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.NegativeValidatorForDecimal.pas"/>
-        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.PositiveOrZeroValidatorForDecimal.pas"/>
-        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.PositiveValidatorForDecimal.pas"/>
-        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.NegativeValidatorForOrdinal.pas"/>
-        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.PositiveValidatorForOrdinal.pas"/>
-        <DCCReference Include="..\source\constraintvalidators\time\DValidation.ContraintValidators.PastValidatorForDate.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ConstraintValidators.NotEmptyValidatorForCollection.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ConstraintValidators.NotEmptyValidatorForArray.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ConstraintValidators.SizeValidatorForArray.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ConstraintValidators.SizeValidatorForCollection.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ConstraintValidators.AbstractSizeValidator.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ConstraintValidators.ConstraintValidatorUtils.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ConstraintValidators.NegativeOrZeroValidatorForDecimal.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ConstraintValidators.NegativeValidatorForDecimal.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ConstraintValidators.PositiveOrZeroValidatorForDecimal.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ConstraintValidators.PositiveValidatorForDecimal.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ConstraintValidators.NegativeValidatorForOrdinal.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ConstraintValidators.PositiveValidatorForOrdinal.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\time\DValidation.ConstraintValidators.PastValidatorForDate.pas"/>
         <DCCReference Include="Validators\DValidation.Validators.PastValidatorTest.pas"/>
-        <DCCReference Include="..\source\constraintvalidators\time\DValidation.ContraintValidators.PastValidatorForDateTime.pas"/>
-        <DCCReference Include="..\source\constraintvalidators\time\DValidation.ContraintValidators.PastValidatorForTime.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\time\DValidation.ConstraintValidators.PastValidatorForDateTime.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\time\DValidation.ConstraintValidators.PastValidatorForTime.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\time\DValidation.ConstraintValidators.FutureValidatorForDate.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\time\DValidation.ConstraintValidators.FutureValidatorForDateTime.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\time\DValidation.ConstraintValidators.FutureValidatorForTime.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\time\DValidation.ConstraintValidators.FutureOrPresentValidatorForDate.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\time\DValidation.ConstraintValidators.FutureOrPresentValidatorForDateTime.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\time\DValidation.ConstraintValidators.FutureOrPresentValidatorForTime.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\time\DValidation.ConstraintValidators.PastOrPresentValidatorForDate.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\time\DValidation.ConstraintValidators.PastOrPresentValidatorForDateTime.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\time\DValidation.ConstraintValidators.PastOrPresentValidatorForTime.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -247,13 +256,13 @@
                     </Platform>
                 </DeployClass>
                 <DeployClass Name="iPad_Launch2048">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
                     </Platform>
                     <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
@@ -281,13 +290,13 @@
                     </Platform>
                 </DeployClass>
                 <DeployClass Name="ProjectiOSResource">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
                     </Platform>
                     <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
@@ -299,13 +308,13 @@
                     </Platform>
                 </DeployClass>
                 <DeployClass Name="iPhone_Launch640">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
                     </Platform>
                     <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
@@ -322,13 +331,13 @@
                     </Platform>
                 </DeployClass>
                 <DeployClass Name="iPhone_Launch320">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
                     </Platform>
                     <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
@@ -394,13 +403,13 @@
                 </DeployClass>
                 <DeployClass Name="ProjectiOSInfoPList"/>
                 <DeployClass Name="iPad_Launch1024">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
                     </Platform>
                     <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
@@ -418,13 +427,13 @@
                 </DeployClass>
                 <DeployClass Name="ProjectiOSDeviceResourceRules"/>
                 <DeployClass Name="iPad_Launch768">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
                     </Platform>
                     <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
@@ -482,13 +491,13 @@
                     </Platform>
                 </DeployClass>
                 <DeployClass Name="iPhone_Launch640x1136">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
                     </Platform>
                     <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
@@ -505,13 +514,13 @@
                     </Platform>
                 </DeployClass>
                 <DeployClass Name="iPad_Launch1536">
+                    <Platform Name="iOSDevice32">
+                        <Operation>1</Operation>
+                    </Platform>
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
                     </Platform>
                     <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                    </Platform>
-                    <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>

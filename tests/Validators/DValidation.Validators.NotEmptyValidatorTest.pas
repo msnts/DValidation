@@ -4,7 +4,7 @@ interface
 uses
   DUnitX.TestFramework,
   DValidation,
-  DValidation.ContraintValidators.NotEmptyValidatorForString,
+  DValidation.ConstraintValidators.NotEmptyValidatorForString,
   DValidation.Constraints.NotEmpty,
   DValidation.Engine.Impl.Validator,
   DValidation.Engine.ConstraintViolation,

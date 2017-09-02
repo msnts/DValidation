@@ -6,7 +6,7 @@ uses
   System.Generics.Collections,
   DValidation,
   DValidation.Constraints.AssertFalse,
-  DValidation.ContraintValidators.AssertFalseValidator,
+  DValidation.ConstraintValidators.AssertFalseValidator,
   DValidation.Engine.ConstraintViolation,
   DValidation.Engine.Impl.Validator;
 

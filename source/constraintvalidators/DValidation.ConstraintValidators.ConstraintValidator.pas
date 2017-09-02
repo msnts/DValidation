@@ -16,18 +16,18 @@
   limitations under the License.
   *****************************************************************************}
 
-unit DValidation.Engine.ConstraintValidatorManager;
+unit DValidation.ConstraintValidators.ConstraintValidator;
 
 interface
 uses
-  System.TypInfo,
-  DValidation.ConstraintValidators.ConstraintValidator;
+  DValidation.Constraints.Constraint;
 
 type
 
-  IConstraintValidatorManager = interface
-    ['{59CC48B4-B442-422A-AEE9-16264B80FC3D}']
-    function GetInitializedValidator(ConstraintType, DataType : PTypeInfo) : IConstraintValidator<variant>;
+  IConstraintValidator<T>  = interface
+    ['{945CF11F-B978-436D-AD37-76CBD71BD58E}']
+    procedure Initialize(Constraint : ConstraintAttribute);
+    function IsValid(const Value : T) : Boolean;
   end;
 
 

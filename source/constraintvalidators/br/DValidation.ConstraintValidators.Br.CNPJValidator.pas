@@ -16,21 +16,39 @@
   limitations under the License.
   *****************************************************************************}
 
-unit DValidation.Engine.ConstraintValidatorManager;
+unit DValidation.ConstraintValidators.Br.CNPJValidator;
 
 interface
 uses
-  System.TypInfo,
-  DValidation.ConstraintValidators.ConstraintValidator;
+  DValidation,
+  DValidation.ConstraintValidators.ConstraintValidator,
+  DValidation.Constraints.Constraint,
+  DValidation.Constraints.Br.CNPJ;
 
 type
 
-  IConstraintValidatorManager = interface
-    ['{59CC48B4-B442-422A-AEE9-16264B80FC3D}']
-    function GetInitializedValidator(ConstraintType, DataType : PTypeInfo) : IConstraintValidator<variant>;
+  TCNPJValidator = class(TInterfacedObject, IConstraintValidator<string>)
+  public
+    procedure Initialize(Constraint : ConstraintAttribute);
+    function IsValid(const Value : string) : Boolean;
   end;
-
 
 implementation
 
+{ TCNPJValidator }
+
+procedure TCNPJValidator.Initialize(Constraint: ConstraintAttribute);
+begin
+
+end;
+
+function TCNPJValidator.IsValid(const Value: string): Boolean;
+begin
+
+
+
+end;
+
+initialization
+  TDValidation.RegisterConstraint(CNPJAttribute, TypeInfo(string), TCNPJValidator);
 end.

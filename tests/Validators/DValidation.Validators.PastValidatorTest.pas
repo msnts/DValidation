@@ -4,7 +4,7 @@ interface
 uses
   DUnitX.TestFramework,
   DValidation,
-  DValidation.ContraintValidators.PastValidatorForDate,
+  DValidation.ConstraintValidators.PastValidatorForDate,
   DValidation.Constraints.Past,
   DValidation.Engine.Impl.Validator;
 

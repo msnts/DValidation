@@ -16,21 +16,41 @@
   limitations under the License.
   *****************************************************************************}
 
-unit DValidation.Engine.ConstraintValidatorManager;
+unit DValidation.ConstraintValidators.MaxValidator;
 
 interface
 uses
-  System.TypInfo,
-  DValidation.ConstraintValidators.ConstraintValidator;
+  DValidation,
+  DValidation.ConstraintValidators.ConstraintValidator,
+  DValidation.Constraints.Constraint,
+  DValidation.Constraints.Max;
 
 type
 
-  IConstraintValidatorManager = interface
-    ['{59CC48B4-B442-422A-AEE9-16264B80FC3D}']
-    function GetInitializedValidator(ConstraintType, DataType : PTypeInfo) : IConstraintValidator<variant>;
+  TMaxValidator = class(TInterfacedObject, IConstraintValidator<Int64>)
+  private
+    FMaxValue : Int64;
+  public
+    procedure Initialize(Constraint : ConstraintAttribute);
+    function IsValid(const Value : Int64) : Boolean;
   end;
-
 
 implementation
 
+{ TMaxValidator }
+
+procedure TMaxValidator.Initialize(Constraint: ConstraintAttribute);
+begin
+  FMaxValue := MaxAttribute(Constraint).Max;
+end;
+
+function TMaxValidator.IsValid(const Value: Int64): Boolean;
+begin
+
+  Result := Value <= FMaxValue;
+
+end;
+
+initialization
+  TDValidation.RegisterConstraint(MaxAttribute, TypeInfo(Int64), TMaxValidator);
 end.

@@ -4,7 +4,7 @@ interface
 uses
   DUnitX.TestFramework,
   DValidation,
-  DValidation.ContraintValidators.MaxValidator,
+  DValidation.ConstraintValidators.MaxValidator,
   DValidation.Constraints.Max,
   DValidation.Engine.Impl.Validator;
 

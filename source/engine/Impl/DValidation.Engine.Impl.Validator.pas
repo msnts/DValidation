@@ -33,7 +33,7 @@ uses
   DValidation.Engine.Impl.ValueContext,
   DValidation.Engine.Impl.ValidationContext,
   DValidation.Engine.MetaData.Impl.ObjectMetaDataManager,
-  DValidation.ContraintValidators.ConstraintValidator,
+  DValidation.ConstraintValidators.ConstraintValidator,
   DValidation.Engine.ConstraintValidatorManager,
   DValidation.Engine.MessageInterpolator,
   DValidation.Engine.Impl.MessageInterpolator,
