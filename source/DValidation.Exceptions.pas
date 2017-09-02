@@ -29,6 +29,8 @@ type
 
   LocaleException = class(Exception);
 
+  PatternSyntaxException = class(Exception);
+
 implementation
 
 end.

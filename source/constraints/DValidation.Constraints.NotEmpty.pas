@@ -26,14 +26,14 @@ type
 
   NotEmptyAttribute = class(ConstraintAttribute)
   public
-    constructor Create(const Parameters : string); override;
+    constructor Create(const Parameters : string = ''); override;
   end;
 
 implementation
 
 { NotBlankAttribute }
 
-constructor NotEmptyAttribute.Create(const Parameters: string);
+constructor NotEmptyAttribute.Create(const Parameters: string = '');
 begin
 
   FMessage := '{validation.constraints.NotEmpty.message}';

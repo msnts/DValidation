@@ -17,15 +17,20 @@ type
   private
     FValidator : TValidator;
 
-    [NotEmpty('')]
+    [NotEmpty]
     FValue : string;
 
-    [NotEmpty('')]
-    FCollectionsList : TList<integer>;
+    [NotEmpty]
+    FInvalidCollectionsList : TList<integer>;
 
-    [NotEmpty('')]
-    FArray : TArray<Integer>;
+    [NotEmpty]
+    FValidCollectionsList : TList<integer>;
 
+    [NotEmpty]
+    FInvalidArray : TArray<Integer>;
+
+    [NotEmpty]
+    FValidArray : TArray<Integer>;
   public
 
     [SetupFixture]
@@ -51,8 +56,9 @@ begin
 
   FValidator := TDValidation.GetInstance.BuildValidator;
 
-  FCollectionsList := TList<integer>.Create;
+  FInvalidCollectionsList := TList<integer>.Create;
 
+  FValidCollectionsList := TList<integer>.Create;
 end;
 
 procedure TNotEmptyValidatorTest.TearDownFixture;
@@ -61,7 +67,9 @@ begin
   if Assigned(FValidator) then
     FValidator.Free;
 
-  FCollectionsList.Free;
+  FInvalidCollectionsList.Free;
+
+  FValidCollectionsList.Free;
 
 end;
 
@@ -93,13 +101,13 @@ begin
 
   FValue := 'test';
 
-  FCollectionsList.Add(1);
+  FValidCollectionsList.Add(1);
+
+  FValidArray := [1];
 
   Faults := FValidator.Validate<TNotEmptyValidatorTest>(Self);
 
-  Actual := Faults.Count = 0;
-
-  Assert.IsTrue(Actual);
+  Assert.AreEqual(Faults.Count, 2);
 
 end;
 

@@ -90,8 +90,6 @@ uses
   DValidation.ContraintValidators.DecimalMinValidator in '..\source\constraintvalidators\DValidation.ContraintValidators.DecimalMinValidator.pas',
   DValidation.Validators.MinValidatorTest in 'Validators\DValidation.Validators.MinValidatorTest.pas',
   DValidation.Validators.DecimalMaxValidatorTest in 'Validators\DValidation.Validators.DecimalMaxValidatorTest.pas',
-  DValidation.ContraintValidators.NegativeValidator in '..\source\constraintvalidators\DValidation.ContraintValidators.NegativeValidator.pas',
-  DValidation.ContraintValidators.PositiveValidator in '..\source\constraintvalidators\DValidation.ContraintValidators.PositiveValidator.pas',
   DValidation.ContraintValidators.NegativeOrZeroValidatorForOrdinal in '..\source\constraintvalidators\DValidation.ContraintValidators.NegativeOrZeroValidatorForOrdinal.pas',
   DValidation.ContraintValidators.PositiveOrZeroValidatorForOrdinal in '..\source\constraintvalidators\DValidation.ContraintValidators.PositiveOrZeroValidatorForOrdinal.pas',
   DValidation.Validators.NotEmptyValidatorTest in 'Validators\DValidation.Validators.NotEmptyValidatorTest.pas',
@@ -106,7 +104,13 @@ uses
   DValidation.ContraintValidators.NegativeOrZeroValidatorForDecimal in '..\source\constraintvalidators\DValidation.ContraintValidators.NegativeOrZeroValidatorForDecimal.pas',
   DValidation.ContraintValidators.NegativeValidatorForDecimal in '..\source\constraintvalidators\DValidation.ContraintValidators.NegativeValidatorForDecimal.pas',
   DValidation.ContraintValidators.PositiveOrZeroValidatorForDecimal in '..\source\constraintvalidators\DValidation.ContraintValidators.PositiveOrZeroValidatorForDecimal.pas',
-  DValidation.ContraintValidators.PositiveValidatorForDecimal in '..\source\constraintvalidators\DValidation.ContraintValidators.PositiveValidatorForDecimal.pas';
+  DValidation.ContraintValidators.PositiveValidatorForDecimal in '..\source\constraintvalidators\DValidation.ContraintValidators.PositiveValidatorForDecimal.pas',
+  DValidation.ContraintValidators.NegativeValidatorForOrdinal in '..\source\constraintvalidators\DValidation.ContraintValidators.NegativeValidatorForOrdinal.pas',
+  DValidation.ContraintValidators.PositiveValidatorForOrdinal in '..\source\constraintvalidators\DValidation.ContraintValidators.PositiveValidatorForOrdinal.pas',
+  DValidation.ContraintValidators.PastValidatorForDate in '..\source\constraintvalidators\time\DValidation.ContraintValidators.PastValidatorForDate.pas',
+  DValidation.Validators.PastValidatorTest in 'Validators\DValidation.Validators.PastValidatorTest.pas',
+  DValidation.ContraintValidators.PastValidatorForDateTime in '..\source\constraintvalidators\time\DValidation.ContraintValidators.PastValidatorForDateTime.pas',
+  DValidation.ContraintValidators.PastValidatorForTime in '..\source\constraintvalidators\time\DValidation.ContraintValidators.PastValidatorForTime.pas';
 
 {$R ..\resources\locale.res}
 

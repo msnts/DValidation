@@ -16,51 +16,40 @@
   limitations under the License.
   *****************************************************************************}
 
-unit DValidation.ContraintValidators.PatternValidator;
+unit DValidation.ContraintValidators.FutureOrPresentValidatorForDateTime;
 
 interface
 uses
   DValidation,
   DValidation.ContraintValidators.ConstraintValidator,
   DValidation.Constraints.Constraint,
-  DValidation.Constraints.Pattern,
-  System.RegularExpressions;
+  DValidation.Constraints.FutureOrPresent;
 
 type
 
-  TPatternValidator = class(TInterfacedObject, IConstraintValidator<string>)
-    FRegEx: TRegEx;
+  TFutureOrPresentValidatorForDateTime = class(TInterfacedObject, IConstraintValidator<TDateTime>)
   public
     procedure Initialize(Constraint : ConstraintAttribute);
-    function IsValid(const Value : string) : Boolean;
+    function IsValid(const Value : TDateTime) : Boolean;
   end;
 
 implementation
+uses System.SysUtils;
 
-{ TPatternValidator }
+{ TNotBlankValidator }
 
-procedure TPatternValidator.Initialize(Constraint: ConstraintAttribute);
-var
-  Pattern : string;
+procedure TFutureOrPresentValidatorForDateTime.Initialize(Constraint: ConstraintAttribute);
 begin
-
-  Pattern := PatternAttribute(Constraint).Regexp;
-
-  try
-    FRegEx := TRegex.Create(Pattern);
-  except
-
-  end;
 
 end;
 
-function TPatternValidator.IsValid(const Value: string): Boolean;
+function TFutureOrPresentValidatorForDateTime.IsValid(const Value: TDateTime): Boolean;
 begin
 
-  Result := FRegEx.Match(Value).Success;
+  Result := Value >= Now;
 
 end;
 
 initialization
-  TDValidation.RegisterConstraint(PatternAttribute, TypeInfo(string), TPatternValidator);
+  TDValidation.RegisterConstraint(FutureOrPresentAttribute, TypeInfo(TDateTime), TFutureOrPresentValidatorForDateTime);
 end.

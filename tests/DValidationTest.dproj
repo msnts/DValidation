@@ -63,7 +63,7 @@
         <DCC_RemoteDebug>true</DCC_RemoteDebug>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <Debugger_RunParams>--run:DValidation.Validators.NotEmptyValidatorTest.TNotEmptyValidatorTest</Debugger_RunParams>
+        <Debugger_RunParams>--run:DValidation.Validators.PastValidatorTest.TPastValidatorTest</Debugger_RunParams>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>None</Manifest_File>
         <DCC_RemoteDebug>false</DCC_RemoteDebug>
@@ -155,8 +155,6 @@
         <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.DecimalMinValidator.pas"/>
         <DCCReference Include="Validators\DValidation.Validators.MinValidatorTest.pas"/>
         <DCCReference Include="Validators\DValidation.Validators.DecimalMaxValidatorTest.pas"/>
-        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.NegativeValidator.pas"/>
-        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.PositiveValidator.pas"/>
         <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.NegativeOrZeroValidatorForOrdinal.pas"/>
         <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.PositiveOrZeroValidatorForOrdinal.pas"/>
         <DCCReference Include="Validators\DValidation.Validators.NotEmptyValidatorTest.pas"/>
@@ -172,6 +170,12 @@
         <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.NegativeValidatorForDecimal.pas"/>
         <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.PositiveOrZeroValidatorForDecimal.pas"/>
         <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.PositiveValidatorForDecimal.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.NegativeValidatorForOrdinal.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ContraintValidators.PositiveValidatorForOrdinal.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\time\DValidation.ContraintValidators.PastValidatorForDate.pas"/>
+        <DCCReference Include="Validators\DValidation.Validators.PastValidatorTest.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\time\DValidation.ContraintValidators.PastValidatorForDateTime.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\time\DValidation.ContraintValidators.PastValidatorForTime.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -528,12 +532,12 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME)"/>
+                <ProjectRoot Platform="iOSSimulator" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="Android" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="Win32" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>
+                <ProjectRoot Platform="OSX32" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="Win64" Name="$(PROJECTNAME)"/>
-                <ProjectRoot Platform="iOSSimulator" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="iOSDevice32" Name="$(PROJECTNAME).app"/>
             </Deployment>
             <Platforms>

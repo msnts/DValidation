@@ -30,6 +30,16 @@ type
     FRegexp : string;
     FFlags : string;
   public
+    /// <summary> The annotated {string} must match the specified regular expression.
+    /// </summary>
+    /// <param name="Regexp">The regular expression to match</param>
+    /// <param name="Flags">Array of Flags considered when resolving the regular expression</param>
+    /// <param name="Message">The error message template</param>
+    /// <param name="Groups">The groups the constraint belongs to</param>
+    /// <remarks>
+    /// If parameter "Regexp" is null or empty, an exception is raised.
+    /// <see cref="ConstraintException"/>
+    /// </remarks>
     constructor Create(const Parameters : string); override;
     property Regexp : string read FRegexp;
     property Flags : string read FFlags;
