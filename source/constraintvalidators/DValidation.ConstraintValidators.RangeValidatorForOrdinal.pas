@@ -16,48 +16,43 @@
   limitations under the License.
   *****************************************************************************}
 
-unit DValidation.Constraints.EAN;
+unit DValidation.ConstraintValidators.RangeValidatorForOrdinal;
 
 interface
 uses
-  TypInfo,
+  DValidation,
+  DValidation.ConstraintValidators.ConstraintValidator,
   DValidation.Constraints.Constraint,
-  DValidation.Exceptions;
+  DValidation.Constraints.Range;
 
 type
 
-  TEAN = (EAN8, EAN13);
-
-  EANAttribute = class(ConstraintAttribute)
+  TRangeValidatorForOrdinal = class(TInterfacedObject, IConstraintValidator<Int64>)
   private
-    FType : TEAN;
+    FMinValue : Int64;
+    FMaxValue : Int64;
   public
-    constructor Create(const Parameters : string); override;
-    property &Type : TEAN read FType;
+    procedure Initialize(Constraint : ConstraintAttribute);
+    function IsValid(const Value : Int64) : Boolean;
   end;
 
 implementation
 
-{ NotBlankAttribute }
+{ TRangeValidatorForOrdinal }
 
-constructor EANAttribute.Create(const Parameters: string);
-var
-  TypeName : string;
+procedure TRangeValidatorForOrdinal.Initialize(Constraint: ConstraintAttribute);
+begin
+  FMinValue := RangeAttribute(Constraint).Min;
+  FMaxValue := RangeAttribute(Constraint).Max;
+end;
+
+function TRangeValidatorForOrdinal.IsValid(const Value: Int64): Boolean;
 begin
 
-  FMessage := '{}';
-
-  inherited;
-
-  TypeName := GetParameter<string>('Type', 'EAN13');
-
-  try
-    FType := TEAN(GetEnumValue(TypeInfo(TEAN), TypeName));
-
-  except
-    raise ConstraintException.Create('The "' + TypeName + '" value is invalid EAN type');
-  end;
+  Result := ((Value >= FMinValue) and (Value <= FMaxValue));
 
 end;
 
+initialization
+  TDValidation.RegisterConstraint(RangeAttribute, TypeInfo(Int64), TRangeValidatorForOrdinal);
 end.

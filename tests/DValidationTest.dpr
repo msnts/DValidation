@@ -119,7 +119,11 @@ uses
   DValidation.ConstraintValidators.FutureOrPresentValidatorForTime in '..\source\constraintvalidators\time\DValidation.ConstraintValidators.FutureOrPresentValidatorForTime.pas',
   DValidation.ConstraintValidators.PastOrPresentValidatorForDate in '..\source\constraintvalidators\time\DValidation.ConstraintValidators.PastOrPresentValidatorForDate.pas',
   DValidation.ConstraintValidators.PastOrPresentValidatorForDateTime in '..\source\constraintvalidators\time\DValidation.ConstraintValidators.PastOrPresentValidatorForDateTime.pas',
-  DValidation.ConstraintValidators.PastOrPresentValidatorForTime in '..\source\constraintvalidators\time\DValidation.ConstraintValidators.PastOrPresentValidatorForTime.pas';
+  DValidation.ConstraintValidators.PastOrPresentValidatorForTime in '..\source\constraintvalidators\time\DValidation.ConstraintValidators.PastOrPresentValidatorForTime.pas',
+  DValidation.ConstraintValidators.EANValidator in '..\source\constraintvalidators\DValidation.ConstraintValidators.EANValidator.pas',
+  DValidation.Validators.EANValidatorTest in 'Validators\DValidation.Validators.EANValidatorTest.pas',
+  DValidation.ConstraintValidators.RangeValidatorForDecimal in '..\source\constraintvalidators\DValidation.ConstraintValidators.RangeValidatorForDecimal.pas',
+  DValidation.ConstraintValidators.RangeValidatorForOrdinal in '..\source\constraintvalidators\DValidation.ConstraintValidators.RangeValidatorForOrdinal.pas';
 
 {$R ..\resources\locale.res}
 

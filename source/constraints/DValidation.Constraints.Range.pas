@@ -20,18 +20,19 @@ unit DValidation.Constraints.Range;
 
 interface
 uses
-  DValidation.Constraints.Constraint;
+  DValidation.Constraints.Constraint,
+  DValidation.Exceptions;
 
 type
 
   RangeAttribute = class(ConstraintAttribute)
   private
-    FMin : Integer;
-    FMax : Integer;
+    FMin : Int64;
+    FMax : Int64;
   public
     constructor Create(const Parameters : string); override;
-    property Min : Integer read FMin;
-    property Max : Integer read FMax;
+    property Min : Int64 read FMin;
+    property Max : Int64 read FMax;
   end;
 
 implementation
@@ -45,8 +46,14 @@ begin
 
   inherited;
 
-  FMin := GetParameter<Integer>('Min', 0);
-  FMax := GetParameter<Integer>('Max', MaxInt);
+  if not HasParameter('Min') then
+    raise ConstraintException.Create('Parameter "Min" required');
+
+  if not HasParameter('Max') then
+    raise ConstraintException.Create('Parameter "Max" required');
+
+  FMin := GetParameter<Int64>('Min', Low(Int64));
+  FMax := GetParameter<Int64>('Max', High(Int64));
 
 end;
 

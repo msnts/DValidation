@@ -16,47 +16,44 @@
   limitations under the License.
   *****************************************************************************}
 
-unit DValidation.Constraints.EAN;
+unit DValidation.Constraints.RangeDecimal;
 
 interface
 uses
-  TypInfo,
   DValidation.Constraints.Constraint,
   DValidation.Exceptions;
 
 type
 
-  TEAN = (EAN8, EAN13);
-
-  EANAttribute = class(ConstraintAttribute)
+  RangeDecimalAttribute = class(ConstraintAttribute)
   private
-    FType : TEAN;
+    FMin : Extended;
+    FMax : Extended;
   public
     constructor Create(const Parameters : string); override;
-    property &Type : TEAN read FType;
+    property Min : Extended read FMin;
+    property Max : Extended read FMax;
   end;
 
 implementation
 
 { NotBlankAttribute }
 
-constructor EANAttribute.Create(const Parameters: string);
-var
-  TypeName : string;
+constructor RangeDecimalAttribute.Create(const Parameters: string);
 begin
 
-  FMessage := '{}';
+  FMessage := '{validation.constraints.Range.message}';
 
   inherited;
 
-  TypeName := GetParameter<string>('Type', 'EAN13');
+  if not HasParameter('Min') then
+    raise ConstraintException.Create('Parameter "Min" required');
 
-  try
-    FType := TEAN(GetEnumValue(TypeInfo(TEAN), TypeName));
+  if not HasParameter('Max') then
+    raise ConstraintException.Create('Parameter "Max" required');
 
-  except
-    raise ConstraintException.Create('The "' + TypeName + '" value is invalid EAN type');
-  end;
+  FMin := GetParameter<Extended>('Min', 0);
+  FMax := GetParameter<Extended>('Max', 0);
 
 end;
 

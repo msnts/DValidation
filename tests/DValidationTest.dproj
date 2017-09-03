@@ -63,10 +63,10 @@
         <DCC_RemoteDebug>true</DCC_RemoteDebug>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <Debugger_RunParams>--run:DValidation.Validators.PastValidatorTest.TPastValidatorTest</Debugger_RunParams>
+        <DCC_MapFile>3</DCC_MapFile>
+        <DCC_RemoteDebug>false</DCC_RemoteDebug>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Manifest_File>None</Manifest_File>
-        <DCC_RemoteDebug>false</DCC_RemoteDebug>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2)'!=''">
         <DCC_LocalDebugSymbols>false</DCC_LocalDebugSymbols>
@@ -185,6 +185,10 @@
         <DCCReference Include="..\source\constraintvalidators\time\DValidation.ConstraintValidators.PastOrPresentValidatorForDate.pas"/>
         <DCCReference Include="..\source\constraintvalidators\time\DValidation.ConstraintValidators.PastOrPresentValidatorForDateTime.pas"/>
         <DCCReference Include="..\source\constraintvalidators\time\DValidation.ConstraintValidators.PastOrPresentValidatorForTime.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ConstraintValidators.EANValidator.pas"/>
+        <DCCReference Include="Validators\DValidation.Validators.EANValidatorTest.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ConstraintValidators.RangeValidatorForDecimal.pas"/>
+        <DCCReference Include="..\source\constraintvalidators\DValidation.ConstraintValidators.RangeValidatorForOrdinal.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
