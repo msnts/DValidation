@@ -52,6 +52,9 @@ var
   Size : Integer;
 begin
 
+  if Value = nil then
+    Exit(True);
+
   Size := TConstraintValidatorUtils.GetCollectionSize(Value);
 
   Result := DoIsValid(Size);

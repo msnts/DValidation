@@ -26,7 +26,7 @@ type
 
   NotNullAttribute = class(ConstraintAttribute)
   public
-    constructor Create(const Parameters : string); override;
+    constructor Create(const Parameters : string = ''); override;
   end;
 
 implementation

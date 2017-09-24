@@ -123,7 +123,11 @@ uses
   DValidation.ConstraintValidators.EANValidator in '..\source\constraintvalidators\DValidation.ConstraintValidators.EANValidator.pas',
   DValidation.Validators.EANValidatorTest in 'Validators\DValidation.Validators.EANValidatorTest.pas',
   DValidation.ConstraintValidators.RangeValidatorForDecimal in '..\source\constraintvalidators\DValidation.ConstraintValidators.RangeValidatorForDecimal.pas',
-  DValidation.ConstraintValidators.RangeValidatorForOrdinal in '..\source\constraintvalidators\DValidation.ConstraintValidators.RangeValidatorForOrdinal.pas';
+  DValidation.ConstraintValidators.RangeValidatorForOrdinal in '..\source\constraintvalidators\DValidation.ConstraintValidators.RangeValidatorForOrdinal.pas',
+  DValidation.Model.ObjectGraph in 'DValidation.Model.ObjectGraph.pas',
+  DValidation.Constraints.RangeDecimal in '..\source\constraints\DValidation.Constraints.RangeDecimal.pas',
+  DValidation.ObjectGraphTest in 'DValidation.ObjectGraphTest.pas',
+  DValidation.Engine.MetaData.RttiHelper in '..\source\engine\MetaData\DValidation.Engine.MetaData.RttiHelper.pas';
 
 {$R ..\resources\locale.res}
 

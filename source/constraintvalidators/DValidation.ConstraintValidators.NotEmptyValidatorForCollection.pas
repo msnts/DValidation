@@ -49,6 +49,9 @@ var
   Size : Integer;
 begin
 
+  if Collection = nil then
+    Exit(False);
+
   Size := TConstraintValidatorUtils.GetCollectionSize(Collection);
 
   Result := Size > 0;

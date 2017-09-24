@@ -27,12 +27,15 @@ uses
   DValidation.Engine.MetaData.ObjectMetaData,
   DValidation.Engine.MetaData.MetaConstraint,
   DValidation.Engine.MetaData.Impl.MetaConstraint,
-  DValidation.Constraints.Constraint;
+  DValidation.Constraints.Constraint,
+  DValidation.Constraints.Valid,
+  DValidation.Engine.MetaData.RttiHelper;
 
 type
   TObjectMetaData = class(TInterfacedObject, IObjectMetaData)
   private
     FMetaConstraints : TList<IMetaConstraint>;
+    function ExtractMetaConstraint(aType : PTypeInfo) : TList<IMetaConstraint>;
   public
     constructor Create(aType : PTypeInfo);
     destructor Destroy; override;
@@ -47,6 +50,20 @@ implementation
 { TObjectMetaData }
 
 constructor TObjectMetaData.Create(aType: PTypeInfo);
+begin
+   FMetaConstraints := ExtractMetaConstraint(aType);
+end;
+
+destructor TObjectMetaData.Destroy;
+begin
+
+  if Assigned(FMetaConstraints) then
+    FMetaConstraints.Free;
+
+  inherited;
+end;
+
+function TObjectMetaData.ExtractMetaConstraint(aType: PTypeInfo): TList<IMetaConstraint>;
 var
   ctxRtti: TRttiContext;
   typRtti: TRttiType;
@@ -55,8 +72,10 @@ var
   metRtti : TRttiMethod;
   attribute : TCustomAttribute;
   MetaConstraint : IMetaConstraint;
+  MetaConstraintsGraph : TList<IMetaConstraint>;
 begin
-  FMetaConstraints := TList<IMetaConstraint>.Create;
+
+  Result := TList<IMetaConstraint>.Create;
 
   ctxRtti := TRttiContext.Create;
 
@@ -72,33 +91,44 @@ begin
 
       for attribute in fldRtti.GetAttributes do
       begin
-        MetaConstraint := TMetaConstraint.Create(ConstraintAttribute(attribute), fldRtti);
-        FMetaConstraints.Add(MetaConstraint);
+
+        MetaConstraintsGraph := nil;
+
+        if Attribute is ValidAttribute then
+        begin
+
+          if fldRtti.FieldType.IsGenericType then
+          begin
+
+          end
+          else
+            MetaConstraintsGraph := ExtractMetaConstraint(fldRtti.FieldType.Handle);
+
+        end;
+
+        MetaConstraint := TMetaConstraint.Create(ConstraintAttribute(attribute), fldRtti, MetaConstraintsGraph);
+        Result.Add(MetaConstraint);
+
       end;
 
     end;
 
     for propRtti in typRtti.GetProperties do
     begin
+
+      MetaConstraintsGraph := nil;
+
       for attribute in propRtti.GetAttributes do
       begin
-        MetaConstraint := TMetaConstraint.Create(ConstraintAttribute(attribute), propRtti);
-        FMetaConstraints.Add(MetaConstraint);
+        MetaConstraint := TMetaConstraint.Create(ConstraintAttribute(attribute), propRtti, MetaConstraintsGraph);
+        Result.Add(MetaConstraint);
       end;
     end;
 
   finally
     ctxRtti.Free;
   end;
-end;
 
-destructor TObjectMetaData.Destroy;
-begin
-
-  if Assigned(FMetaConstraints) then
-    FMetaConstraints.Free;
-
-  inherited;
 end;
 
 function TObjectMetaData.GetClassHierarchy: TArray<TClass>;

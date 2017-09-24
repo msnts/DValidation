@@ -19,6 +19,8 @@
 unit DValidation.Constraints.Valid;
 
 interface
+uses
+  DValidation.Constraints.Constraint;
 
 type
   /// <summary> Marks a property, method parameter for validation cascading.
@@ -29,7 +31,7 @@ type
   /// This behavior is applied recursively.
   /// </para>
   /// </summary>
-  ValidAttribute = class(TCustomAttribute);
+  ValidAttribute = class(ConstraintAttribute);
 
 implementation
 

@@ -26,7 +26,7 @@ type
 
   AssertTrueAttribute = class(ConstraintAttribute)
   public
-    constructor Create(const Parameters : string); override;
+    constructor Create(const Parameters : string); overload;
   end;
 
 implementation

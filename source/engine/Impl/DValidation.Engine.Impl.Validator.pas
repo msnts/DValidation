@@ -117,7 +117,9 @@ begin
     tkEnumeration:
     begin
       if Value.TypeInfo.Name = 'Boolean' then
-        Result := DoValidate<T, Boolean>(Constraint, Value.AsBoolean);
+        Result := DoValidate<T, Boolean>(Constraint, Value.AsBoolean)
+      else
+        raise ValidationException.Create('Type not supported');
 
     end;
  //   tkSet: ;

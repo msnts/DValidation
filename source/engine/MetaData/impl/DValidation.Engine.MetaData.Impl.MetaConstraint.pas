@@ -33,8 +33,9 @@ type
     FConstraint : ConstraintAttribute;
     FMember : TRttiMember;
     FGroups : TList<string>;
+    FMetaConstraintsGraph : TList<IMetaConstraint>;
   public
-    constructor Create(aConstraint : ConstraintAttribute; aMember : TRttiMember);
+    constructor Create(aConstraint : ConstraintAttribute; aMember : TRttiMember; aMetaConstraintsGraph : TList<IMetaConstraint>);
     destructor Destroy; override;
     function GetGroupList() : TList<string>;
     function GetConstraintType : PTypeInfo;
@@ -42,6 +43,7 @@ type
     function GetAttributes() : TDictionary<string, variant>;
     function GetMessageTemplate() : string;
     function GetConstraint() : ConstraintAttribute;
+    function GetMetaConstraintsGraph() : TList<IMetaConstraint>;
   end;
 
 implementation
@@ -49,10 +51,11 @@ implementation
 { TMetaConstraint }
 
 constructor TMetaConstraint.Create(aConstraint: ConstraintAttribute;
-  aMember: TRttiMember);
+  aMember: TRttiMember; aMetaConstraintsGraph : TList<IMetaConstraint>);
 begin
   FConstraint := aConstraint;
   FMember := aMember;
+  FMetaConstraintsGraph := aMetaConstraintsGraph;
 
   FGroups := TList<string>.Create;
 
@@ -64,6 +67,9 @@ destructor TMetaConstraint.Destroy;
 begin
   if Assigned(FGroups) then
     FGroups.Free;
+
+  if Assigned(FMetaConstraintsGraph) then
+    FMetaConstraintsGraph.Free;
 
   inherited;
 end;
@@ -96,6 +102,11 @@ end;
 function TMetaConstraint.GetMessageTemplate: string;
 begin
   Result := FConstraint.Message;
+end;
+
+function TMetaConstraint.GetMetaConstraintsGraph: TList<IMetaConstraint>;
+begin
+  Result := FMetaConstraintsGraph;
 end;
 
 end.

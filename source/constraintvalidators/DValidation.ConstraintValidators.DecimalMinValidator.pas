@@ -27,13 +27,13 @@ uses
 
 type
 
-  TDecimalMinValidator = class(TInterfacedObject, IConstraintValidator<variant>)
+  TDecimalMinValidator = class(TInterfacedObject, IConstraintValidator<Extended>)
   private
     FDecimalMinValue : Extended;
     FInclusive : Boolean;
   public
     procedure Initialize(Constraint : ConstraintAttribute);
-    function IsValid(const Value : variant) : Boolean;
+    function IsValid(const Value : Extended) : Boolean;
   end;
 
 implementation
@@ -47,20 +47,13 @@ begin
   FInclusive := DecimalMinAttribute(Constraint).Inclusive;
 end;
 
-function TDecimalMinValidator.IsValid(const Value: variant): Boolean;
-var
-  BasicType : Integer;
+function TDecimalMinValidator.IsValid(const Value: Extended): Boolean;
 begin
 
-  BasicType := VarType(Value) and VarTypeMask;
-
-  if not (BasicType in [varSingle, varDouble, varCurrency]) then
-    raise Exception.Create('Invalid data type for interpolation');
-
   if FInclusive then
-    Result := Extended(Value) >= FDecimalMinValue
+    Result := Value >= FDecimalMinValue
   else
-    Result := Extended(Value) > FDecimalMinValue;
+    Result := Value > FDecimalMinValue;
 
 end;
 
