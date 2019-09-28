@@ -17,7 +17,7 @@ type
 
     FValidator : TValidator;
 
-    [Min('{"Min":10}')]
+    [Min(10)]
     FValue : Integer;
   public
 
@@ -70,7 +70,7 @@ end;
 procedure TMinValidatorTest.TestMinValidator(const MinValue, Value, ExpectedValue : Integer);
 begin
 
-  FConstraintValidator.Initialize(MinAttribute.Create('{"Min":' + string.Parse(MinValue) + '}'));
+  FConstraintValidator.Initialize(MinAttribute.Create(MinValue));
 
   Assert.AreEqual(ExpectedValue <> 0, FConstraintValidator.isValid(Value));
 

@@ -20,35 +20,26 @@ unit DValidation.Constraints.Max;
 
 interface
 uses
-  DValidation.Constraints.Constraint,
-  DValidation.Exceptions;
+  System.SysUtils,
+  DValidation.Constraints.Number;
 
 type
 
-  MaxAttribute = class(ConstraintAttribute)
-  private
-    FMax : Int64;
-  public
-    constructor Create(const Parameters : string); override;
-    property Max : Int64 read FMax;
+  MaxAttribute = class(TNumberAttribute<Int64>)
+  const
+    DEFAULT_MESSAGE = '{validation.constraints.Max.message}';
+  protected
+    function GetMessage: string; override;
   end;
 
 implementation
 
-{ NotBlankAttribute }
-
-constructor MaxAttribute.Create(const Parameters: string);
+function MaxAttribute.GetMessage: string;
 begin
+  if FMessage.IsEmpty then
+    Exit(DEFAULT_MESSAGE);
 
-  FMessage := '{validation.constraints.Max.message}';
-
-  inherited;
-
-  if not HasParameter('Max') then
-    raise ConstraintException.Create('Parameter "Max" required');
-
-  FMax := GetParameter<Int64>('Max', High(Int64));
-
+  Result := FMessage;
 end;
 
 end.

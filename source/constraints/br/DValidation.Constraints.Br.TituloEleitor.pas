@@ -26,7 +26,7 @@ type
 
   TituloEleitorAttribute = class(ConstraintAttribute)
   public
-    constructor Create(const Parameters : string); override;
+    constructor Create(const Parameters : string);
   end;
 
 implementation
@@ -37,8 +37,6 @@ constructor TituloEleitorAttribute.Create(const Parameters: string);
 begin
 
   FMessage := '{validation.constraints.br.TituloEleitoral.message}';
-
-  inherited;
 
 end;
 

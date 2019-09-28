@@ -20,41 +20,29 @@ unit DValidation.Constraints.RangeDecimal;
 
 interface
 uses
+  System.SysUtils,
   DValidation.Constraints.Constraint,
-  DValidation.Exceptions;
+  DValidation.Constraints.NumberRange;
 
 type
 
-  RangeDecimalAttribute = class(ConstraintAttribute)
-  private
-    FMin : Extended;
-    FMax : Extended;
-  public
-    constructor Create(const Parameters : string); override;
-    property Min : Extended read FMin;
-    property Max : Extended read FMax;
+  RangeDecimalAttribute = class(NumberRangeAttribute<Extended>)
+  const
+    DEFAULT_MESSAGE = '{validation.constraints.Range.message}';
+  protected
+    function GetMessage: string; override;
   end;
 
 implementation
 
-{ NotBlankAttribute }
+{ RangeDecimalAttribute }
 
-constructor RangeDecimalAttribute.Create(const Parameters: string);
+function RangeDecimalAttribute.GetMessage: string;
 begin
+  if FMessage.IsEmpty then
+    Exit(DEFAULT_MESSAGE);
 
-  FMessage := '{validation.constraints.Range.message}';
-
-  inherited;
-
-  if not HasParameter('Min') then
-    raise ConstraintException.Create('Parameter "Min" required');
-
-  if not HasParameter('Max') then
-    raise ConstraintException.Create('Parameter "Max" required');
-
-  FMin := GetParameter<Extended>('Min', 0);
-  FMax := GetParameter<Extended>('Max', 0);
-
+  Result := FMessage;
 end;
 
 end.

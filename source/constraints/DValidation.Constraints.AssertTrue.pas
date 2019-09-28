@@ -20,26 +20,29 @@ unit DValidation.Constraints.AssertTrue;
 
 interface
 uses
+  System.SysUtils,
   DValidation.Constraints.Constraint;
 
 type
 
-  AssertTrueAttribute = class(ConstraintAttribute)
-  public
-    constructor Create(const Parameters : string); overload;
+  AssertTrueAttribute = class(SimpleConstraintAttribute)
+  const
+    DEFAULT_MESSAGE = '{validation.constraints.AssertTrue.message}';
+  protected
+    function GetMessage: string; override;
   end;
 
 implementation
 
-{ NotBlankAttribute }
 
-constructor AssertTrueAttribute.Create(const Parameters: string);
+{ AssertTrueAttribute }
+
+function AssertTrueAttribute.GetMessage: string;
 begin
+  if FMessage.IsEmpty then
+    Exit(DEFAULT_MESSAGE);
 
-  FMessage := '{validation.constraints.AssertTrue.message}';
-
-  inherited;
-
+  Result := FMessage;
 end;
 
 end.

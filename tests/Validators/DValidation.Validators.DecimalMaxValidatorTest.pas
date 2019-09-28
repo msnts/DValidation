@@ -2,10 +2,12 @@ unit DValidation.Validators.DecimalMaxValidatorTest;
 
 interface
 uses
+  System.Generics.Collections,
   DUnitX.TestFramework,
   DValidation,
   DValidation.ConstraintValidators.DecimalMaxValidator,
   DValidation.Constraints.DecimalMax,
+  DValidation.Engine.ConstraintViolation,
   DValidation.Engine.Impl.Validator;
 
 type
@@ -17,7 +19,7 @@ type
 
     FValidator : TValidator;
 
-    [DecimalMax('{"Max":10}')]
+    [DecimalMax(10)]
     FValue : double;
   public
 
@@ -71,7 +73,7 @@ end;
 procedure TDecimalMaxValidatorTest.TestDecimalMaxValidator(const MaxValue, Value, ExpectedValue : double);
 begin
 
-  FConstraintValidator.Initialize(DecimalMaxAttribute.Create('{"Max":' + string.Parse(MaxValue) + '}'));
+  FConstraintValidator.Initialize(DecimalMaxAttribute.Create(MaxValue));
 
   Assert.AreEqual(ExpectedValue <> 0, FConstraintValidator.isValid(Value));
 
@@ -80,14 +82,20 @@ end;
 procedure TDecimalMaxValidatorTest.TestValidator(const Value, ExpectedValue: double);
 var
   Actual : Boolean;
+  Faults : TList<IConstraintViolation<TDecimalMaxValidatorTest>>;
 begin
 
   FValue := Value;
 
-  Actual := FValidator.Validate<TDecimalMaxValidatorTest>(Self).Count = 0;
+  Faults := FValidator.Validate<TDecimalMaxValidatorTest>(Self);
 
-  Assert.AreEqual(ExpectedValue <> 0, Actual);
+  try
+    Actual := Faults.Count = 0;
 
+    Assert.AreEqual(ExpectedValue <> 0, Actual);
+  finally
+    Faults.Free;
+  end;
 end;
 
 initialization

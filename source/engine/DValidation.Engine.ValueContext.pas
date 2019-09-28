@@ -28,8 +28,8 @@ type
 
   IValueContext<T> = interface
     ['{0FE2E542-53E4-4D82-9B37-A16830E6FA7F}']
-    function GetCurrentGroup(): string;
-    procedure SetCurrentGroup(const Group : string);
+    function GetCurrentGroup(): Byte;
+    procedure SetCurrentGroup(const Group : Byte);
     function GetCurrentObjectType() : PTypeInfo;
     function GetCurrentObjectMetaData() : IObjectMetaData;
     function GetCurrentObject() : T;

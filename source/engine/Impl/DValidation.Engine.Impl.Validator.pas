@@ -37,6 +37,7 @@ uses
   DValidation.Engine.ConstraintValidatorManager,
   DValidation.Engine.MessageInterpolator,
   DValidation.Engine.Impl.MessageInterpolator,
+  DValidation.Constraints.Constraint,
   DValidation.I18n.Impl.Locale;
 
 type
@@ -48,7 +49,7 @@ type
     FMessageInterpolator : IMessageInterpolator;
 
     function GetValidationContext<T>(Obj : T) : IValidationContext<T>;
-    function DetermineGroupValidationOrder(Groups : TArray<string>) : TArray<string>;
+    function DetermineGroupValidationOrder(Groups : TGroupSet) : TGroupSet;
     procedure ValidateConstraintsForCurrentGroup<T>(ValidationContext : IValidationContext<T>; ValueContext : IValueContext<T>);
     procedure ValidateMetaConstraints<T>(ValidationContext : IValidationContext<T>; ValueContext : IValueContext<T>; Constraints : TArray<IMetaConstraint>);
     procedure ValidateMetaConstraint<T>(Context : IValidationContext<T>; ValueContext : IValueContext<T>; MetaConstraint : IMetaConstraint);
@@ -59,7 +60,7 @@ type
   public
     constructor Create(aConstraintValidatorManager : IConstraintValidatorManager);
     function Validate<T : class>(Obj : T) : TList<IConstraintViolation<T>>; overload;
-    function Validate<T : class>(Obj : T; Groups : TArray<string>) : TList<IConstraintViolation<T>>; overload;
+    function Validate<T : class>(Obj : T; Groups : TGroupSet) : TList<IConstraintViolation<T>>; overload;
   end;
 
 implementation
@@ -73,8 +74,7 @@ begin
   FMessageInterpolator := TMessageInterpolator.Create(TLocale.Create);
 end;
 
-function TValidator.DetermineGroupValidationOrder(
-  Groups: TArray<string>): TArray<string>;
+function TValidator.DetermineGroupValidationOrder(Groups: TGroupSet): TGroupSet;
 begin
   Result := Groups;
 end;
@@ -149,7 +149,9 @@ end;
 function TValidator.IsValidationRequired<T>(Context : IValidationContext<T>; ValueContext : IValueContext<T>; Constraint : IMetaConstraint): Boolean;
 begin
 
-  Result := Constraint.getGroupList().contains(ValueContext.getCurrentGroup());
+  Result := ValueContext.GetCurrentGroup in Constraint.GetGroupList;
+
+  //Result := Constraint.getGroupList().contains(ValueContext.getCurrentGroup());
 
 end;
 
@@ -158,12 +160,12 @@ begin
   Result := Context.IsFailFastModeEnabled() and not Context.HasFailingConstraints();
 end;
 
-function TValidator.Validate<T>(Obj: T; Groups : TArray<string>): TList<IConstraintViolation<T>>;
+function TValidator.Validate<T>(Obj: T; Groups: TGroupSet): TList<IConstraintViolation<T>>;
 var
   ValidationContext : IValidationContext<T>;
   ValueContext : IValueContext<T>;
-  ValidationOrder : TArray<string>;
-  Group : string;
+  ValidationOrder : TGroupSet;
+  Group : Byte;
 begin
 
   ValidationContext := GetValidationContext<T>(Obj);
@@ -200,7 +202,7 @@ end;
 function TValidator.Validate<T>(Obj: T): TList<IConstraintViolation<T>>;
 begin
 
-  Result := Validate<T>(Obj, ['DEFAULT']);
+  Result := Validate<T>(Obj, [0]);
 
 end;
 

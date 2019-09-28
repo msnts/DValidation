@@ -32,12 +32,12 @@ type
   private
     FConstraint : ConstraintAttribute;
     FMember : TRttiMember;
-    FGroups : TList<string>;
+    FGroups : TGroupSet;
     FMetaConstraintsGraph : TList<IMetaConstraint>;
   public
     constructor Create(aConstraint : ConstraintAttribute; aMember : TRttiMember; aMetaConstraintsGraph : TList<IMetaConstraint>);
     destructor Destroy; override;
-    function GetGroupList() : TList<string>;
+    function GetGroupList() : TGroupSet;
     function GetConstraintType : PTypeInfo;
     function GetMember() : TRttiMember;
     function GetAttributes() : TDictionary<string, variant>;
@@ -57,17 +57,11 @@ begin
   FMember := aMember;
   FMetaConstraintsGraph := aMetaConstraintsGraph;
 
-  FGroups := TList<string>.Create;
-
-  FGroups.AddRange(FConstraint.Groups);
-
+  FGroups := FConstraint.Groups;
 end;
 
 destructor TMetaConstraint.Destroy;
 begin
-  if Assigned(FGroups) then
-    FGroups.Free;
-
   if Assigned(FMetaConstraintsGraph) then
     FMetaConstraintsGraph.Free;
 
@@ -89,7 +83,7 @@ begin
   Result := FConstraint.ClassInfo;
 end;
 
-function TMetaConstraint.GetGroupList: TList<string>;
+function TMetaConstraint.GetGroupList: TGroupSet;
 begin
   Result := FGroups;
 end;

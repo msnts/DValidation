@@ -23,7 +23,7 @@ uses
   DValidation,
   DValidation.ConstraintValidators.ConstraintValidator,
   DValidation.Constraints.Constraint,
-  DValidation.Constraints.Future;
+  DValidation.Constraints.Time.Future;
 
 type
 

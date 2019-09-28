@@ -5,7 +5,7 @@ uses
   DUnitX.TestFramework,
   DValidation,
   DValidation.ConstraintValidators.PastValidatorForDate,
-  DValidation.Constraints.Past,
+  DValidation.Constraints.Time.Past,
   DValidation.Engine.Impl.Validator;
 
 type

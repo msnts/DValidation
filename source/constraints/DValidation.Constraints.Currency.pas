@@ -20,26 +20,28 @@ unit DValidation.Constraints.Currency;
 
 interface
 uses
+  System.SysUtils,
   DValidation.Constraints.Constraint;
 
 type
 
   CurrencyAttribute = class(ConstraintAttribute)
-  public
-    constructor Create(const Parameters : string); override;
+  const
+    DEFAULT_MESSAGE = '{validation.constraints.Currency.message}';
+  protected
+    function GetMessage: string; override;
   end;
 
 implementation
 
-{ NotBlankAttribute }
+{ CurrencyAttribute }
 
-constructor CurrencyAttribute.Create(const Parameters: string);
+function CurrencyAttribute.GetMessage: string;
 begin
+  if FMessage.IsEmpty then
+    Exit(DEFAULT_MESSAGE);
 
-  FMessage := '{validation.constraints.Currency.message}';
-
-  inherited;
-
+  Result := FMessage;
 end;
 
 end.

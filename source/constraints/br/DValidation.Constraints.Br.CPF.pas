@@ -26,7 +26,7 @@ type
 
   CPFAttribute = class(ConstraintAttribute)
   public
-    constructor Create(const Parameters : string); override;
+    constructor Create(const Parameters : string);
   end;
 
 implementation
@@ -37,8 +37,6 @@ constructor CPFAttribute.Create(const Parameters: string);
 begin
 
   FMessage := '{validation.constraints.br.CPF.message}';
-
-  inherited;
 
 end;
 

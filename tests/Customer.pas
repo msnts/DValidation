@@ -10,6 +10,8 @@ uses
   DValidation.Constraints.AssertTrue,
   DValidation.Constraints.AssertFalse;
 
+const DEFAULT = 0;
+
 type
 
   IPerson = interface
@@ -43,6 +45,7 @@ type
     property City : string read FCity write FCity;
   end;
 
+
  // [GroupSequence('default')]
   TCustomer = class(TInterfacedObject, IPerson)
   private
@@ -57,10 +60,10 @@ type
     //[Size('{"Min":10, "Max":20}')]
     Email : string;
 
-    [AssertTrue('{"Message":"Valid"}')]
+    [AssertTrue([DEFAULT, 3, 5])]
     Valid : Boolean;
 
-    [AssertFalse('{"Message":"NotValid"}')]
+    [AssertFalse()]
     NotValid : Boolean;
 
     function GetFirstName() : string;

@@ -17,7 +17,7 @@ type
 
     FValidator : TValidator;
 
-    [Max('{"Max":10}')]
+    [Max(10)]
     FValue : Integer;
   public
 
@@ -69,7 +69,7 @@ end;
 procedure TMaxValidatorTest.TestMaxValidator(const MaxValue, Value, ExpectedValue : Integer);
 begin
 
-  FConstraintValidator.Initialize(MaxAttribute.Create('{"Max":' + string.Parse(MaxValue) + '}'));
+  FConstraintValidator.Initialize(MaxAttribute.Create(MaxValue));
 
   Assert.AreEqual(ExpectedValue <> 0, FConstraintValidator.isValid(Value));
 

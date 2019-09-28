@@ -21,31 +21,32 @@ unit DValidation.Constraints.Email;
 interface
 
 uses
+  System.SysUtils,
   DValidation.Constraints.Constraint;
 
 type
 
   EmailAttribute = class(ConstraintAttribute)
+  const
+    DEFAULT_MESSAGE = '{validation.constraints.Email.message}';
   private
     FPattern: string;
+  protected
+    function GetMessage: string; override;
   public
-    constructor Create(const Parameters : string); override;
     property Pattern: string read FPattern;
   end;
 
 implementation
 
-{ TEmailAttribute }
+{ EmailAttribute }
 
-constructor EmailAttribute.Create(const Parameters: string);
+function EmailAttribute.GetMessage: string;
 begin
+  if FMessage.IsEmpty then
+    Exit(DEFAULT_MESSAGE);
 
-  FMessage := '{validation.constraints.Email.message}';
-
-  inherited;
-
-  FPattern := GetParameter<string>('Pattern', '');
-
+  Result := FMessage;
 end;
 
 end.

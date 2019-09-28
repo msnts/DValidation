@@ -20,26 +20,28 @@ unit DValidation.Constraints.NotBlank;
 
 interface
 uses
+  System.SysUtils,
   DValidation.Constraints.Constraint;
 
 type
 
-  NotBlankAttribute = class(ConstraintAttribute)
-  public
-    constructor Create(const Parameters : string); override;
+  NotBlankAttribute = class(SimpleConstraintAttribute)
+  const
+    DEFAULT_MESSAGE = '{validation.constraints.NotBlank.message}';
+  protected
+    function GetMessage: string; override;
   end;
 
 implementation
 
 { NotBlankAttribute }
 
-constructor NotBlankAttribute.Create(const Parameters: string);
+function NotBlankAttribute.GetMessage: string;
 begin
+  if FMessage.IsEmpty then
+    Exit(DEFAULT_MESSAGE);
 
-  FMessage := '{validation.constraints.NotBlank.message}';
-
-  inherited;
-
+  Result := FMessage;
 end;
 
 end.

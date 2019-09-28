@@ -31,13 +31,13 @@ type
     FCurrentObjectType : PTypeInfo;
     FCurrentObject : T;
     FCurrentObjectMetaData : IObjectMetaData;
-    FCurrentGroup : string;
+    FCurrentGroup : Byte;
     FCurrentValidateValue : TValue;
     FCurrentMember : TRttiMember;
   public
     constructor Create(CurrentObject : T; CurrentObjectMetaData : IObjectMetaData);
-    function GetCurrentGroup(): string;
-    procedure SetCurrentGroup(const Group : string);
+    function GetCurrentGroup(): Byte;
+    procedure SetCurrentGroup(const Group : Byte);
     function GetCurrentObjectType() : PTypeInfo;
     function GetCurrentObjectMetaData() : IObjectMetaData;
     function GetCurrentObject() : T;
@@ -67,7 +67,7 @@ begin
   Result := FCurrentObjectMetaData;
 end;
 
-function TValueContext<T>.GetCurrentGroup: string;
+function TValueContext<T>.GetCurrentGroup: Byte;
 begin
   Result := FCurrentGroup;
 end;
@@ -82,7 +82,7 @@ begin
   Result := FCurrentValidateValue;
 end;
 
-procedure TValueContext<T>.SetCurrentGroup(const Group: string);
+procedure TValueContext<T>.SetCurrentGroup(const Group: Byte);
 begin
   FCurrentGroup := Group;
 end;

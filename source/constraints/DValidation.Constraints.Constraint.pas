@@ -19,110 +19,94 @@
 unit DValidation.Constraints.Constraint;
 
 interface
-uses System.JSON, System.SysUtils, System.Generics.Collections, DValidation.Exceptions;
+uses
+  System.SysUtils,
+  System.Generics.Collections;
+
+const
+  DEFAULT_GROUP = 0;
 
 type
 
-   ConstraintAttribute = class(TCustomAttribute)
-   protected
-      FJSONObject : TJSONObject;
-      FMessage : string;
-      FGroups : TArray<string>;
-      FAttributes : TDictionary<string, variant>;
+  TGroupSet = set of Byte;
 
-      procedure Initialize(const Parameters : string);
-      function GetParameter<T>(const ParameterName : string; Default : T) : T;
-      function HasParameter(const ParameterName : string) : Boolean;
-   public
-      constructor Create(const Parameters : string = ''); virtual;
-      destructor Destroy; override;
-      property &Message : string read FMessage;
-      property Groups : TArray<string> read FGroups;
-      property Attributes : TDictionary<string, variant> read FAttributes;
-   end;
+  ConstraintAttribute = class(TCustomAttribute)
+  protected
+    FMessage : string;
+    FGroups : TGroupSet;
+    FAttributes : TDictionary<string, variant>;
+    function GetMessage: string; virtual; abstract;
+  public
+    destructor Destroy; override;
+    property Groups : TGroupSet read FGroups;
+    property &Message: string read GetMessage;
+    property Attributes : TDictionary<string, variant> read FAttributes;
+  end;
+
+  SimpleConstraintAttribute = class abstract(ConstraintAttribute)
+  public
+    constructor Create(); overload;
+    constructor Create(const AMessage : string); overload;
+    constructor Create(const AGroups: TGroupSet); overload;
+    constructor Create(const AMessage: string; const AGroups: TGroupSet); overload;
+  end;
+
+  ConstraintAttribute<T> = class(ConstraintAttribute)
+  protected
+    FValue: T;
+  public
+    constructor Create(const AValue: T; const AGroups: TGroupSet); overload;
+    constructor Create(const AValue: T; const AMessage: string; const AGroups: TGroupSet); overload;
+    property Value: T read FValue;
+  end;
 
 implementation
 
 { TConstraintAttribute }
 
-constructor ConstraintAttribute.Create(const Parameters: string = '');
-begin
-
-  FJSONObject := TJSONObject.Create;
-
-  Initialize(Parameters);
-
-  FAttributes := TDictionary<string, variant>.Create;
-
-  FAttributes.AddOrSetValue('Message', FMessage);
-  FAttributes.AddOrSetValue('Groups', FGroups);
-
-end;
-
 destructor ConstraintAttribute.Destroy;
 begin
-
-  if Assigned(FJSONObject) then
-    FJSONObject.Free;
-
   if Assigned(FAttributes) then
     FAttributes.Free;
 
   inherited;
 end;
 
-function ConstraintAttribute.GetParameter<T>(const ParameterName: string; Default : T): T;
-var
-  Parameter : TJSONValue;
-  Arr : TJSONArray;
+{ ConstraintAttribute<T> }
+
+constructor ConstraintAttribute<T>.Create(const AValue: T; const AMessage: string; const AGroups: TGroupSet);
 begin
-
-  Parameter := FJSONObject.GetValue(ParameterName);
-
-  if Parameter = nil then
-  begin
-    Result := Default;
-    Exit;
-  end;
-
-  if not Parameter.TryGetValue(Result) then
-    raise ConstraintException.Create('Invalid parameter "' + ParameterName + '"');
-
+  FValue := AValue;
+  FMessage := AMessage;
+  FGroups := AGroups;
 end;
 
-function ConstraintAttribute.HasParameter(const ParameterName: string): Boolean;
-var
-  Aux : TJSONValue;
+constructor ConstraintAttribute<T>.Create(const AValue: T; const AGroups: TGroupSet);
 begin
-  Result := FJSONObject.TryGetValue<TJSONValue>(Aux);
+  Create(AValue, EmptyStr, AGroups);
 end;
 
-procedure ConstraintAttribute.Initialize(const Parameters: string);
-const
-  DEFAULT_GROUP = 'DEFAULT';
+{ SimpleConstraintAttribute }
+
+constructor SimpleConstraintAttribute.Create(const AMessage: string);
 begin
+  Create(AMessage, [DEFAULT_GROUP]);
+end;
 
-  if Parameters.IsEmpty then
-  begin
-    FMessage := '';
-    FGroups := [DEFAULT_GROUP];
-    Exit;
-  end;
+constructor SimpleConstraintAttribute.Create(const AGroups: TGroupSet);
+begin
+  Create(EmptyStr, AGroups);
+end;
 
-  try
+constructor SimpleConstraintAttribute.Create(const AMessage: string; const AGroups: TGroupSet);
+begin
+  FMessage := AMessage;
+  FGroups := AGroups;
+end;
 
-    if FJSONObject.Parse(BytesOf(Parameters), 0) < 0 then
-      raise ConstraintException.Create('Invalid Format Constraint Parameters');
-
-    FMessage := GetParameter<string>('Message', FMessage);
-
-    FGroups := GetParameter<TArray<string>>('Groups', [DEFAULT_GROUP]);
-
-  except
-    FJSONObject.Free;
-    raise;
-  end;
-
+constructor SimpleConstraintAttribute.Create;
+begin
+  Create(EmptyStr, [DEFAULT_GROUP]);
 end;
 
 end.

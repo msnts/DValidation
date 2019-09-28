@@ -20,26 +20,28 @@ unit DValidation.Constraints.AssertFalse;
 
 interface
 uses
+  System.SysUtils,
   DValidation.Constraints.Constraint;
 
 type
 
-  AssertFalseAttribute = class(ConstraintAttribute)
-  public
-    constructor Create(const Parameters : string = ''); override;
+  AssertFalseAttribute = class(SimpleConstraintAttribute)
+  const
+    DEFAULT_MESSAGE = '{validation.constraints.AssertFalse.message}';
+  protected
+    function GetMessage: string; override;
   end;
 
 implementation
 
-{ NotBlankAttribute }
+{ AssertFalseAttribute }
 
-constructor AssertFalseAttribute.Create(const Parameters: string = '');
+function AssertFalseAttribute.GetMessage: string;
 begin
+  if FMessage.IsEmpty then
+    Exit(DEFAULT_MESSAGE);
 
-  FMessage := '{validation.constraints.AssertFalse.message}';
-
-  inherited;
-
+  Result := FMessage;
 end;
 
 end.

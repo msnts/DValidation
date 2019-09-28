@@ -20,26 +20,28 @@ unit DValidation.Constraints.Positive;
 
 interface
 uses
+  System.SysUtils,
   DValidation.Constraints.Constraint;
 
 type
 
-  PositiveAttribute = class(ConstraintAttribute)
-  public
-    constructor Create(const Parameters : string); override;
+  PositiveAttribute = class(SimpleConstraintAttribute)
+  const
+    DEFAULT_MESSAGE = '{validation.constraints.Positive.message}';
+  protected
+    function GetMessage: string; override;
   end;
 
 implementation
 
-{ NotBlankAttribute }
+{ PositiveAttribute }
 
-constructor PositiveAttribute.Create(const Parameters: string);
+function PositiveAttribute.GetMessage: string;
 begin
+  if FMessage.IsEmpty then
+    Exit(DEFAULT_MESSAGE);
 
-  FMessage := '{validation.constraints.Positive.message}';
-
-  inherited;
-
+  Result := FMessage;
 end;
 
 end.

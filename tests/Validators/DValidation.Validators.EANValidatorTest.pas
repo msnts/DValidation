@@ -69,7 +69,7 @@ begin
   FValid := '1233456456742';
   FInvalid := '1233456456744';
 
-  Faults := FValidator.Validate<TEANValidatorTest>(Self, ['DEFAULT']);
+  Faults := FValidator.Validate<TEANValidatorTest>(Self, [0]);
 
   Assert.AreEqual(Faults.Count, 1);
 

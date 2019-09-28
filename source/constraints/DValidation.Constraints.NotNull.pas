@@ -20,26 +20,28 @@ unit DValidation.Constraints.NotNull;
 
 interface
 uses
+  System.SysUtils,
   DValidation.Constraints.Constraint;
 
 type
 
-  NotNullAttribute = class(ConstraintAttribute)
-  public
-    constructor Create(const Parameters : string = ''); override;
+  NotNullAttribute = class(SimpleConstraintAttribute)
+  const
+    DEFAULT_MESSAGE = '{validation.constraints.NotNull.message}';
+  protected
+    function GetMessage: string; override;
   end;
 
 implementation
 
 { NotNullAttribute }
 
-constructor NotNullAttribute.Create(const Parameters: string);
+function NotNullAttribute.GetMessage: string;
 begin
+  if FMessage.IsEmpty then
+    Exit(DEFAULT_MESSAGE);
 
-  FMessage := '{validation.constraints.NotNull.message}';
-
-  inherited;
-
+  Result := FMessage;
 end;
 
 end.

@@ -20,34 +20,61 @@ unit DValidation.Constraints.Digits;
 
 interface
 uses
+  System.SysUtils,
   DValidation.Constraints.Constraint;
 
 type
 
   DigitsAttribute = class(ConstraintAttribute)
+  const
+    DEFAULT_MESSAGE = '{validation.constraints.Digits.message}';
   private
     FInteger : Integer;
     FFraction : Integer;
+  protected
+    function GetMessage: string; override;
   public
-    constructor Create(const Parameters : string); override;
+    constructor Create(const AInteger, AFraction: Integer); overload;
+    constructor Create(const AInteger, AFraction: Integer; const AMessage : string); overload;
+    constructor Create(const AInteger, AFraction: Integer; const AGroups: TGroupSet); overload;
+    constructor Create(const AInteger, AFraction: Integer; const AMessage: string; const AGroups: TGroupSet); overload;
     property &Integer : Integer read FInteger;
     property Fraction : Integer read FFraction;
   end;
 
 implementation
 
-{ NotBlankAttribute }
+{ DigitsAttribute }
 
-constructor DigitsAttribute.Create(const Parameters: string);
+constructor DigitsAttribute.Create(const AInteger, AFraction: Integer);
 begin
+  Create(AInteger, AFraction, EmptyStr, [DEFAULT_GROUP]);
+end;
 
-  FMessage := '{validation.constraints.Digits.message}';
+constructor DigitsAttribute.Create(const AInteger, AFraction: Integer; const AMessage: string);
+begin
+  Create(AInteger, AFraction, AMessage, [DEFAULT_GROUP]);
+end;
 
-  inherited;
+constructor DigitsAttribute.Create(const AInteger, AFraction: Integer; const AGroups: TGroupSet);
+begin
+   Create(AInteger, AFraction, EmptyStr, AGroups);
+end;
 
-  FInteger := GetParameter<System.Integer>('Integer', -1);
-  FFraction := GetParameter<System.Integer>('Fraction', -1);
+constructor DigitsAttribute.Create(const AInteger, AFraction: Integer; const AMessage: string; const AGroups: TGroupSet);
+begin
+  FInteger := AInteger;
+  FFraction := AFraction;
+  FMessage := AMessage;
+  FGroups := AGroups;
+end;
 
+function DigitsAttribute.GetMessage: string;
+begin
+  if FMessage.IsEmpty then
+    Exit(DEFAULT_MESSAGE);
+
+  Result := FMessage;
 end;
 
 end.

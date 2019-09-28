@@ -20,41 +20,29 @@ unit DValidation.Constraints.Range;
 
 interface
 uses
+  System.SysUtils,
   DValidation.Constraints.Constraint,
-  DValidation.Exceptions;
+  DValidation.Constraints.NumberRange;
 
 type
 
-  RangeAttribute = class(ConstraintAttribute)
-  private
-    FMin : Int64;
-    FMax : Int64;
-  public
-    constructor Create(const Parameters : string); override;
-    property Min : Int64 read FMin;
-    property Max : Int64 read FMax;
+  RangeAttribute = class(NumberRangeAttribute<Int64>)
+  const
+    DEFAULT_MESSAGE = '{validation.constraints.Range.message}';
+  protected
+    function GetMessage: string; override;
   end;
 
 implementation
 
-{ NotBlankAttribute }
+{ RangeAttribute }
 
-constructor RangeAttribute.Create(const Parameters: string);
+function RangeAttribute.GetMessage: string;
 begin
+  if FMessage.IsEmpty then
+    Exit(DEFAULT_MESSAGE);
 
-  FMessage := '{validation.constraints.Range.message}';
-
-  inherited;
-
-  if not HasParameter('Min') then
-    raise ConstraintException.Create('Parameter "Min" required');
-
-  if not HasParameter('Max') then
-    raise ConstraintException.Create('Parameter "Max" required');
-
-  FMin := GetParameter<Int64>('Min', Low(Int64));
-  FMax := GetParameter<Int64>('Max', High(Int64));
-
+  Result := FMessage;
 end;
 
 end.

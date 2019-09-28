@@ -47,12 +47,13 @@ begin
 
   try
 
-    Faults := Validator.Validate<TAssertFalseValidatorTest>(Self, ['DEFAULT']);
+    Faults := Validator.Validate<TAssertFalseValidatorTest>(Self, [0]);
 
     Assert.AreEqual(Faults.Count, 1);
 
   finally
     Validator.Free;
+    Faults.Free;
   end;
 
 end;

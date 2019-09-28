@@ -35,7 +35,7 @@ type
 
     FValidator : TValidator;
 
-    [Email('')]
+    [Email()]
     FEmail : string;
   public
     [SetupFixture]

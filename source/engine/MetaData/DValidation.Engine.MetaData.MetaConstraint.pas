@@ -29,7 +29,7 @@ type
 
   IMetaConstraint = interface
     ['{5592C0D5-1B22-4496-893F-4B28FAE8D337}']
-    function GetGroupList() : TList<string>;
+    function GetGroupList() : TGroupSet;
     function GetConstraintType() : PTypeInfo;
     function GetMember() : TRttiMember;
     function GetAttributes() : TDictionary<string, variant>;

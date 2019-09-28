@@ -20,34 +20,33 @@ unit DValidation.Constraints.Size;
 
 interface
 uses
+  System.SysUtils,
   DValidation.Constraints.Constraint;
 
 type
 
   SizeAttribute = class(ConstraintAttribute)
+  const
+    DEFAULT_MESSAGE = '{validation.constraints.Size.message}';
   private
     FMin : Integer;
     FMax : Integer;
+  protected
+    function GetMessage: string; override;
   public
-    constructor Create(const Parameters : string); override;
+
     property Min : Integer read FMin;
     property Max : Integer read FMax;
   end;
 
 implementation
 
-{ SizeAttribute }
-
-constructor SizeAttribute.Create(const Parameters: string);
+function SizeAttribute.GetMessage: string;
 begin
+  if FMessage.IsEmpty then
+    Exit(DEFAULT_MESSAGE);
 
-  FMessage := '{validation.constraints.Size.message}';
-
-  inherited;
-
-  FMin := GetParameter<Integer>('Min', 0);
-  FMax := GetParameter<Integer>('Max', MaxInt);
-
+  Result := FMessage;
 end;
 
 end.

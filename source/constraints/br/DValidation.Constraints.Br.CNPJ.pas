@@ -26,7 +26,7 @@ type
 
   CNPJAttribute = class(ConstraintAttribute)
   public
-    constructor Create(const Parameters : string); override;
+    constructor Create(const Parameters : string);
   end;
 
 implementation
@@ -37,8 +37,6 @@ constructor CNPJAttribute.Create(const Parameters: string);
 begin
 
   FMessage := '{validation.constraints.br.CNPJ.message}';
-
-  inherited;
 
 end;
 

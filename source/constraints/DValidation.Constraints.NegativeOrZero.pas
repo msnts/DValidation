@@ -20,26 +20,28 @@ unit DValidation.Constraints.NegativeOrZero;
 
 interface
 uses
+  System.SysUtils,
   DValidation.Constraints.Constraint;
 
 type
 
-  NegativeOrZeroAttribute = class(ConstraintAttribute)
-  public
-    constructor Create(const Parameters : string); override;
+  NegativeOrZeroAttribute = class(SimpleConstraintAttribute)
+  const
+    DEFAULT_MESSAGE = '{validation.constraints.NegativeOrZero.message}';
+  protected
+    function GetMessage: string; override;
   end;
 
 implementation
 
-{ NotBlankAttribute }
+{ NegativeOrZeroAttribute }
 
-constructor NegativeOrZeroAttribute.Create(const Parameters: string);
+function NegativeOrZeroAttribute.GetMessage: string;
 begin
+  if FMessage.IsEmpty then
+    Exit(DEFAULT_MESSAGE);
 
-  FMessage := '{validation.constraints.NegativeOrZero.message}';
-
-  inherited;
-
+  Result := FMessage;
 end;
 
 end.

@@ -41,7 +41,7 @@ implementation
 
 procedure TMinValidator.Initialize(Constraint: ConstraintAttribute);
 begin
-  FMinValue := MinAttribute(Constraint).Min;
+  FMinValue := MinAttribute(Constraint).Value;
 end;
 
 function TMinValidator.IsValid(const Value: Int64): Boolean;

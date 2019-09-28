@@ -20,33 +20,28 @@ unit DValidation.Constraints.Negative;
 
 interface
 uses
+  System.SysUtils,
   DValidation.Constraints.Constraint;
 
 type
 
-  NegativeAttribute = class(ConstraintAttribute)
-  public
-    constructor Create(); overload;
-    constructor Create(const Parameters : string); overload;
-
+  NegativeAttribute = class(SimpleConstraintAttribute)
+  const
+    DEFAULT_MESSAGE = '{validation.constraints.Negative.message}';
+  protected
+    function GetMessage: string; override;
   end;
 
 implementation
 
-{ NotBlankAttribute }
+{ NegativeAttribute }
 
-constructor NegativeAttribute.Create(const Parameters: string);
+function NegativeAttribute.GetMessage: string;
 begin
+  if FMessage.IsEmpty then
+    Exit(DEFAULT_MESSAGE);
 
-  FMessage := '{validation.constraints.Negative.message}';
-
-  inherited;
-
-end;
-
-constructor NegativeAttribute.Create;
-begin
-  FMessage := '{validation.constraints.Negative.message}';
+  Result := FMessage;
 end;
 
 end.

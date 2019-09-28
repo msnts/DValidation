@@ -2,9 +2,11 @@ unit ValidationTest;
 
 interface
 uses
+  System.Generics.Collections,
   DUnitX.TestFramework,
   DValidation,
   DValidation.Engine.Impl.Validator,
+  DValidation.Engine.ConstraintViolation,
   Customer;
 
 type
@@ -25,6 +27,7 @@ procedure TValidationTest.ValidatorTest;
 var
   Validator : TValidator;
   Customer : TCustomer;
+  List: TList<IConstraintViolation<TCustomer>>;
 begin
 
   Validator := TDValidation.GetInstance.BuildValidator;
@@ -34,10 +37,13 @@ begin
   Customer.NotValid := False;
 
   try
-    Validator.Validate<TCustomer>(Customer, ['DEFAULT']);
+    List := Validator.Validate<TCustomer>(Customer, [0]);
+
+    Assert.AreEqual(0, List.Count);
   finally
+    List.Free;
+    Customer.Free;
     Validator.Free;
-     Customer.Free;
   end;
 
 end;

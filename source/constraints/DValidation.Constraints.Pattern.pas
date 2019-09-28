@@ -40,7 +40,7 @@ type
     /// If parameter "Regexp" is null or empty, an exception is raised.
     /// <see cref="ConstraintException"/>
     /// </remarks>
-    constructor Create(const Parameters : string); override;
+    constructor Create(const Parameters : string);
     property Regexp : string read FRegexp;
     property Flags : string read FFlags;
   end;
@@ -54,13 +54,9 @@ begin
 
   FMessage := '{validation.constraints.Pattern.message}';
 
-  inherited;
 
-  if not HasParameter('Regexp') then
-    raise ConstraintException.Create('Parameter "Regexp" required');
-
-  FRegexp := GetParameter<string>('Regexp', '');
-  FFlags := GetParameter<string>('Flags', '');
+  //FRegexp := GetParameter<string>('Regexp', '');
+  //FFlags := GetParameter<string>('Flags', '');
 
 end;
 

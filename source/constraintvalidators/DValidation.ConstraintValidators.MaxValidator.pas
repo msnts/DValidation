@@ -41,7 +41,7 @@ implementation
 
 procedure TMaxValidator.Initialize(Constraint: ConstraintAttribute);
 begin
-  FMaxValue := MaxAttribute(Constraint).Max;
+  FMaxValue := MaxAttribute(Constraint).Value;
 end;
 
 function TMaxValidator.IsValid(const Value: Int64): Boolean;

@@ -20,35 +20,26 @@ unit DValidation.Constraints.Min;
 
 interface
 uses
-  DValidation.Constraints.Constraint,
-  DValidation.Exceptions;
+  System.SysUtils,
+  DValidation.Constraints.Number;
 
 type
 
-  MinAttribute = class(ConstraintAttribute)
-  private
-    FMin : Int64;
-  public
-    constructor Create(const Parameters : string); override;
-    property Min : Int64 read FMin;
+  MinAttribute = class(TNumberAttribute<Int64>)
+  const
+    DEFAULT_MESSAGE = '{validation.constraints.Min.message}';
+  protected
+    function GetMessage: string; override;
   end;
 
 implementation
 
-{ NotBlankAttribute }
-
-constructor MinAttribute.Create(const Parameters: string);
+function MinAttribute.GetMessage: string;
 begin
+  if FMessage.IsEmpty then
+    Exit(DEFAULT_MESSAGE);
 
-  FMessage := '{validation.constraints.Min.message}';
-
-  inherited;
-
-  if not HasParameter('Min') then
-    raise ConstraintException.Create('Parameter "Min" required');
-
-  FMin := GetParameter<Int64>('Min', Low(Int64));
-
+  Result := FMessage;
 end;
 
 end.

@@ -20,44 +20,66 @@ unit DValidation.Constraints.EAN;
 
 interface
 uses
-  TypInfo,
-  DValidation.Constraints.Constraint,
-  DValidation.Exceptions;
+  System.SysUtils,
+  DValidation.Constraints.Constraint;
 
 type
 
   TEAN = (EAN8, EAN13);
 
-  EANAttribute = class(ConstraintAttribute)
+  EANAttribute = class(SimpleConstraintAttribute)
+  const
+    DEFAULT_MESSAGE = '{validation.constraints.EAN.message}';
   private
-    FType : TEAN;
+    FType: TEAN;
+  protected
+    function GetMessage: string; override;
   public
-    constructor Create(const Parameters : string); override;
+    constructor Create(const AType: TEAN); overload;
+    constructor Create(const AType: TEAN; const AMessage: string); overload;
+    constructor Create(const AType: TEAN; const AGroups: TGroupSet); overload;
+    constructor Create(const AMessage: string; const AGroups: TGroupSet); overload;
+    constructor Create(const AType: TEAN; const AMessage: string; const AGroups: TGroupSet); overload;
     property &Type : TEAN read FType;
   end;
 
 implementation
 
-{ NotBlankAttribute }
+{ EANAttribute }
 
-constructor EANAttribute.Create(const Parameters: string);
-var
-  TypeName : string;
+constructor EANAttribute.Create(const AType: TEAN; const AMessage: string; const AGroups: TGroupSet);
 begin
+  FType := AType;
+  FMessage := AMessage;
+  FGroups := AGroups;
+end;
 
-  FMessage := '{}';
+constructor EANAttribute.Create(const AMessage: string; const AGroups: TGroupSet);
+begin
+  Create(TEAN.EAN13, AMessage, AGroups);
+end;
 
-  inherited;
+constructor EANAttribute.Create(const AType: TEAN);
+begin
+  Create(AType, EmptyStr, [DEFAULT_GROUP]);
+end;
 
-  TypeName := GetParameter<string>('Type', 'EAN13');
+constructor EANAttribute.Create(const AType: TEAN; const AMessage: string);
+begin
+  Create(AType, AMessage, [DEFAULT_GROUP]);
+end;
 
-  try
-    FType := TEAN(GetEnumValue(TypeInfo(TEAN), TypeName));
+constructor EANAttribute.Create(const AType: TEAN; const AGroups: TGroupSet);
+begin
+  Create(AType, EmptyStr, AGroups);
+end;
 
-  except
-    raise ConstraintException.Create('The "' + TypeName + '" value is invalid EAN type');
-  end;
+function EANAttribute.GetMessage: string;
+begin
+  if FMessage.IsEmpty then
+    Exit(DEFAULT_MESSAGE);
 
+  Result := FMessage;
 end;
 
 end.

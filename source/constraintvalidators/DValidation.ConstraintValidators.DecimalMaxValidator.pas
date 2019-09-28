@@ -42,7 +42,7 @@ implementation
 
 procedure TDecimalMaxValidator.Initialize(Constraint: ConstraintAttribute);
 begin
-  FDecimalMaxValue := DecimalMaxAttribute(Constraint).Max;
+  FDecimalMaxValue := DecimalMaxAttribute(Constraint).Value;
   FInclusive := DecimalMaxAttribute(Constraint).Inclusive;
 end;
 

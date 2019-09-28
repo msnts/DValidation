@@ -20,31 +20,32 @@ unit DValidation.Constraints.CreditCardNumber;
 
 interface
 uses
+  System.SysUtils,
   DValidation.Constraints.Constraint;
 
 type
 
   CreditCardNumberAttribute = class(ConstraintAttribute)
+  const
+    DEFAULT_MESSAGE = '{validation.constraints.CreditCardNumber.message}';
   private
     FIgnoreNonDigitCharacters : Boolean;
+  protected
+    function GetMessage: string; override;
   public
-    constructor Create(const Parameters : string); override;
     property IgnoreNonDigitCharacters : Boolean read FIgnoreNonDigitCharacters;
   end;
 
 implementation
 
-{ NotBlankAttribute }
+{ CreditCardNumberAttribute }
 
-constructor CreditCardNumberAttribute.Create(const Parameters: string);
+function CreditCardNumberAttribute.GetMessage: string;
 begin
+  if FMessage.IsEmpty then
+    Exit(DEFAULT_MESSAGE);
 
-  FMessage := '{validation.constraints.CreditCardNumber.message}';
-
-  inherited;
-
-  FIgnoreNonDigitCharacters := GetParameter<Boolean>('IgnoreNonDigitCharacters', False);
-
+  Result := FMessage;
 end;
 
 end.

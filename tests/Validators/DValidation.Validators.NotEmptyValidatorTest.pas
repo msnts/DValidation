@@ -97,8 +97,6 @@ var
   Actual : Boolean;
   Faults : TList<IConstraintViolation<TNotEmptyValidatorTest>>;
 begin
-
-
   FValue := 'test';
 
   FValidCollectionsList.Add(1);
@@ -107,8 +105,11 @@ begin
 
   Faults := FValidator.Validate<TNotEmptyValidatorTest>(Self);
 
-  Assert.AreEqual(Faults.Count, 2);
-
+  try
+    Assert.AreEqual(Faults.Count, 2);
+  finally
+    Faults.Free;
+  end;
 end;
 
 initialization

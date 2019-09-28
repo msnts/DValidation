@@ -34,19 +34,19 @@ type
   TCar = class
   private
 
-    [DecimalMin('{"Min":500.56}'), DecimalMax('{"Max":987.8}')]
+    [DecimalMin(500.56), DecimalMax(987.8)]
     FWeight : Double;
 
-    [Size('{"Min":2, "Max":14}')]
+    //[Size('{"Min":2, "Max":14}')]
     FLicensePlate : string;
 
     [AssertTrue]
     FIsRegistered : Boolean;
 
-    [NotNull, Valid]
+    //[NotNull, Valid]
     FDriver : TPerson;
 
-    [NotNull, Size('{"Min":1, "Max":5}')]
+    //[NotNull, Size('{"Min":1, "Max":5}')]
     FPassengers : TList<TPerson>;
 
   //  [NotNull, Valid]

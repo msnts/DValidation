@@ -43,7 +43,7 @@ uses System.SysUtils, System.Variants;
 
 procedure TDecimalMinValidator.Initialize(Constraint: ConstraintAttribute);
 begin
-  FDecimalMinValue := DecimalMinAttribute(Constraint).Min;
+  FDecimalMinValue := DecimalMinAttribute(Constraint).Value;
   FInclusive := DecimalMinAttribute(Constraint).Inclusive;
 end;
 
