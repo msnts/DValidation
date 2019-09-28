@@ -1,0 +1,139 @@
+package DValidation;
+
+{$R *.res}
+{$IFDEF IMPLICITBUILDING This IFDEF should not be used by users}
+{$ALIGN 8}
+{$ASSERTIONS ON}
+{$BOOLEVAL OFF}
+{$DEBUGINFO OFF}
+{$EXTENDEDSYNTAX ON}
+{$IMPORTEDDATA ON}
+{$IOCHECKS ON}
+{$LOCALSYMBOLS ON}
+{$LONGSTRINGS ON}
+{$OPENSTRINGS ON}
+{$OPTIMIZATION OFF}
+{$OVERFLOWCHECKS OFF}
+{$RANGECHECKS OFF}
+{$REFERENCEINFO ON}
+{$SAFEDIVIDE OFF}
+{$STACKFRAMES ON}
+{$TYPEDADDRESS OFF}
+{$VARSTRINGCHECKS ON}
+{$WRITEABLECONST OFF}
+{$MINENUMSIZE 1}
+{$IMAGEBASE $400000}
+{$DEFINE DEBUG}
+{$ENDIF IMPLICITBUILDING}
+{$IMPLICITBUILD ON}
+
+requires
+  rtl;
+
+contains
+  DValidation.Exceptions in '..\..\src\DValidation.Exceptions.pas',
+  DValidation in '..\..\src\DValidation.pas',
+  DValidation.I18n.Locale in '..\..\src\I18n\DValidation.I18n.Locale.pas',
+  DValidation.I18n.Messages in '..\..\src\I18n\DValidation.I18n.Messages.pas',
+  DValidation.I18n.Impl.Locale in '..\..\src\I18n\impl\DValidation.I18n.Impl.Locale.pas',
+  DValidation.Engine.ConstraintValidatorFactory in '..\..\src\engine\DValidation.Engine.ConstraintValidatorFactory.pas',
+  DValidation.Engine.ConstraintValidatorManager in '..\..\src\engine\DValidation.Engine.ConstraintValidatorManager.pas',
+  DValidation.Engine.ConstraintViolation in '..\..\src\engine\DValidation.Engine.ConstraintViolation.pas',
+  DValidation.Engine.MessageInterpolator in '..\..\src\engine\DValidation.Engine.MessageInterpolator.pas',
+  DValidation.Engine.ValidationContext in '..\..\src\engine\DValidation.Engine.ValidationContext.pas',
+  DValidation.Engine.Validator in '..\..\src\engine\DValidation.Engine.Validator.pas',
+  DValidation.Engine.ValidatorFactory in '..\..\src\engine\DValidation.Engine.ValidatorFactory.pas',
+  DValidation.Engine.ValueContext in '..\..\src\engine\DValidation.Engine.ValueContext.pas',
+  DValidation.Engine.MetaData.MetaConstraint in '..\..\src\engine\MetaData\DValidation.Engine.MetaData.MetaConstraint.pas',
+  DValidation.Engine.MetaData.ObjectMetaData in '..\..\src\engine\MetaData\DValidation.Engine.MetaData.ObjectMetaData.pas',
+  DValidation.Engine.MetaData.ObjectMetaDataManager in '..\..\src\engine\MetaData\DValidation.Engine.MetaData.ObjectMetaDataManager.pas',
+  DValidation.Engine.MetaData.RttiHelper in '..\..\src\engine\MetaData\DValidation.Engine.MetaData.RttiHelper.pas',
+  DValidation.Engine.MetaData.Impl.MetaConstraint in '..\..\src\engine\MetaData\impl\DValidation.Engine.MetaData.Impl.MetaConstraint.pas',
+  DValidation.Engine.MetaData.Impl.ObjectMetaData in '..\..\src\engine\MetaData\impl\DValidation.Engine.MetaData.Impl.ObjectMetaData.pas',
+  DValidation.Engine.MetaData.Impl.ObjectMetaDataManager in '..\..\src\engine\MetaData\impl\DValidation.Engine.MetaData.Impl.ObjectMetaDataManager.pas',
+  DValidation.Engine.Impl.ConstraintValidatorManager in '..\..\src\engine\Impl\DValidation.Engine.Impl.ConstraintValidatorManager.pas',
+  DValidation.Engine.Impl.ConstraintViolation in '..\..\src\engine\Impl\DValidation.Engine.Impl.ConstraintViolation.pas',
+  DValidation.Engine.Impl.MessageInterpolator in '..\..\src\engine\Impl\DValidation.Engine.Impl.MessageInterpolator.pas',
+  DValidation.Engine.Impl.ValidationContext in '..\..\src\engine\Impl\DValidation.Engine.Impl.ValidationContext.pas',
+  DValidation.Engine.Impl.Validator in '..\..\src\engine\Impl\DValidation.Engine.Impl.Validator.pas',
+  DValidation.Engine.Impl.ValueContext in '..\..\src\engine\Impl\DValidation.Engine.Impl.ValueContext.pas',
+  DValidation.ConstraintValidators.AbstractSizeValidator in '..\..\src\constraintvalidators\DValidation.ConstraintValidators.AbstractSizeValidator.pas',
+  DValidation.ConstraintValidators.AssertFalseValidator in '..\..\src\constraintvalidators\DValidation.ConstraintValidators.AssertFalseValidator.pas',
+  DValidation.ConstraintValidators.AssertTrueValidator in '..\..\src\constraintvalidators\DValidation.ConstraintValidators.AssertTrueValidator.pas',
+  DValidation.ConstraintValidators.ConstraintValidator in '..\..\src\constraintvalidators\DValidation.ConstraintValidators.ConstraintValidator.pas',
+  DValidation.ConstraintValidators.ConstraintValidatorUtils in '..\..\src\constraintvalidators\DValidation.ConstraintValidators.ConstraintValidatorUtils.pas',
+  DValidation.ConstraintValidators.DecimalMaxValidator in '..\..\src\constraintvalidators\DValidation.ConstraintValidators.DecimalMaxValidator.pas',
+  DValidation.ConstraintValidators.DecimalMinValidator in '..\..\src\constraintvalidators\DValidation.ConstraintValidators.DecimalMinValidator.pas',
+  DValidation.ConstraintValidators.EANValidator in '..\..\src\constraintvalidators\DValidation.ConstraintValidators.EANValidator.pas',
+  DValidation.ConstraintValidators.EmailValidator in '..\..\src\constraintvalidators\DValidation.ConstraintValidators.EmailValidator.pas',
+  DValidation.ConstraintValidators.MaxValidator in '..\..\src\constraintvalidators\DValidation.ConstraintValidators.MaxValidator.pas',
+  DValidation.ConstraintValidators.MinValidator in '..\..\src\constraintvalidators\DValidation.ConstraintValidators.MinValidator.pas',
+  DValidation.ConstraintValidators.NegativeOrZeroValidatorForDecimal in '..\..\src\constraintvalidators\DValidation.ConstraintValidators.NegativeOrZeroValidatorForDecimal.pas',
+  DValidation.ConstraintValidators.NegativeOrZeroValidatorForOrdinal in '..\..\src\constraintvalidators\DValidation.ConstraintValidators.NegativeOrZeroValidatorForOrdinal.pas',
+  DValidation.ConstraintValidators.NegativeValidatorForDecimal in '..\..\src\constraintvalidators\DValidation.ConstraintValidators.NegativeValidatorForDecimal.pas',
+  DValidation.ConstraintValidators.NegativeValidatorForOrdinal in '..\..\src\constraintvalidators\DValidation.ConstraintValidators.NegativeValidatorForOrdinal.pas',
+  DValidation.ConstraintValidators.NotBlankValidator in '..\..\src\constraintvalidators\DValidation.ConstraintValidators.NotBlankValidator.pas',
+  DValidation.ConstraintValidators.NotEmptyValidatorForArray in '..\..\src\constraintvalidators\DValidation.ConstraintValidators.NotEmptyValidatorForArray.pas',
+  DValidation.ConstraintValidators.NotEmptyValidatorForCollection in '..\..\src\constraintvalidators\DValidation.ConstraintValidators.NotEmptyValidatorForCollection.pas',
+  DValidation.ConstraintValidators.NotEmptyValidatorForString in '..\..\src\constraintvalidators\DValidation.ConstraintValidators.NotEmptyValidatorForString.pas',
+  DValidation.ConstraintValidators.NotNullValidator in '..\..\src\constraintvalidators\DValidation.ConstraintValidators.NotNullValidator.pas',
+  DValidation.ConstraintValidators.PatternValidator in '..\..\src\constraintvalidators\DValidation.ConstraintValidators.PatternValidator.pas',
+  DValidation.ConstraintValidators.PositiveOrZeroValidatorForDecimal in '..\..\src\constraintvalidators\DValidation.ConstraintValidators.PositiveOrZeroValidatorForDecimal.pas',
+  DValidation.ConstraintValidators.PositiveOrZeroValidatorForOrdinal in '..\..\src\constraintvalidators\DValidation.ConstraintValidators.PositiveOrZeroValidatorForOrdinal.pas',
+  DValidation.ConstraintValidators.PositiveValidatorForDecimal in '..\..\src\constraintvalidators\DValidation.ConstraintValidators.PositiveValidatorForDecimal.pas',
+  DValidation.ConstraintValidators.PositiveValidatorForOrdinal in '..\..\src\constraintvalidators\DValidation.ConstraintValidators.PositiveValidatorForOrdinal.pas',
+  DValidation.ConstraintValidators.RangeValidatorForDecimal in '..\..\src\constraintvalidators\DValidation.ConstraintValidators.RangeValidatorForDecimal.pas',
+  DValidation.ConstraintValidators.RangeValidatorForOrdinal in '..\..\src\constraintvalidators\DValidation.ConstraintValidators.RangeValidatorForOrdinal.pas',
+  DValidation.ConstraintValidators.SizeValidatorForArray in '..\..\src\constraintvalidators\DValidation.ConstraintValidators.SizeValidatorForArray.pas',
+  DValidation.ConstraintValidators.SizeValidatorForCollection in '..\..\src\constraintvalidators\DValidation.ConstraintValidators.SizeValidatorForCollection.pas',
+  DValidation.ConstraintValidators.SizeValidatorForString in '..\..\src\constraintvalidators\DValidation.ConstraintValidators.SizeValidatorForString.pas',
+  DValidation.ConstraintValidators.FutureOrPresentValidatorForDate in '..\..\src\constraintvalidators\time\DValidation.ConstraintValidators.FutureOrPresentValidatorForDate.pas',
+  DValidation.ConstraintValidators.FutureOrPresentValidatorForDateTime in '..\..\src\constraintvalidators\time\DValidation.ConstraintValidators.FutureOrPresentValidatorForDateTime.pas',
+  DValidation.ConstraintValidators.FutureOrPresentValidatorForTime in '..\..\src\constraintvalidators\time\DValidation.ConstraintValidators.FutureOrPresentValidatorForTime.pas',
+  DValidation.ConstraintValidators.FutureValidatorForDate in '..\..\src\constraintvalidators\time\DValidation.ConstraintValidators.FutureValidatorForDate.pas',
+  DValidation.ConstraintValidators.FutureValidatorForDateTime in '..\..\src\constraintvalidators\time\DValidation.ConstraintValidators.FutureValidatorForDateTime.pas',
+  DValidation.ConstraintValidators.FutureValidatorForTime in '..\..\src\constraintvalidators\time\DValidation.ConstraintValidators.FutureValidatorForTime.pas',
+  DValidation.ConstraintValidators.PastOrPresentValidatorForDate in '..\..\src\constraintvalidators\time\DValidation.ConstraintValidators.PastOrPresentValidatorForDate.pas',
+  DValidation.ConstraintValidators.PastOrPresentValidatorForDateTime in '..\..\src\constraintvalidators\time\DValidation.ConstraintValidators.PastOrPresentValidatorForDateTime.pas',
+  DValidation.ConstraintValidators.PastOrPresentValidatorForTime in '..\..\src\constraintvalidators\time\DValidation.ConstraintValidators.PastOrPresentValidatorForTime.pas',
+  DValidation.ConstraintValidators.PastValidatorForDate in '..\..\src\constraintvalidators\time\DValidation.ConstraintValidators.PastValidatorForDate.pas',
+  DValidation.ConstraintValidators.PastValidatorForDateTime in '..\..\src\constraintvalidators\time\DValidation.ConstraintValidators.PastValidatorForDateTime.pas',
+  DValidation.ConstraintValidators.PastValidatorForTime in '..\..\src\constraintvalidators\time\DValidation.ConstraintValidators.PastValidatorForTime.pas',
+  DValidation.ConstraintValidators.Br.CNPJValidator in '..\..\src\constraintvalidators\br\DValidation.ConstraintValidators.Br.CNPJValidator.pas',
+  DValidation.Constraints.AssertFalse in '..\..\src\constraints\DValidation.Constraints.AssertFalse.pas',
+  DValidation.Constraints.AssertTrue in '..\..\src\constraints\DValidation.Constraints.AssertTrue.pas',
+  DValidation.Constraints.Constraint in '..\..\src\constraints\DValidation.Constraints.Constraint.pas',
+  DValidation.Constraints.CreditCardNumber in '..\..\src\constraints\DValidation.Constraints.CreditCardNumber.pas',
+  DValidation.Constraints.Currency in '..\..\src\constraints\DValidation.Constraints.Currency.pas',
+  DValidation.Constraints.DecimalMax in '..\..\src\constraints\DValidation.Constraints.DecimalMax.pas',
+  DValidation.Constraints.DecimalMin in '..\..\src\constraints\DValidation.Constraints.DecimalMin.pas',
+  DValidation.Constraints.Digits in '..\..\src\constraints\DValidation.Constraints.Digits.pas',
+  DValidation.Constraints.EAN in '..\..\src\constraints\DValidation.Constraints.EAN.pas',
+  DValidation.Constraints.Email in '..\..\src\constraints\DValidation.Constraints.Email.pas',
+  DValidation.Constraints.GroupSequence in '..\..\src\constraints\DValidation.Constraints.GroupSequence.pas',
+  DValidation.Constraints.Max in '..\..\src\constraints\DValidation.Constraints.Max.pas',
+  DValidation.Constraints.Min in '..\..\src\constraints\DValidation.Constraints.Min.pas',
+  DValidation.Constraints.Negative in '..\..\src\constraints\DValidation.Constraints.Negative.pas',
+  DValidation.Constraints.NegativeOrZero in '..\..\src\constraints\DValidation.Constraints.NegativeOrZero.pas',
+  DValidation.Constraints.NotBlank in '..\..\src\constraints\DValidation.Constraints.NotBlank.pas',
+  DValidation.Constraints.NotEmpty in '..\..\src\constraints\DValidation.Constraints.NotEmpty.pas',
+  DValidation.Constraints.NotNull in '..\..\src\constraints\DValidation.Constraints.NotNull.pas',
+  DValidation.Constraints.Number in '..\..\src\constraints\DValidation.Constraints.Number.pas',
+  DValidation.Constraints.NumberRange in '..\..\src\constraints\DValidation.Constraints.NumberRange.pas',
+  DValidation.Constraints.Pattern in '..\..\src\constraints\DValidation.Constraints.Pattern.pas',
+  DValidation.Constraints.Positive in '..\..\src\constraints\DValidation.Constraints.Positive.pas',
+  DValidation.Constraints.PositiveOrZero in '..\..\src\constraints\DValidation.Constraints.PositiveOrZero.pas',
+  DValidation.Constraints.Range in '..\..\src\constraints\DValidation.Constraints.Range.pas',
+  DValidation.Constraints.RangeDecimal in '..\..\src\constraints\DValidation.Constraints.RangeDecimal.pas',
+  DValidation.Constraints.Size in '..\..\src\constraints\DValidation.Constraints.Size.pas',
+  DValidation.Constraints.Valid in '..\..\src\constraints\DValidation.Constraints.Valid.pas',
+  DValidation.Constraints.Validators in '..\..\src\constraints\DValidation.Constraints.Validators.pas',
+  DValidation.Constraints.Time.Future in '..\..\src\constraints\time\DValidation.Constraints.Time.Future.pas',
+  DValidation.Constraints.Time.FutureOrPresent in '..\..\src\constraints\time\DValidation.Constraints.Time.FutureOrPresent.pas',
+  DValidation.Constraints.Time.Past in '..\..\src\constraints\time\DValidation.Constraints.Time.Past.pas',
+  DValidation.Constraints.Time.PastOrPresent in '..\..\src\constraints\time\DValidation.Constraints.Time.PastOrPresent.pas',
+  DValidation.Constraints.Br.CNPJ in '..\..\src\constraints\br\DValidation.Constraints.Br.CNPJ.pas',
+  DValidation.Constraints.Br.CPF in '..\..\src\constraints\br\DValidation.Constraints.Br.CPF.pas',
+  DValidation.Constraints.Br.TituloEleitor in '..\..\src\constraints\br\DValidation.Constraints.Br.TituloEleitor.pas';
+
+end.
