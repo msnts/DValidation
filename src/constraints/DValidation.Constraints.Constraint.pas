@@ -32,15 +32,12 @@ type
 
   ConstraintAttribute = class(TCustomAttribute)
   protected
-    FMessage : string;
-    FGroups : TGroupSet;
-    FAttributes : TDictionary<string, variant>;
+    FMessage: string;
+    FGroups: TGroupSet;
     function GetMessage: string; virtual; abstract;
   public
-    destructor Destroy; override;
-    property Groups : TGroupSet read FGroups;
+    property Groups: TGroupSet read FGroups;
     property &Message: string read GetMessage;
-    property Attributes : TDictionary<string, variant> read FAttributes;
   end;
 
   SimpleConstraintAttribute = class abstract(ConstraintAttribute)
@@ -61,16 +58,6 @@ type
   end;
 
 implementation
-
-{ TConstraintAttribute }
-
-destructor ConstraintAttribute.Destroy;
-begin
-  if Assigned(FAttributes) then
-    FAttributes.Free;
-
-  inherited;
-end;
 
 { ConstraintAttribute<T> }
 

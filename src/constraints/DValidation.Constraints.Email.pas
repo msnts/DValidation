@@ -22,19 +22,24 @@ interface
 
 uses
   System.SysUtils,
+  System.RegularExpressions,
   DValidation.Constraints.Constraint;
 
 type
 
-  EmailAttribute = class(ConstraintAttribute)
+  TPatternFlags = TRegExOption;
+
+  EmailAttribute = class(SimpleConstraintAttribute)
   const
     DEFAULT_MESSAGE = '{validation.constraints.Email.message}';
   private
-    FPattern: string;
+    FRegexp: string;
+    FFlags: TPatternFlags;
   protected
     function GetMessage: string; override;
   public
-    property Pattern: string read FPattern;
+    property Regexp: string read FRegexp;
+    property Flags: TPatternFlags read FFlags;
   end;
 
 implementation

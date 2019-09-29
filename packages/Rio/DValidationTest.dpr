@@ -22,8 +22,6 @@ uses
   DValidation.Constraints.AssertTrueTest in '..\..\tests\constraints\DValidation.Constraints.AssertTrueTest.pas',
   DValidation.Constraints.DecimalMaxTest in '..\..\tests\constraints\DValidation.Constraints.DecimalMaxTest.pas',
   DValidation.Constraints.DecimalMinTest in '..\..\tests\constraints\DValidation.Constraints.DecimalMinTest.pas',
-  DValidation.Constraints.FutureOrPresentTest in '..\..\tests\constraints\DValidation.Constraints.FutureOrPresentTest.pas',
-  DValidation.Constraints.FutureTest in '..\..\tests\constraints\DValidation.Constraints.FutureTest.pas',
   DValidation.Constraints.MaxTest in '..\..\tests\constraints\DValidation.Constraints.MaxTest.pas',
   DValidation.Constraints.MinTest in '..\..\tests\constraints\DValidation.Constraints.MinTest.pas',
   DValidation.Constraints.NegativeOrZeroTest in '..\..\tests\constraints\DValidation.Constraints.NegativeOrZeroTest.pas',
@@ -31,8 +29,6 @@ uses
   DValidation.Constraints.NotBlankTest in '..\..\tests\constraints\DValidation.Constraints.NotBlankTest.pas',
   DValidation.Constraints.NotEmptyTest in '..\..\tests\constraints\DValidation.Constraints.NotEmptyTest.pas',
   DValidation.Constraints.NotNullTest in '..\..\tests\constraints\DValidation.Constraints.NotNullTest.pas',
-  DValidation.Constraints.PastOrPresentTest in '..\..\tests\constraints\DValidation.Constraints.PastOrPresentTest.pas',
-  DValidation.Constraints.PastTest in '..\..\tests\constraints\DValidation.Constraints.PastTest.pas',
   DValidation.Constraints.PositiveOrZeroTest in '..\..\tests\constraints\DValidation.Constraints.PositiveOrZeroTest.pas',
   DValidation.Constraints.PositiveTest in '..\..\tests\constraints\DValidation.Constraints.PositiveTest.pas',
   DValidation.Engine.MessageInterpolatorTest in '..\..\tests\engine\DValidation.Engine.MessageInterpolatorTest.pas',
@@ -44,7 +40,16 @@ uses
   DValidation.Validators.MaxValidatorTest in '..\..\tests\validators\DValidation.Validators.MaxValidatorTest.pas',
   DValidation.Validators.MinValidatorTest in '..\..\tests\validators\DValidation.Validators.MinValidatorTest.pas',
   DValidation.Validators.NotEmptyValidatorTest in '..\..\tests\validators\DValidation.Validators.NotEmptyValidatorTest.pas',
-  DValidation.Validators.PastValidatorTest in '..\..\tests\validators\DValidation.Validators.PastValidatorTest.pas';
+  DValidation.Validators.PastValidatorTest in '..\..\tests\validators\DValidation.Validators.PastValidatorTest.pas',
+  DValidation.Constraints.Time.FutureOrPresentTest in '..\..\tests\constraints\time\DValidation.Constraints.Time.FutureOrPresentTest.pas',
+  DValidation.Constraints.Time.FutureTest in '..\..\tests\constraints\time\DValidation.Constraints.Time.FutureTest.pas',
+  DValidation.Constraints.Time.PastOrPresentTest in '..\..\tests\constraints\time\DValidation.Constraints.Time.PastOrPresentTest.pas',
+  DValidation.Constraints.Time.PastTest in '..\..\tests\constraints\time\DValidation.Constraints.Time.PastTest.pas',
+  DValidation.Constraints.CreditCardNumberTest in '..\..\tests\constraints\DValidation.Constraints.CreditCardNumberTest.pas',
+  DValidation.Constraints.DigitsTest in '..\..\tests\constraints\DValidation.Constraints.DigitsTest.pas',
+  DValidation.Constraints.Br.CNPJTest in '..\..\tests\constraints\br\DValidation.Constraints.Br.CNPJTest.pas',
+  DValidation.Constraints.Br.CPFTest in '..\..\tests\constraints\br\DValidation.Constraints.Br.CPFTest.pas',
+  DValidation.Constraints.Br.TituloEleitorTest in '..\..\tests\constraints\br\DValidation.Constraints.Br.TituloEleitorTest.pas';
 
 {$R ..\resources\locale.res}
 

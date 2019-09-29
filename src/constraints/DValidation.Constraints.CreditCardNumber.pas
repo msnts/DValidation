@@ -25,20 +25,52 @@ uses
 
 type
 
-  CreditCardNumberAttribute = class(ConstraintAttribute)
+  CreditCardNumberAttribute = class(SimpleConstraintAttribute)
   const
     DEFAULT_MESSAGE = '{validation.constraints.CreditCardNumber.message}';
   private
-    FIgnoreNonDigitCharacters : Boolean;
+    FIgnoreNonDigitCharacters: Boolean;
   protected
     function GetMessage: string; override;
   public
-    property IgnoreNonDigitCharacters : Boolean read FIgnoreNonDigitCharacters;
+    constructor Create(const AIgnoreNonDigitCharacters: Boolean); overload;
+    constructor Create(const AIgnoreNonDigitCharacters: Boolean; const AMessage: string); overload;
+    constructor Create(const AIgnoreNonDigitCharacters: Boolean; const AGroups: TGroupSet); overload;
+    constructor Create(const AIgnoreNonDigitCharacters: Boolean; const AMessage: string; const AGroups: TGroupSet); overload;
+    property IgnoreNonDigitCharacters: Boolean read FIgnoreNonDigitCharacters;
   end;
 
 implementation
 
 { CreditCardNumberAttribute }
+
+constructor CreditCardNumberAttribute.Create(const AIgnoreNonDigitCharacters: Boolean);
+begin
+  FIgnoreNonDigitCharacters := AIgnoreNonDigitCharacters;
+  FMessage := EmptyStr;
+  FGroups := [DEFAULT_GROUP];
+end;
+
+constructor CreditCardNumberAttribute.Create(const AIgnoreNonDigitCharacters: Boolean; const AMessage: string);
+begin
+  FIgnoreNonDigitCharacters := AIgnoreNonDigitCharacters;
+  FMessage := AMessage;
+  FGroups := [DEFAULT_GROUP];
+end;
+
+constructor CreditCardNumberAttribute.Create(const AIgnoreNonDigitCharacters: Boolean; const AGroups: TGroupSet);
+begin
+  FIgnoreNonDigitCharacters := AIgnoreNonDigitCharacters;
+  FMessage := EmptyStr;
+  FGroups := AGroups;
+end;
+
+constructor CreditCardNumberAttribute.Create(const AIgnoreNonDigitCharacters: Boolean; const AMessage: string;  const AGroups: TGroupSet);
+begin
+  FIgnoreNonDigitCharacters := AIgnoreNonDigitCharacters;
+  FMessage := AMessage;
+  FGroups := AGroups;
+end;
 
 function CreditCardNumberAttribute.GetMessage: string;
 begin

@@ -2,10 +2,14 @@ unit DValidation.Validators.MinValidatorTest;
 
 interface
 uses
+  System.Generics.Collections,
+
   DUnitX.TestFramework,
+
   DValidation,
   DValidation.ConstraintValidators.MinValidator,
   DValidation.Constraints.Min,
+  DValidation.Engine.ConstraintViolation,
   DValidation.Engine.Impl.Validator;
 
 type
@@ -68,25 +72,38 @@ begin
 end;
 
 procedure TMinValidatorTest.TestMinValidator(const MinValue, Value, ExpectedValue : Integer);
+var
+  Attrib: MinAttribute;
 begin
 
-  FConstraintValidator.Initialize(MinAttribute.Create(MinValue));
+  Attrib := MinAttribute.Create(MinValue);
 
-  Assert.AreEqual(ExpectedValue <> 0, FConstraintValidator.isValid(Value));
+  try
+    FConstraintValidator.Initialize(Attrib);
 
+    Assert.AreEqual(ExpectedValue <> 0, FConstraintValidator.isValid(Value));
+  finally
+    Attrib.Free;
+  end;
 end;
 
 procedure TMinValidatorTest.TestValidator(const Value, ExpectedValue: Integer);
 var
   Actual : Boolean;
+  Faults : TList<IConstraintViolation<TMinValidatorTest>>;
 begin
 
   FValue := Value;
 
-  Actual := FValidator.Validate<TMinValidatorTest>(Self).Count = 0;
+  Faults := FValidator.Validate<TMinValidatorTest>(Self);
 
-  Assert.AreEqual(ExpectedValue <> 0, Actual);
+  try
+    Actual := Faults.Count = 0;
 
+    Assert.AreEqual(ExpectedValue <> 0, Actual);
+  finally
+    Faults.Free;
+  end;
 end;
 
 initialization

@@ -1,15 +1,15 @@
-unit DValidation.Constraints.PastOrPresentTest;
+unit DValidation.Constraints.Br.CPFTest;
 
 interface
 uses
   DUnitX.TestFramework,
 
   DValidation.Constraints.Constraint,
-  DValidation.Constraints.Time.PastOrPresent;
+  DValidation.Constraints.Br.CPF;
 
 type
   [TestFixture]
-  TPastOrPresentAttributeTest = class(TObject)
+  TCPFAttributeTest = class(TObject)
   public
     [Test]
     procedure TestCreate1;
@@ -26,27 +26,27 @@ type
 
 implementation
 
-{ TPastOrPresentAttributeTest }
+{ TCPFAttributeTest }
 
-procedure TPastOrPresentAttributeTest.TestCreate1;
+procedure TCPFAttributeTest.TestCreate1;
 var
-  Attrib: PastOrPresentAttribute;
+  Attrib: CPFAttribute;
 begin
-  Attrib := PastOrPresentAttribute.Create;
+  Attrib := CPFAttribute.Create;
 
   try
-    Assert.AreEqual(PastOrPresentAttribute.DEFAULT_MESSAGE, Attrib.Message, 'Property: "Message"');
+    Assert.AreEqual(CPFAttribute.DEFAULT_MESSAGE, Attrib.Message, 'Property: "Message"');
     Assert.IsTrue([DEFAULT_GROUP] = Attrib.Groups, 'Property: "Groups"');
   finally
     Attrib.Free;
   end;
 end;
 
-procedure TPastOrPresentAttributeTest.TestCreate2;
+procedure TCPFAttributeTest.TestCreate2;
 var
-  Attrib: PastOrPresentAttribute;
+  Attrib: CPFAttribute;
 begin
-  Attrib := PastOrPresentAttribute.Create('abc');
+  Attrib := CPFAttribute.Create('abc');
 
   try
     Assert.AreEqual('abc', Attrib.Message, 'Property: "Message"');
@@ -56,25 +56,25 @@ begin
   end;
 end;
 
-procedure TPastOrPresentAttributeTest.TestCreate3;
+procedure TCPFAttributeTest.TestCreate3;
 var
-  Attrib: PastOrPresentAttribute;
+  Attrib: CPFAttribute;
 begin
-  Attrib := PastOrPresentAttribute.Create([1]);
+  Attrib := CPFAttribute.Create([1]);
 
   try
-    Assert.AreEqual(PastOrPresentAttribute.DEFAULT_MESSAGE, Attrib.Message, 'Property: "Message"');
+    Assert.AreEqual(CPFAttribute.DEFAULT_MESSAGE, Attrib.Message, 'Property: "Message"');
     Assert.IsTrue([1] = Attrib.Groups, 'Property: "Groups"');
   finally
     Attrib.Free;
   end;
 end;
 
-procedure TPastOrPresentAttributeTest.TestCreate4;
+procedure TCPFAttributeTest.TestCreate4;
 var
-  Attrib: PastOrPresentAttribute;
+  Attrib: CPFAttribute;
 begin
-  Attrib := PastOrPresentAttribute.Create('abc', [1]);
+  Attrib := CPFAttribute.Create('abc', [1]);
 
   try
     Assert.AreEqual('abc', Attrib.Message, 'Property: "Message"');
@@ -85,4 +85,3 @@ begin
 end;
 
 end.
-

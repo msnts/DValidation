@@ -20,24 +20,28 @@ unit DValidation.Constraints.Br.CNPJ;
 
 interface
 uses
+  System.SysUtils,
   DValidation.Constraints.Constraint;
 
 type
 
-  CNPJAttribute = class(ConstraintAttribute)
-  public
-    constructor Create(const Parameters : string);
+  CNPJAttribute = class(SimpleConstraintAttribute)
+  const
+    DEFAULT_MESSAGE = '{validation.constraints.br.CNPJ.message}';
+  protected
+    function GetMessage: string; override;
   end;
 
 implementation
 
-{ NotBlankAttribute }
+{ CNPJAttribute }
 
-constructor CNPJAttribute.Create(const Parameters: string);
+function CNPJAttribute.GetMessage: string;
 begin
+  if FMessage.IsEmpty then
+    Exit(DEFAULT_MESSAGE);
 
-  FMessage := '{validation.constraints.br.CNPJ.message}';
-
+  Result := FMessage;
 end;
 
 end.

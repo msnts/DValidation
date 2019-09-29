@@ -20,44 +20,88 @@ unit DValidation.Constraints.Pattern;
 
 interface
 uses
-  DValidation.Constraints.Constraint,
-  DValidation.Exceptions;
+  System.SysUtils,
+  System.RegularExpressions,
+  DValidation.Constraints.Constraint;
 
 type
 
+  TPatternFlags = TRegExOption;
+
   PatternAttribute = class(ConstraintAttribute)
+  const
+    DEFAULT_MESSAGE = '{validation.constraints.Pattern.message}';
   private
-    FRegexp : string;
-    FFlags : string;
+    FRegexp: string;
+    FFlags: TPatternFlags;
+  protected
+    function GetMessage: string; override;
   public
-    /// <summary> The annotated {string} must match the specified regular expression.
-    /// </summary>
-    /// <param name="Regexp">The regular expression to match</param>
-    /// <param name="Flags">Array of Flags considered when resolving the regular expression</param>
-    /// <param name="Message">The error message template</param>
-    /// <param name="Groups">The groups the constraint belongs to</param>
-    /// <remarks>
-    /// If parameter "Regexp" is null or empty, an exception is raised.
-    /// <see cref="ConstraintException"/>
-    /// </remarks>
-    constructor Create(const Parameters : string);
-    property Regexp : string read FRegexp;
-    property Flags : string read FFlags;
+    constructor Create(const ARegexp: string); overload;
+    constructor Create(const ARegexp: string; const AFlags: TPatternFlags); overload;
+    constructor Create(const ARegexp: string; const AMessage: string); overload;
+    constructor Create(const ARegexp: string; const AGroups: TGroupSet); overload;
+    constructor Create(const ARegexp: string; const AFlags: TPatternFlags; const AMessage: string); overload;
+    constructor Create(const ARegexp: string; const AFlags: TPatternFlags; const AGroups: TGroupSet); overload;
+    constructor Create(const ARegexp: string; const AMessage: string; const AGroups: TGroupSet); overload;
+    constructor Create(const ARegexp: string; const AFlags: TPatternFlags; const AMessage: string; const AGroups: TGroupSet); overload;
+    property Regexp: string read FRegexp;
+    property Flags: TPatternFlags read FFlags;
   end;
 
 implementation
 
-{ NotBlankAttribute }
+{ PatternAttribute }
 
-constructor PatternAttribute.Create(const Parameters: string);
+constructor PatternAttribute.Create(const ARegexp: string);
 begin
+  Create(ARegexp, [roNotEmpty], EmptyStr, [DEFAULT_GROUP]);
+end;
 
-  FMessage := '{validation.constraints.Pattern.message}';
+constructor PatternAttribute.Create(const ARegexp: string; const AFlags: TPatternFlags);
+begin
+  Create(ARegexp, AFlags, EmptyStr, [DEFAULT_GROUP]);
+end;
 
+constructor PatternAttribute.Create(const ARegexp: string; const AFlags: TPatternFlags; const AMessage: string);
+begin
+  Create(ARegexp, AFlags, AMessage, [DEFAULT_GROUP]);
+end;
 
-  //FRegexp := GetParameter<string>('Regexp', '');
-  //FFlags := GetParameter<string>('Flags', '');
+constructor PatternAttribute.Create(const ARegexp: string; const AGroups: TGroupSet);
+begin
+  Create(ARegexp, [roNotEmpty], EmptyStr, AGroups);
+end;
 
+constructor PatternAttribute.Create(const ARegexp, AMessage: string);
+begin
+  Create(ARegexp, [roNotEmpty], AMessage, [DEFAULT_GROUP]);
+end;
+
+constructor PatternAttribute.Create(const ARegexp: string; const AFlags: TPatternFlags; const AMessage: string; const AGroups: TGroupSet);
+begin
+  FRegexp := ARegexp;
+  FFlags := AFlags;
+  FMessage := AMessage;
+  FGroups := AGroups;
+end;
+
+constructor PatternAttribute.Create(const ARegexp, AMessage: string; const AGroups: TGroupSet);
+begin
+  Create(ARegexp, [roNotEmpty], AMessage, AGroups);
+end;
+
+constructor PatternAttribute.Create(const ARegexp: string; const AFlags: TPatternFlags; const AGroups: TGroupSet);
+begin
+  Create(ARegexp, AFlags, EmptyStr, AGroups);
+end;
+
+function PatternAttribute.GetMessage: string;
+begin
+  if FMessage.IsEmpty then
+    Exit(DEFAULT_MESSAGE);
+
+  Result := FMessage;
 end;
 
 end.

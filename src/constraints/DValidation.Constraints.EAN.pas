@@ -40,7 +40,7 @@ type
     constructor Create(const AType: TEAN; const AGroups: TGroupSet); overload;
     constructor Create(const AMessage: string; const AGroups: TGroupSet); overload;
     constructor Create(const AType: TEAN; const AMessage: string; const AGroups: TGroupSet); overload;
-    property &Type : TEAN read FType;
+    property &Type: TEAN read FType;
   end;
 
 implementation

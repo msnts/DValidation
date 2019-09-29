@@ -29,13 +29,13 @@ type
   const
     DEFAULT_MESSAGE = '{validation.constraints.Digits.message}';
   private
-    FInteger : Integer;
-    FFraction : Integer;
+    FInteger: Integer;
+    FFraction: Integer;
   protected
     function GetMessage: string; override;
   public
     constructor Create(const AInteger, AFraction: Integer); overload;
-    constructor Create(const AInteger, AFraction: Integer; const AMessage : string); overload;
+    constructor Create(const AInteger, AFraction: Integer; const AMessage: string); overload;
     constructor Create(const AInteger, AFraction: Integer; const AGroups: TGroupSet); overload;
     constructor Create(const AInteger, AFraction: Integer; const AMessage: string; const AGroups: TGroupSet); overload;
     property &Integer : Integer read FInteger;

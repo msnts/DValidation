@@ -1,15 +1,15 @@
-unit DValidation.Constraints.PastTest;
+unit DValidation.Constraints.Br.CNPJTest;
 
 interface
 uses
   DUnitX.TestFramework,
 
   DValidation.Constraints.Constraint,
-  DValidation.Constraints.Time.Past;
+  DValidation.Constraints.Br.CNPJ;
 
 type
   [TestFixture]
-  TPastAttributeTest = class(TObject)
+  TCNPJAttributeTest = class(TObject)
   public
     [Test]
     procedure TestCreate1;
@@ -26,27 +26,27 @@ type
 
 implementation
 
-{ TPastAttributeTest }
+{ TCNPJAttributeTest }
 
-procedure TPastAttributeTest.TestCreate1;
+procedure TCNPJAttributeTest.TestCreate1;
 var
-  Attrib: PastAttribute;
+  Attrib: CNPJAttribute;
 begin
-  Attrib := PastAttribute.Create;
+  Attrib := CNPJAttribute.Create;
 
   try
-    Assert.AreEqual(PastAttribute.DEFAULT_MESSAGE, Attrib.Message, 'Property: "Message"');
+    Assert.AreEqual(CNPJAttribute.DEFAULT_MESSAGE, Attrib.Message, 'Property: "Message"');
     Assert.IsTrue([DEFAULT_GROUP] = Attrib.Groups, 'Property: "Groups"');
   finally
     Attrib.Free;
   end;
 end;
 
-procedure TPastAttributeTest.TestCreate2;
+procedure TCNPJAttributeTest.TestCreate2;
 var
-  Attrib: PastAttribute;
+  Attrib: CNPJAttribute;
 begin
-  Attrib := PastAttribute.Create('abc');
+  Attrib := CNPJAttribute.Create('abc');
 
   try
     Assert.AreEqual('abc', Attrib.Message, 'Property: "Message"');
@@ -56,25 +56,25 @@ begin
   end;
 end;
 
-procedure TPastAttributeTest.TestCreate3;
+procedure TCNPJAttributeTest.TestCreate3;
 var
-  Attrib: PastAttribute;
+  Attrib: CNPJAttribute;
 begin
-  Attrib := PastAttribute.Create([1]);
+  Attrib := CNPJAttribute.Create([1]);
 
   try
-    Assert.AreEqual(PastAttribute.DEFAULT_MESSAGE, Attrib.Message, 'Property: "Message"');
+    Assert.AreEqual(CNPJAttribute.DEFAULT_MESSAGE, Attrib.Message, 'Property: "Message"');
     Assert.IsTrue([1] = Attrib.Groups, 'Property: "Groups"');
   finally
     Attrib.Free;
   end;
 end;
 
-procedure TPastAttributeTest.TestCreate4;
+procedure TCNPJAttributeTest.TestCreate4;
 var
-  Attrib: PastAttribute;
+  Attrib: CNPJAttribute;
 begin
-  Attrib := PastAttribute.Create('abc', [1]);
+  Attrib := CNPJAttribute.Create('abc', [1]);
 
   try
     Assert.AreEqual('abc', Attrib.Message, 'Property: "Message"');
@@ -85,4 +85,3 @@ begin
 end;
 
 end.
-

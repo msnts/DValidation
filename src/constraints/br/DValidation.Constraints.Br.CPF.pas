@@ -20,24 +20,28 @@ unit DValidation.Constraints.Br.CPF;
 
 interface
 uses
+  System.SysUtils,
   DValidation.Constraints.Constraint;
 
 type
 
-  CPFAttribute = class(ConstraintAttribute)
-  public
-    constructor Create(const Parameters : string);
+  CPFAttribute = class(SimpleConstraintAttribute)
+  const
+    DEFAULT_MESSAGE = '{validation.constraints.br.CPF.message}';
+  protected
+    function GetMessage: string; override;
   end;
 
 implementation
 
-{ NotBlankAttribute }
+{ CPFAttribute }
 
-constructor CPFAttribute.Create(const Parameters: string);
+function CPFAttribute.GetMessage: string;
 begin
+  if FMessage.IsEmpty then
+    Exit(DEFAULT_MESSAGE);
 
-  FMessage := '{validation.constraints.br.CPF.message}';
-
+  Result := FMessage;
 end;
 
 end.

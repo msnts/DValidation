@@ -20,24 +20,28 @@ unit DValidation.Constraints.Br.TituloEleitor;
 
 interface
 uses
+  System.SysUtils,
   DValidation.Constraints.Constraint;
 
 type
 
-  TituloEleitorAttribute = class(ConstraintAttribute)
-  public
-    constructor Create(const Parameters : string);
+  TituloEleitorAttribute = class(SimpleConstraintAttribute)
+  const
+    DEFAULT_MESSAGE = '{validation.constraints.br.TituloEleitoral.message}';
+  protected
+    function GetMessage: string; override;
   end;
 
 implementation
 
-{ NotBlankAttribute }
+{ TituloEleitorAttribute }
 
-constructor TituloEleitorAttribute.Create(const Parameters: string);
+function TituloEleitorAttribute.GetMessage: string;
 begin
+  if FMessage.IsEmpty then
+    Exit(DEFAULT_MESSAGE);
 
-  FMessage := '{validation.constraints.br.TituloEleitoral.message}';
-
+  Result := FMessage;
 end;
 
 end.

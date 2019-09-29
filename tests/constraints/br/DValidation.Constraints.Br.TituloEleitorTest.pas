@@ -1,15 +1,15 @@
-unit DValidation.Constraints.FutureTest;
+unit DValidation.Constraints.Br.TituloEleitorTest;
 
 interface
 uses
   DUnitX.TestFramework,
 
   DValidation.Constraints.Constraint,
-  DValidation.Constraints.Time.Future;
+  DValidation.Constraints.Br.TituloEleitor;
 
 type
   [TestFixture]
-  TFutureAttributeTest = class(TObject)
+  TTituloEleitorAttributeTest = class(TObject)
   public
     [Test]
     procedure TestCreate1;
@@ -26,27 +26,27 @@ type
 
 implementation
 
-{ TFutureAttributeTest }
+{ TTituloEleitorAttributeTest }
 
-procedure TFutureAttributeTest.TestCreate1;
+procedure TTituloEleitorAttributeTest.TestCreate1;
 var
-  Attrib: FutureAttribute;
+  Attrib: TituloEleitorAttribute;
 begin
-  Attrib := FutureAttribute.Create;
+  Attrib := TituloEleitorAttribute.Create;
 
   try
-    Assert.AreEqual(FutureAttribute.DEFAULT_MESSAGE, Attrib.Message, 'Property: "Message"');
+    Assert.AreEqual(TituloEleitorAttribute.DEFAULT_MESSAGE, Attrib.Message, 'Property: "Message"');
     Assert.IsTrue([DEFAULT_GROUP] = Attrib.Groups, 'Property: "Groups"');
   finally
     Attrib.Free;
   end;
 end;
 
-procedure TFutureAttributeTest.TestCreate2;
+procedure TTituloEleitorAttributeTest.TestCreate2;
 var
-  Attrib: FutureAttribute;
+  Attrib: TituloEleitorAttribute;
 begin
-  Attrib := FutureAttribute.Create('abc');
+  Attrib := TituloEleitorAttribute.Create('abc');
 
   try
     Assert.AreEqual('abc', Attrib.Message, 'Property: "Message"');
@@ -56,25 +56,25 @@ begin
   end;
 end;
 
-procedure TFutureAttributeTest.TestCreate3;
+procedure TTituloEleitorAttributeTest.TestCreate3;
 var
-  Attrib: FutureAttribute;
+  Attrib: TituloEleitorAttribute;
 begin
-  Attrib := FutureAttribute.Create([1]);
+  Attrib := TituloEleitorAttribute.Create([1]);
 
   try
-    Assert.AreEqual(FutureAttribute.DEFAULT_MESSAGE, Attrib.Message, 'Property: "Message"');
+    Assert.AreEqual(TituloEleitorAttribute.DEFAULT_MESSAGE, Attrib.Message, 'Property: "Message"');
     Assert.IsTrue([1] = Attrib.Groups, 'Property: "Groups"');
   finally
     Attrib.Free;
   end;
 end;
 
-procedure TFutureAttributeTest.TestCreate4;
+procedure TTituloEleitorAttributeTest.TestCreate4;
 var
-  Attrib: FutureAttribute;
+  Attrib: TituloEleitorAttribute;
 begin
-  Attrib := FutureAttribute.Create('abc', [1]);
+  Attrib := TituloEleitorAttribute.Create('abc', [1]);
 
   try
     Assert.AreEqual('abc', Attrib.Message, 'Property: "Message"');
@@ -85,4 +85,3 @@ begin
 end;
 
 end.
-

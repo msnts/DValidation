@@ -31,7 +31,7 @@ type
   /// This behavior is applied recursively.
   /// </para>
   /// </summary>
-  ValidAttribute = class(ConstraintAttribute);
+  ValidAttribute = class(SimpleConstraintAttribute);
 
 implementation
 

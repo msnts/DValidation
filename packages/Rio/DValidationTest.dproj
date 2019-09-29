@@ -90,8 +90,6 @@
         <DCCReference Include="..\..\tests\constraints\DValidation.Constraints.AssertTrueTest.pas"/>
         <DCCReference Include="..\..\tests\constraints\DValidation.Constraints.DecimalMaxTest.pas"/>
         <DCCReference Include="..\..\tests\constraints\DValidation.Constraints.DecimalMinTest.pas"/>
-        <DCCReference Include="..\..\tests\constraints\DValidation.Constraints.FutureOrPresentTest.pas"/>
-        <DCCReference Include="..\..\tests\constraints\DValidation.Constraints.FutureTest.pas"/>
         <DCCReference Include="..\..\tests\constraints\DValidation.Constraints.MaxTest.pas"/>
         <DCCReference Include="..\..\tests\constraints\DValidation.Constraints.MinTest.pas"/>
         <DCCReference Include="..\..\tests\constraints\DValidation.Constraints.NegativeOrZeroTest.pas"/>
@@ -99,8 +97,6 @@
         <DCCReference Include="..\..\tests\constraints\DValidation.Constraints.NotBlankTest.pas"/>
         <DCCReference Include="..\..\tests\constraints\DValidation.Constraints.NotEmptyTest.pas"/>
         <DCCReference Include="..\..\tests\constraints\DValidation.Constraints.NotNullTest.pas"/>
-        <DCCReference Include="..\..\tests\constraints\DValidation.Constraints.PastOrPresentTest.pas"/>
-        <DCCReference Include="..\..\tests\constraints\DValidation.Constraints.PastTest.pas"/>
         <DCCReference Include="..\..\tests\constraints\DValidation.Constraints.PositiveOrZeroTest.pas"/>
         <DCCReference Include="..\..\tests\constraints\DValidation.Constraints.PositiveTest.pas"/>
         <DCCReference Include="..\..\tests\engine\DValidation.Engine.MessageInterpolatorTest.pas"/>
@@ -113,6 +109,15 @@
         <DCCReference Include="..\..\tests\validators\DValidation.Validators.MinValidatorTest.pas"/>
         <DCCReference Include="..\..\tests\validators\DValidation.Validators.NotEmptyValidatorTest.pas"/>
         <DCCReference Include="..\..\tests\validators\DValidation.Validators.PastValidatorTest.pas"/>
+        <DCCReference Include="..\..\tests\constraints\time\DValidation.Constraints.Time.FutureOrPresentTest.pas"/>
+        <DCCReference Include="..\..\tests\constraints\time\DValidation.Constraints.Time.FutureTest.pas"/>
+        <DCCReference Include="..\..\tests\constraints\time\DValidation.Constraints.Time.PastOrPresentTest.pas"/>
+        <DCCReference Include="..\..\tests\constraints\time\DValidation.Constraints.Time.PastTest.pas"/>
+        <DCCReference Include="..\..\tests\constraints\DValidation.Constraints.CreditCardNumberTest.pas"/>
+        <DCCReference Include="..\..\tests\constraints\DValidation.Constraints.DigitsTest.pas"/>
+        <DCCReference Include="..\..\tests\constraints\br\DValidation.Constraints.Br.CNPJTest.pas"/>
+        <DCCReference Include="..\..\tests\constraints\br\DValidation.Constraints.Br.CPFTest.pas"/>
+        <DCCReference Include="..\..\tests\constraints\br\DValidation.Constraints.Br.TituloEleitorTest.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -165,7 +170,7 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="Win32\Debug\DValidationTest.exe" Configuration="Debug" Class="ProjectOutput">
+                <DeployFile LocalName="..\..\Build\DValidationTest\Win32\Debug\DValidationTest.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>DValidationTest.exe</RemoteName>
                         <Overwrite>true</Overwrite>

@@ -30,20 +30,22 @@ type
 
   TMetaConstraint = class(TInterfacedObject, IMetaConstraint)
   private
-    FConstraint : ConstraintAttribute;
-    FMember : TRttiMember;
-    FGroups : TGroupSet;
-    FMetaConstraintsGraph : TList<IMetaConstraint>;
+    FConstraint: ConstraintAttribute;
+    FMember: TRttiMember;
+    FGroups: TGroupSet;
+    FMetaConstraintsGraph: TList<IMetaConstraint>;
+    FAttributes: TDictionary<string, Variant>;
+    procedure ExtractAttributes;
   public
-    constructor Create(aConstraint : ConstraintAttribute; aMember : TRttiMember; aMetaConstraintsGraph : TList<IMetaConstraint>);
+    constructor Create(aConstraint: ConstraintAttribute; aMember: TRttiMember; aMetaConstraintsGraph: TList<IMetaConstraint>);
     destructor Destroy; override;
-    function GetGroupList() : TGroupSet;
-    function GetConstraintType : PTypeInfo;
-    function GetMember() : TRttiMember;
-    function GetAttributes() : TDictionary<string, variant>;
-    function GetMessageTemplate() : string;
-    function GetConstraint() : ConstraintAttribute;
-    function GetMetaConstraintsGraph() : TList<IMetaConstraint>;
+    function GetGroupList(): TGroupSet;
+    function GetConstraintType: PTypeInfo;
+    function GetMember(): TRttiMember;
+    function GetAttributes(): TDictionary<string, variant>;
+    function GetMessageTemplate(): string;
+    function GetConstraint(): ConstraintAttribute;
+    function GetMetaConstraintsGraph(): TList<IMetaConstraint>;
   end;
 
 implementation
@@ -58,6 +60,9 @@ begin
   FMetaConstraintsGraph := aMetaConstraintsGraph;
 
   FGroups := FConstraint.Groups;
+  FAttributes := TDictionary<string, Variant>.Create;
+
+  ExtractAttributes;
 end;
 
 destructor TMetaConstraint.Destroy;
@@ -65,12 +70,38 @@ begin
   if Assigned(FMetaConstraintsGraph) then
     FMetaConstraintsGraph.Free;
 
+  if Assigned(FAttributes) then
+    FAttributes.Free;
+
   inherited;
+end;
+
+procedure TMetaConstraint.ExtractAttributes;
+var
+  ctxRtti: TRttiContext;
+  typRtti: TRttiType;
+  propRtti : TRttiProperty;
+begin
+  ctxRtti := TRttiContext.Create;
+
+  try
+    typRtti := ctxRtti.GetType(FConstraint.ClassInfo);
+
+    for propRtti in typRtti.GetProperties do
+    begin
+      if propRtti.PropertyType.IsSet then
+        Continue;
+      FAttributes.Add(propRtti.Name, propRtti.GetValue(FConstraint).AsVariant);
+    end;
+
+  finally
+    ctxRtti.Free;
+  end;
 end;
 
 function TMetaConstraint.GetAttributes: TDictionary<string, variant>;
 begin
-  Result := FConstraint.Attributes;
+  Result := FAttributes;
 end;
 
 function TMetaConstraint.GetConstraint: ConstraintAttribute;
