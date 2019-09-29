@@ -7,6 +7,7 @@ uses
   DValidation,
   DValidation.Engine.Impl.Validator,
   DValidation.Engine.ConstraintViolation,
+  DValidation.ConstraintValidators.DecimalMinValidator,
   DValidation.Model.ObjectGraph;
 
 type

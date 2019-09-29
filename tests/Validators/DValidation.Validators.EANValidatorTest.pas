@@ -15,10 +15,10 @@ type
   [TestFixture]
   TEANValidatorTest = class(TObject)
   private
-    [EAN('{"Type":"EAN13"}')]
+    [EAN]
     FValid : string;
 
-    [EAN('{"Type":"EAN13"}')]
+    [EAN]
     FInvalid : string;
 
     FConstraintValidator : TEANValidator;
@@ -37,12 +37,12 @@ type
     procedure TestEANConstraint;
 
     [Test]
-    [TestCase('Case 1', 'EAN8,12345670,true')]
-    [TestCase('Case 2', 'EAN8,12334568,true')]
-    [TestCase('Case 3', 'EAN8,12334563,false')]
-    [TestCase('Case 4', 'EAN13,1233456456742,true')]
-    [TestCase('Case 4', 'EAN13,1233456456744,false')]
-    procedure TestEANValidator(const TypeEAN, Barcode : string; const Expected : Boolean);
+    [TestCase('Case 1', '0,12345670,true')]
+    [TestCase('Case 2', '0,12334568,true')]
+    [TestCase('Case 3', '0,12334563,false')]
+    [TestCase('Case 4', '1,1233456456742,true')]
+    [TestCase('Case 4', '1,1233456456744,false')]
+    procedure TestEANValidator(const TypeEAN: Integer; const Barcode: string; const Expected: Boolean);
   end;
 
 implementation
@@ -77,12 +77,12 @@ begin
 
 end;
 
-procedure TEANValidatorTest.TestEANValidator(const TypeEAN, Barcode : string; const Expected : Boolean);
+procedure TEANValidatorTest.TestEANValidator(const TypeEAN: Integer; const Barcode: string; const Expected: Boolean);
 var
   IsValid : Boolean;
 begin
 
-  FConstraintValidator.Initialize(EANAttribute.Create('{"Type":"' + TypeEAN + '"}'));
+  FConstraintValidator.Initialize(EANAttribute.Create(TEAN(TypeEAN)));
 
   IsValid := FConstraintValidator.IsValid(Barcode);
 

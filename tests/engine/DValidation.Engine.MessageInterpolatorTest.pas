@@ -2,6 +2,7 @@ unit DValidation.Engine.MessageInterpolatorTest;
 
 interface
 uses
+  System.Rtti,
   DUnitX.TestFramework,
   System.Generics.Collections,
   DValidation.Engine.MessageInterpolator,
@@ -14,7 +15,7 @@ type
   TMessageInterpolatorTest = class(TObject)
   private
     FInterpolator : IMessageInterpolator;
-    FAttributes : TDictionary<string, variant>;
+    FAttributes : TDictionary<string, TValue>;
   public
 
     [SetupFixture]
@@ -59,7 +60,7 @@ begin
 
   FAttributes.Clear;
 
-  FAttributes.Add('value', true);
+  FAttributes.Add('value', TValue.From<Boolean>(true));
 
   InterpolatedMessage := FInterpolator.Interpolate('{value} is an boolean value', FAttributes);
 
@@ -74,7 +75,7 @@ begin
 
   FAttributes.Clear;
 
-  FAttributes.Add('value', Date);
+  FAttributes.Add('value', TValue.From<TDate>(Date));
 
   InterpolatedMessage := FInterpolator.Interpolate('{value} is an date value', FAttributes);
 
@@ -94,7 +95,7 @@ begin
 
   CurrentDateTime := Now;
 
-  FAttributes.Add('value', CurrentDateTime);
+  FAttributes.Add('value', TValue.From<TDateTime>(CurrentDateTime));
 
   InterpolatedMessage := FInterpolator.Interpolate('{value} is an datetime value', FAttributes);
 
@@ -161,7 +162,7 @@ begin
 
   CurrentTime := Time;
 
-  FAttributes.Add('value', CurrentTime);
+  FAttributes.Add('value', TValue.From<TTime>(CurrentTime));
 
   InterpolatedMessage := FInterpolator.Interpolate('{value} is an time value', FAttributes);
 
@@ -174,7 +175,7 @@ end;
 procedure TMessageInterpolatorTest.SetupFixture;
 begin
   FInterpolator := TMessageInterpolator.Create(TLocale.Create);
-  FAttributes := TDictionary<string, variant>.Create;
+  FAttributes := TDictionary<string, TValue>.Create;
 end;
 
 procedure TMessageInterpolatorTest.TearDownFixture;

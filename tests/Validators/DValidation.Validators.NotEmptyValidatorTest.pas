@@ -5,6 +5,8 @@ uses
   DUnitX.TestFramework,
   DValidation,
   DValidation.ConstraintValidators.NotEmptyValidatorForString,
+  DValidation.ConstraintValidators.NotEmptyValidatorForCollection,
+  DValidation.ConstraintValidators.NotEmptyValidatorForArray,
   DValidation.Constraints.NotEmpty,
   DValidation.Engine.Impl.Validator,
   DValidation.Engine.ConstraintViolation,

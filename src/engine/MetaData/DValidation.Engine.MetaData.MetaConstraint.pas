@@ -32,7 +32,7 @@ type
     function GetGroupList() : TGroupSet;
     function GetConstraintType() : PTypeInfo;
     function GetMember() : TRttiMember;
-    function GetAttributes() : TDictionary<string, variant>;
+    function GetAttributes() : TDictionary<string, TValue>;
     function GetMessageTemplate() : string;
     function GetConstraint() : ConstraintAttribute;
   end;

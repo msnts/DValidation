@@ -45,7 +45,7 @@ type
     constructor Create(); overload;
     constructor Create(const AMessage : string); overload;
     constructor Create(const AGroups: TGroupSet); overload;
-    constructor Create(const AMessage: string; const AGroups: TGroupSet); overload;
+    constructor Create(const AMessage: string; const AGroups: TGroupSet); overload; virtual;
   end;
 
   ConstraintAttribute<T> = class(ConstraintAttribute)

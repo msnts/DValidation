@@ -38,7 +38,7 @@ type
     constructor Create(const AType: TEAN); overload;
     constructor Create(const AType: TEAN; const AMessage: string); overload;
     constructor Create(const AType: TEAN; const AGroups: TGroupSet); overload;
-    constructor Create(const AMessage: string; const AGroups: TGroupSet); overload;
+    constructor Create(const AMessage: string; const AGroups: TGroupSet); overload; override;
     constructor Create(const AType: TEAN; const AMessage: string; const AGroups: TGroupSet); overload;
     property &Type: TEAN read FType;
   end;

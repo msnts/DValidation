@@ -2,6 +2,9 @@ unit DValidation.Engine.Impl.MessageInterpolator;
 
 interface
 uses
+  System.Rtti,
+  System.TypInfo,
+  System.SysUtils,
   System.Generics.Collections,
   System.RegularExpressions,
   DValidation.Engine.MessageInterpolator,
@@ -13,41 +16,41 @@ type
   private
     FLocale : ILocale;
 
-    function CastValue(const Value : variant) : string;
+    function CastValue(const Value : TValue) : string;
     function MessageResolve(const MessageTemplate : string) : string;
   public
     constructor Create(Locale : ILocale);
-    function Interpolate(const MessageTemplate : string; Attributes : TDictionary<string, variant>) : string;
+    function Interpolate(const MessageTemplate : string; Attributes : TDictionary<string, TValue>) : string;
   end;
 
 implementation
-uses System.SysUtils, Variants;
 
 { TMessageInterpolator }
 
-function TMessageInterpolator.CastValue(const Value: variant): string;
-var
-  BasicType : Integer;
+function TMessageInterpolator.CastValue(const Value: TValue): string;
 begin
-
-  BasicType := VarType(Value) and VarTypeMask;
-
-  case BasicType of
-    varSmallInt, varInteger, varByte, varInt64 : Result := Integer.ToString(Value);
-    varSingle    : Result := VarToStr(Value);
-    varDouble, varCurrency  : Result := double.ToString(Value);
-    varDate      : Result := VarToStr(VarToDateTime(Value));
-    varOleStr    : Result := VarToStr(Value);
-    varBoolean   : Result := VarToStr(Value);
-    varWord      : Result := VarToStr(Value);
-    varLongWord  : Result := VarToStr(Value);
-    varStrArg    : Result := VarToStr(Value);
-    varString    : Result := VarToStr(Value);
-    varUString   : Result := VarToStr(Value);
+  case Value.Kind of
+    tkInteger, tkInt64: Result := Integer.ToString(Value.AsInt64);
+    tkChar, tkString, tkWChar, tkLString, tkWString, tkUString: Result := Value.AsString;
+    tkEnumeration:
+    begin
+      if Value.IsType<Boolean> then
+        Exit(Boolean.ToString(Value.AsBoolean, TUseBoolStrs.True));
+      Result := GetEnumName(Value.TypeInfo, Value.AsOrdinal);
+    end;
+    tkFloat:
+    begin
+      if 'TTime'.Equals(Value.TypeInfo.Name)  then
+        Exit(FormatDateTime('tt', Value.AsType<TTime>()));
+      if 'TDate'.Equals(Value.TypeInfo.Name) then
+        Exit(FormatDateTime('ddddd', Value.AsType<TDate>()));
+      if 'TDateTime'.Equals(Value.TypeInfo.Name) then
+        Exit(FormatDateTime('c', Value.AsType<TDateTime>()));
+      Result := Double.ToString(Value.AsExtended);
+    end;
   else
     raise Exception.Create('Invalid data type for interpolation');
   end;
-
 end;
 
 constructor TMessageInterpolator.Create(Locale: ILocale);
@@ -55,11 +58,10 @@ begin
   FLocale := Locale;
 end;
 
-function TMessageInterpolator.Interpolate(const MessageTemplate: string;
-  Attributes: TDictionary<string, variant>): string;
+function TMessageInterpolator.Interpolate(const MessageTemplate: string; Attributes: TDictionary<string, TValue>): string;
 var
-  Attribute, Value : string;
-  AttributeValue : variant;
+  Attribute, Value: string;
+  AttributeValue: TValue;
 begin
 
   Result := MessageResolve(MessageTemplate);
@@ -69,8 +71,8 @@ begin
 
     AttributeValue := Attributes.Items[Attribute];
 
-    if VarIsArray(AttributeValue) then
-      continue;
+    if AttributeValue.IsArray then
+      Continue;
 
     Value := CastValue(AttributeValue);
 

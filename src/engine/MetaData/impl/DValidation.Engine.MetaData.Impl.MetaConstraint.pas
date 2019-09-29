@@ -34,7 +34,7 @@ type
     FMember: TRttiMember;
     FGroups: TGroupSet;
     FMetaConstraintsGraph: TList<IMetaConstraint>;
-    FAttributes: TDictionary<string, Variant>;
+    FAttributes: TDictionary<string, TValue>;
     procedure ExtractAttributes;
   public
     constructor Create(aConstraint: ConstraintAttribute; aMember: TRttiMember; aMetaConstraintsGraph: TList<IMetaConstraint>);
@@ -42,7 +42,7 @@ type
     function GetGroupList(): TGroupSet;
     function GetConstraintType: PTypeInfo;
     function GetMember(): TRttiMember;
-    function GetAttributes(): TDictionary<string, variant>;
+    function GetAttributes(): TDictionary<string, TValue>;
     function GetMessageTemplate(): string;
     function GetConstraint(): ConstraintAttribute;
     function GetMetaConstraintsGraph(): TList<IMetaConstraint>;
@@ -60,7 +60,7 @@ begin
   FMetaConstraintsGraph := aMetaConstraintsGraph;
 
   FGroups := FConstraint.Groups;
-  FAttributes := TDictionary<string, Variant>.Create;
+  FAttributes := TDictionary<string, TValue>.Create;
 
   ExtractAttributes;
 end;
@@ -91,7 +91,7 @@ begin
     begin
       if propRtti.PropertyType.IsSet then
         Continue;
-      FAttributes.Add(propRtti.Name, propRtti.GetValue(FConstraint).AsVariant);
+      FAttributes.Add(propRtti.Name, propRtti.GetValue(FConstraint));
     end;
 
   finally
@@ -99,7 +99,7 @@ begin
   end;
 end;
 
-function TMetaConstraint.GetAttributes: TDictionary<string, variant>;
+function TMetaConstraint.GetAttributes: TDictionary<string, TValue>;
 begin
   Result := FAttributes;
 end;
