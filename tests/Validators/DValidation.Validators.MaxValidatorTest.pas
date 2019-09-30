@@ -2,10 +2,13 @@ unit DValidation.Validators.MaxValidatorTest;
 
 interface
 uses
+  System.Generics.Collections,
+
   DUnitX.TestFramework,
   DValidation,
   DValidation.ConstraintValidators.MaxValidator,
   DValidation.Constraints.Max,
+  DValidation.Engine.ConstraintViolation,
   DValidation.Engine.Impl.Validator;
 
 type
@@ -67,25 +70,35 @@ begin
 end;
 
 procedure TMaxValidatorTest.TestMaxValidator(const MaxValue, Value, ExpectedValue : Integer);
+var
+  Attrib: MaxAttribute;
 begin
 
-  FConstraintValidator.Initialize(MaxAttribute.Create(MaxValue));
+  Attrib := MaxAttribute.Create(MaxValue);
 
-  Assert.AreEqual(ExpectedValue <> 0, FConstraintValidator.isValid(Value));
+  try
+    FConstraintValidator.Initialize(Attrib);
 
+    Assert.AreEqual(ExpectedValue <> 0, FConstraintValidator.isValid(Value));
+  finally
+    Attrib.Free;
+  end;
 end;
 
 procedure TMaxValidatorTest.TestValidator(const Value, ExpectedValue: Integer);
 var
-  Actual : Boolean;
+  Faults: TList<IConstraintViolation<TMaxValidatorTest>>;
 begin
 
   FValue := Value;
 
-  Actual := FValidator.Validate<TMaxValidatorTest>(Self).Count = 0;
+  Faults := FValidator.Validate<TMaxValidatorTest>(Self);
 
-  Assert.AreEqual(ExpectedValue <> 0, Actual);
-
+  try
+    Assert.AreEqual(ExpectedValue <> 0, Faults.Count = 0);
+  finally
+    Faults.Free;
+  end;
 end;
 
 initialization

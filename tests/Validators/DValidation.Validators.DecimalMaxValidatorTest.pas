@@ -71,12 +71,19 @@ begin
 end;
 
 procedure TDecimalMaxValidatorTest.TestDecimalMaxValidator(const MaxValue, Value, ExpectedValue : double);
+var
+  Attrib: DecimalMaxAttribute;
 begin
 
-  FConstraintValidator.Initialize(DecimalMaxAttribute.Create(MaxValue));
+  Attrib := DecimalMaxAttribute.Create(MaxValue);
 
-  Assert.AreEqual(ExpectedValue <> 0, FConstraintValidator.isValid(Value));
+  try
+    FConstraintValidator.Initialize(Attrib);
 
+    Assert.AreEqual(ExpectedValue <> 0, FConstraintValidator.isValid(Value));
+  finally
+    Attrib.Free;
+  end;
 end;
 
 procedure TDecimalMaxValidatorTest.TestValidator(const Value, ExpectedValue: double);

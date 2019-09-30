@@ -71,23 +71,30 @@ begin
 
   Faults := FValidator.Validate<TEANValidatorTest>(Self, [0]);
 
-  Assert.AreEqual(Faults.Count, 1);
-
-  Faults.Free;
-
+  try
+    Assert.AreEqual(Faults.Count, 1);
+  finally
+    Faults.Free;
+  end;
 end;
 
 procedure TEANValidatorTest.TestEANValidator(const TypeEAN: Integer; const Barcode: string; const Expected: Boolean);
 var
   IsValid : Boolean;
+  Attrib: EANAttribute;
 begin
 
-  FConstraintValidator.Initialize(EANAttribute.Create(TEAN(TypeEAN)));
+  Attrib := EANAttribute.Create(TEAN(TypeEAN));
 
-  IsValid := FConstraintValidator.IsValid(Barcode);
+  try
+    FConstraintValidator.Initialize(Attrib);
 
-  Assert.AreEqual(Expected, IsValid);
+    IsValid := FConstraintValidator.IsValid(Barcode);
 
+    Assert.AreEqual(Expected, IsValid);
+  finally
+    Attrib.Free;
+  end;
 end;
 
 initialization
