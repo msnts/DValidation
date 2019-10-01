@@ -134,6 +134,9 @@ contains
   DValidation.Constraints.Time.PastOrPresent in '..\..\src\constraints\time\DValidation.Constraints.Time.PastOrPresent.pas',
   DValidation.Constraints.Br.CNPJ in '..\..\src\constraints\br\DValidation.Constraints.Br.CNPJ.pas',
   DValidation.Constraints.Br.CPF in '..\..\src\constraints\br\DValidation.Constraints.Br.CPF.pas',
-  DValidation.Constraints.Br.TituloEleitor in '..\..\src\constraints\br\DValidation.Constraints.Br.TituloEleitor.pas';
+  DValidation.Constraints.Br.TituloEleitor in '..\..\src\constraints\br\DValidation.Constraints.Br.TituloEleitor.pas',
+  DValidation.Constraints.Br.NIT in '..\..\src\constraints\br\DValidation.Constraints.Br.NIT.pas',
+  DValidation.ConstraintValidators.Br.NITValidator in '..\..\src\constraintvalidators\br\DValidation.ConstraintValidators.Br.NITValidator.pas',
+  DValidation.ConstraintValidators.Br.CPFValidator in '..\..\src\constraintvalidators\br\DValidation.ConstraintValidators.Br.CPFValidator.pas';
 
 end.

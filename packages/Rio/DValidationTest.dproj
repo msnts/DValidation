@@ -118,6 +118,8 @@
         <DCCReference Include="..\..\tests\constraints\br\DValidation.Constraints.Br.CNPJTest.pas"/>
         <DCCReference Include="..\..\tests\constraints\br\DValidation.Constraints.Br.CPFTest.pas"/>
         <DCCReference Include="..\..\tests\constraints\br\DValidation.Constraints.Br.TituloEleitorTest.pas"/>
+        <DCCReference Include="..\..\tests\validators\br\DValidation.Validators.Br.CNPJValidatorTest.pas"/>
+        <DCCReference Include="..\..\tests\validators\br\DValidation.Validators.Br.CPFValidatorTest.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

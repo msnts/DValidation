@@ -49,7 +49,9 @@ uses
   DValidation.Constraints.DigitsTest in '..\..\tests\constraints\DValidation.Constraints.DigitsTest.pas',
   DValidation.Constraints.Br.CNPJTest in '..\..\tests\constraints\br\DValidation.Constraints.Br.CNPJTest.pas',
   DValidation.Constraints.Br.CPFTest in '..\..\tests\constraints\br\DValidation.Constraints.Br.CPFTest.pas',
-  DValidation.Constraints.Br.TituloEleitorTest in '..\..\tests\constraints\br\DValidation.Constraints.Br.TituloEleitorTest.pas';
+  DValidation.Constraints.Br.TituloEleitorTest in '..\..\tests\constraints\br\DValidation.Constraints.Br.TituloEleitorTest.pas',
+  DValidation.Validators.Br.CNPJValidatorTest in '..\..\tests\validators\br\DValidation.Validators.Br.CNPJValidatorTest.pas',
+  DValidation.Validators.Br.CPFValidatorTest in '..\..\tests\validators\br\DValidation.Validators.Br.CPFValidatorTest.pas';
 
 {$R ..\resources\locale.res}
 
