@@ -51,7 +51,8 @@ uses
   DValidation.Constraints.Br.CPFTest in '..\..\tests\constraints\br\DValidation.Constraints.Br.CPFTest.pas',
   DValidation.Constraints.Br.TituloEleitorTest in '..\..\tests\constraints\br\DValidation.Constraints.Br.TituloEleitorTest.pas',
   DValidation.Validators.Br.CNPJValidatorTest in '..\..\tests\validators\br\DValidation.Validators.Br.CNPJValidatorTest.pas',
-  DValidation.Validators.Br.CPFValidatorTest in '..\..\tests\validators\br\DValidation.Validators.Br.CPFValidatorTest.pas';
+  DValidation.Validators.Br.CPFValidatorTest in '..\..\tests\validators\br\DValidation.Validators.Br.CPFValidatorTest.pas',
+  DValidation.Validators.Br.NITValidatorTest in '..\..\tests\validators\br\DValidation.Validators.Br.NITValidatorTest.pas';
 
 {$R ..\resources\locale.res}
 

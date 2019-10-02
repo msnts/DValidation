@@ -21,6 +21,8 @@ unit DValidation.ConstraintValidators.Br.NITValidator;
 interface
 uses
   System.SysUtils,
+  System.RegularExpressions,
+
   DValidation,
   DValidation.ConstraintValidators.ConstraintValidator,
   DValidation.Constraints.Constraint,
@@ -29,6 +31,9 @@ uses
 type
 
   TNITValidator = class(TInterfacedObject, IConstraintValidator<string>)
+  private
+    function DoIsValid(const Value: string): Boolean;
+    function HasAllRepeatedDigits(const Value: string): Boolean;
   public
     procedure Initialize(Constraint : ConstraintAttribute);
     function IsValid(const Value : string) : Boolean;
@@ -38,17 +43,65 @@ implementation
 
 { TNITValidator }
 
+function TNITValidator.DoIsValid(const Value: string): Boolean;
+var
+  Soma, I, Digito, DigVer, Mult: Integer;
+begin
+  DigVer := Integer.Parse(Value[11]);
+
+  Soma := 0;
+  Mult := 2;
+
+  for I := 10 downto 1 do
+  begin
+    Soma := Soma + (Mult * Integer.Parse(Value[I]));
+
+    if Mult < 9 then
+      Inc(Mult)
+    else
+      Mult := 2;
+  end;
+
+  Digito := 11 - (Soma mod 11);
+
+  if Digito > 9 then
+    Digito := 0;
+
+  Result := (DigVer = Digito);
+end;
+
+function TNITValidator.HasAllRepeatedDigits(const Value: string): Boolean;
+var
+  I: Integer;
+begin
+  for I := 1 to 10 do
+    if not (Value.Chars[I] = Value.Chars[0]) then
+      Exit(False);
+
+  Result := True;
+end;
+
 procedure TNITValidator.Initialize(Constraint: ConstraintAttribute);
 begin
 
 end;
 
 function TNITValidator.IsValid(const Value: string): Boolean;
+var
+  LValue: string;
 begin
-  if Value.Trim.IsEmpty then
+  LValue := TRegEx.Replace(Value.Trim, '[\.\/-]*', '');
+
+  if LValue.IsEmpty then
     Exit(True);
 
+  if not TRegEx.IsMatch(LValue, '^\d{11}$') then
+    Exit(False);
 
+  if HasAllRepeatedDigits(LValue) then
+    Exit(False);
+
+  Result := DoIsValid(LValue);
 end;
 
 initialization
